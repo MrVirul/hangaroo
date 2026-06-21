@@ -73,10 +73,11 @@ public class ResponsiveGameplayScaler : MonoBehaviour
     private void Update()
     {
         Vector2 size = new Vector2(Screen.width, Screen.height);
-        if (size != lastScreenSize || Screen.safeArea != lastSafeArea)
+        Rect safeArea = SafeAreaUtil.GetNormalizedSafeArea();
+        if (size != lastScreenSize || safeArea != lastSafeArea)
         {
             lastScreenSize = size;
-            lastSafeArea = Screen.safeArea;
+            lastSafeArea = safeArea;
             ApplyLayout();
         }
     }
@@ -92,7 +93,7 @@ public class ResponsiveGameplayScaler : MonoBehaviour
             return;
 
         lastScreenSize = new Vector2(Screen.width, Screen.height);
-        lastSafeArea = Screen.safeArea;
+        lastSafeArea = SafeAreaUtil.GetNormalizedSafeArea();
 
         Vector2 safeMin = SafeAreaMin();
         Vector2 safeMax = SafeAreaMax();
@@ -119,10 +120,10 @@ public class ResponsiveGameplayScaler : MonoBehaviour
     /// </summary>
     private Vector2 SafeAreaMin()
     {
-        Rect safe = Screen.safeArea;
+        Vector2 fraction = SafeAreaUtil.GetNormalizedSafeAreaMinFraction();
         return new Vector2(
-            (safe.xMin / Screen.width - 0.5f) * reference.rect.width,
-            (safe.yMin / Screen.height - 0.5f) * reference.rect.height);
+            (fraction.x - 0.5f) * reference.rect.width,
+            (fraction.y - 0.5f) * reference.rect.height);
     }
 
     /// <summary>
@@ -130,9 +131,9 @@ public class ResponsiveGameplayScaler : MonoBehaviour
     /// </summary>
     private Vector2 SafeAreaMax()
     {
-        Rect safe = Screen.safeArea;
+        Vector2 fraction = SafeAreaUtil.GetNormalizedSafeAreaMaxFraction();
         return new Vector2(
-            (safe.xMax / Screen.width - 0.5f) * reference.rect.width,
-            (safe.yMax / Screen.height - 0.5f) * reference.rect.height);
+            (fraction.x - 0.5f) * reference.rect.width,
+            (fraction.y - 0.5f) * reference.rect.height);
     }
 }
