@@ -1,0 +1,59 @@
+# Standard Unity .gitignore file
+# Covers Unity generated directories, build outputs, temp files, and IDE configuration.
+
+# Unity generated directories
+/[aA]rchives/
+/[lL]ibrary/
+/[lL]ogs/
+/[uU]ser[sS]ettings/
+/[tT]emp/
+/[oO]bj/
+/[bB]uild/
+/[bB]uilds/
+/[lL]ocal[cC]ache/
+/[mM]emoryCaptures/
+/[rR]ecordings/
+
+# Memory Dumps
+*.lmp
+
+# Crash Reports
+sysinfo.txt
+
+# Auto-generated Solution and Project files
+/*.csproj
+/*.unityproj
+/*.sln
+/*.suo
+/*.tmp
+/*.user
+/*.userprefs
+/*.pidb
+/*.booproj
+/*.svd
+/*.pdb
+/*.mdb
+/*.opendb
+/*.VC.db
+/*.cache
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Editor files
+.vs/
+.idea/
+.vscode/
+*.csproj.user
+
+# Builds & Packages
+*.apk
+*.aab
+*.unitypackage
+*.app
