@@ -1229,8 +1229,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -255.65, y: 79.3}
-  m_SizeDelta: {x: 69.3084, y: 0}
+  m_AnchoredPosition: {x: -297.9, y: 73}
+  m_SizeDelta: {x: 75.1812, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &393989224
 MonoBehaviour:
@@ -1906,8 +1906,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -32.0211, y: -34.7176}
-  m_SizeDelta: {x: 64.0422, y: 69.4352}
+  m_AnchoredPosition: {x: -37.144073, y: -40.27202}
+  m_SizeDelta: {x: 53.7962, y: 58.3264}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &586426106
 MonoBehaviour:
@@ -4656,7 +4656,7 @@ GameObject:
   - component: {fileID: 1700641707}
   - component: {fileID: 1700641709}
   m_Layer: 5
-  m_Name: Rectangle
+  m_Name: LetterSlot BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4678,8 +4678,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000003814789, y: 38}
-  m_SizeDelta: {x: 441.9905, y: 0}
+  m_AnchoredPosition: {x: -0.0000038146973, y: 38}
+  m_SizeDelta: {x: 520.6273, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1700641707
 MonoBehaviour:
