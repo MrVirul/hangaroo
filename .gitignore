@@ -50,6 +50,7 @@ Thumbs.db
 .vs/
 .idea/
 .vscode/
+.gemini/
 *.csproj.user
 
 # Builds & Packages
@@ -57,3 +58,13 @@ Thumbs.db
 *.aab
 *.unitypackage
 *.app
+*.ipa
+
+# Android & Gradle
+.gradle/
+build/
+captures/
+
+# Xcode Project
+/[xX]code[pP]roject/
+
