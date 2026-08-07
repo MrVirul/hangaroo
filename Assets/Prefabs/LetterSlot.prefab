@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 56f52370398aa442d837962fcf7d4a7f, type: 2}
   m_sharedMaterial: {fileID: -4580782342501228099, guid: 56f52370398aa442d837962fcf7d4a7f, type: 2}
@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 384892729078578440}
   - component: {fileID: 3376050606780833931}
   - component: {fileID: 8525208758139920462}
+  - component: {fileID: -5468463698738764793}
   m_Layer: 5
   m_Name: LetterSlot
   m_TagString: Untagged
@@ -213,3 +214,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-5468463698738764793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428970831033285879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421adf7c8ef044aeca058bcfaa3eee58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LetterSlot
+  letterText: {fileID: 8852129244692811458}
+  isRevealed: 0
