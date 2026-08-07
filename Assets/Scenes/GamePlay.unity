@@ -3746,9 +3746,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   words: []
-  clueText: {fileID: 0}
-  letterSlotPrefab: {fileID: 0}
-  letterSlotParent: {fileID: 0}
+  clueText: {fileID: 1359425569}
+  letterSlotPrefab: {fileID: 5428970831033285879, guid: bb573871c121a402c9778c3c2499e1a0, type: 3}
+  letterSlotParent: {fileID: 1700641706}
 --- !u!1 &861202671
 GameObject:
   m_ObjectHideFlags: 0
@@ -4339,6 +4339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 972931622}
   - component: {fileID: 972931623}
+  - component: {fileID: 972931624}
   m_Layer: 5
   m_Name: Hearts
   m_TagString: Untagged
@@ -4395,6 +4396,25 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &972931624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972931621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17873d4a5e315402da2b1d718cd4170f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeartManager
+  hearts:
+  - {fileID: 99767175}
+  - {fileID: 172087833}
+  - {fileID: 1137043507}
+  - {fileID: 178705070}
+  fullHeart: {fileID: 5795091025451059996, guid: 5ea24078cb86644b4949caa6ab090948, type: 3}
+  emptyHeart: {fileID: -4896707147557875713, guid: 304b2455b6a50440bb9f43e1fabf4bff, type: 3}
 --- !u!1 &1014682544
 GameObject:
   m_ObjectHideFlags: 0
@@ -7229,6 +7249,7 @@ GameObject:
   - component: {fileID: 1929307588}
   - component: {fileID: 1929307587}
   - component: {fileID: 1929307586}
+  - component: {fileID: 1929307590}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -7323,6 +7344,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1929307590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929307585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a4a4d3cc554242849cb363b2cfb971a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  gameOverPanel: {fileID: 1118614249}
+  victoryPanel: {fileID: 238551890}
+  pausePanel: {fileID: 1478384702}
 --- !u!1 &1997053035
 GameObject:
   m_ObjectHideFlags: 0
