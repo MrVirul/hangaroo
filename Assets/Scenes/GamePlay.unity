@@ -4347,6 +4347,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1929307589}
     m_Modifications:
+    - target: {fileID: 1466019911853936437, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2709368062052376532, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4427,9 +4431,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3309765324310424929, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396019440982400013, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3609684165396705247, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
       propertyPath: m_Name
       value: Settings_Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3609684165396705247, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775086704746239304, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775086704746239304, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775086704746239304, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775086704746239304, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775086704746239304, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775086704746239304, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775086704746239304, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6151350266213415580, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7670,7 +7718,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.233
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
