@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public TMP_Text clueText;
+    public TMP_Text scoreText;
+
+
+    private int score;
+    private int revealedCount;
 
 
     [Header("Letter Slots")]
@@ -28,12 +34,16 @@ public class GameManager : MonoBehaviour
 
     private List<LetterSlot> slots = new List<LetterSlot>();
 
+    private List<int> wordOrder = new List<int>();
+    private int wordPosition;
+
 
     void Awake()
     {
         Instance = this;
 
         LoadWords();
+        BuildWordOrder();
     }
 
 
@@ -66,21 +76,68 @@ public class GameManager : MonoBehaviour
     }
 
 
+    void BuildWordOrder()
+    {
+        wordOrder.Clear();
+
+        for (int i = 0; i < words.Count; i++)
+            wordOrder.Add(i);
+
+        for (int i = 0; i < wordOrder.Count; i++)
+        {
+            int swap = Random.Range(i, wordOrder.Count);
+            int temp = wordOrder[i];
+            wordOrder[i] = wordOrder[swap];
+            wordOrder[swap] = temp;
+        }
+
+        wordPosition = 0;
+    }
+
+
     void LoadWord()
     {
+        if (words.Count == 0 || wordPosition >= words.Count)
+        {
+            wordPosition = 0;
 
-        currentWord = words[
-            Random.Range(0, words.Count)
-        ];
+            if (words.Count == 0)
+                return;
+        }
 
+        currentWord = words[wordOrder[wordPosition]];
+        wordPosition++;
+
+        revealedCount = 0;
 
         clueText.text = currentWord.clue;
 
-
         CreateLetterSlots();
-
     }
 
+
+    public void ContinueGame()
+    {
+        ClearSlots();
+
+        if (HeartManager.Instance.HasLives())
+        {
+            UIManager.Instance.HideVictory();
+            LoadWord();
+        }
+    }
+
+
+    void ClearSlots()
+    {
+        foreach (LetterSlot slot in slots)
+        {
+            if (slot != null)
+                Destroy(slot.gameObject);
+        }
+
+        slots.Clear();
+    }
 
 
     void CreateLetterSlots()
@@ -116,6 +173,8 @@ public class GameManager : MonoBehaviour
 
         bool correct = false;
 
+        int points = LetterValue(guess);
+
 
         foreach (LetterSlot slot in slots)
         {
@@ -124,13 +183,18 @@ public class GameManager : MonoBehaviour
             {
                 slot.ShowLetter();
                 correct = true;
+                revealedCount++;
             }
 
         }
 
 
-
-        if (correct == false)
+        if (correct)
+        {
+            score += points * revealedCount;
+            UpdateScore();
+        }
+        else
         {
             HeartManager.Instance.LoseHeart();
         }
@@ -139,6 +203,19 @@ public class GameManager : MonoBehaviour
 
         CheckWin();
 
+    }
+
+
+    int LetterValue(char letter)
+    {
+        return char.ToUpper(letter) - 'A' + 1;
+    }
+
+
+    void UpdateScore()
+    {
+        if (scoreText != null)
+            scoreText.text = "Score: " + score;
     }
 
 
@@ -155,8 +232,21 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Victory");
 
-        UIManager.Instance.ShowVictory();
+        UIManager.Instance.ShowVictory(currentWord.answer, score.ToString());
 
+    }
+
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+
+    public void ExitToMainMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu");
     }
 
 }
