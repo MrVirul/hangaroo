@@ -54,6 +54,12 @@ public class HeartManager : MonoBehaviour
 
 
 
+    public bool HasLives()
+    {
+        return lives > 0;
+    }
+
+
     void UpdateHearts()
     {
 
