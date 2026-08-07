@@ -7,9 +7,10 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
 
-    [Header("UI")]
-    public GameObject victoryPanel;
     public GameObject gameOverPanel;
+    public GameObject victoryPanel;
+    public GameObject pausePanel;
+
 
 
     void Awake()
@@ -18,17 +19,33 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void ShowVictory()
-    {
-        if (victoryPanel != null)
-            victoryPanel.SetActive(true);
-    }
-
 
     public void ShowGameOver()
     {
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(true);
+        gameOverPanel.SetActive(true);
+    }
+
+
+
+    public void ShowVictory()
+    {
+        victoryPanel.SetActive(true);
+    }
+
+
+
+    public void Pause()
+    {
+        pausePanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+
+
+    public void Resume()
+    {
+        pausePanel.SetActive(false);
+        Time.timeScale = 1;
     }
 
 }
