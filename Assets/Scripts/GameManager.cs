@@ -9,7 +9,12 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Word Data")]
-    public List<WordData> words;
+    public List<WordData> words = new List<WordData>()
+    {
+        new WordData("A planet we live on", "EARTH"),
+        new WordData("A programming language", "JAVA"),
+        new WordData("Largest land animal", "ELEPHANT"),
+    };
 
 
     private WordData currentWord;
