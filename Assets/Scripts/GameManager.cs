@@ -9,12 +9,9 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Word Data")]
-    public List<WordData> words = new List<WordData>()
-    {
-        new WordData("A planet we live on", "EARTH"),
-        new WordData("A programming language", "JAVA"),
-        new WordData("Largest land animal", "ELEPHANT"),
-    };
+    public TextAsset wordsFile;
+
+    private List<WordData> words = new List<WordData>();
 
 
     private WordData currentWord;
@@ -35,12 +32,37 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        LoadWords();
     }
 
 
     void Start()
     {
         LoadWord();
+    }
+
+
+    void LoadWords()
+    {
+        if (wordsFile == null)
+        {
+            Debug.LogWarning("Words file not assigned in the Inspector.");
+            return;
+        }
+
+        WordList data = JsonUtility.FromJson<WordList>(wordsFile.text);
+
+        if (data == null || data.words == null)
+        {
+            Debug.LogWarning("Words file is empty or malformed.");
+            return;
+        }
+
+        foreach (WordData word in data.words)
+        {
+            words.Add(new WordData(word.clue, word.answer));
+        }
     }
 
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class WordData
@@ -11,4 +12,10 @@ public class WordData
         this.clue = clue;
         this.answer = answer.ToUpper();
     }
+}
+
+[Serializable]
+public class WordList
+{
+    public List<WordData> words;
 }
