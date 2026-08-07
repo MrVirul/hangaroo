@@ -164,6 +164,45 @@ public class GameManager : MonoBehaviour
 
         }
 
+
+        if (currentWord.answer.Length > 0)
+            FitSlotsToWidth();
+
+    }
+
+
+    void FitSlotsToWidth()
+    {
+
+        if (slots.Count == 0 || letterSlotParent == null)
+            return;
+
+        float availableWidth =
+        ((RectTransform)letterSlotParent).rect.width;
+
+        float spacing = 5f;
+
+        float total = 0f;
+
+        foreach (LetterSlot slot in slots)
+        {
+            total += ((RectTransform)slot.transform).rect.width;
+        }
+
+        total += spacing * (slots.Count - 1);
+
+
+        if (total <= availableWidth)
+            return;
+
+        float scale = availableWidth / total;
+
+        foreach (LetterSlot slot in slots)
+        {
+            slot.transform.localScale =
+            Vector3.one * scale;
+        }
+
     }
 
 
