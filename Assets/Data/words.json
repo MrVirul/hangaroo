@@ -1,76 +1,12 @@
 {
   "words": [
     {
-      "clue": "Programming Language",
-      "answer": "JAVASCRIPT"
-    },
-    {
-      "clue": "Web Framework",
-      "answer": "REACTJS"
-    },
-    {
-      "clue": "Database System",
-      "answer": "POSTGRESQL"
-    },
-    {
-      "clue": "AI Technology",
-      "answer": "MACHINELEARNING"
-    },
-    {
-      "clue": "Mobile System",
-      "answer": "ANDROIDOS"
-    },
-    {
-      "clue": "Computer Component",
-      "answer": "PROCESSOR"
-    },
-    {
-      "clue": "Storage Device",
-      "answer": "HARDDRIVE"
-    },
-    {
-      "clue": "Network Device",
-      "answer": "ROUTERDEVICE"
-    },
-    {
-      "clue": "Security System",
-      "answer": "FIREWALL"
-    },
-    {
-      "clue": "Code Platform",
-      "answer": "GITHUB"
-    },
-    {
-      "clue": "Space Vehicle",
-      "answer": "SPACECRAFT"
-    },
-    {
-      "clue": "Red Planet",
-      "answer": "MARSPLANET"
-    },
-    {
       "clue": "Largest Planet",
       "answer": "JUPITER"
     },
     {
-      "clue": "Earth Satellite",
-      "answer": "MOONLIGHT"
-    },
-    {
       "clue": "Home Galaxy",
       "answer": "MILKYWAY"
-    },
-    {
-      "clue": "Space Science",
-      "answer": "ASTRONOMY"
-    },
-    {
-      "clue": "Space Agency",
-      "answer": "NASAAGENCY"
-    },
-    {
-      "clue": "Space Machine",
-      "answer": "ROCKETSHIP"
     },
     {
       "clue": "Natural Force",
@@ -85,40 +21,12 @@
       "answer": "ELEPHANT"
     },
     {
-      "clue": "Jungle King",
-      "answer": "LIONKING"
-    },
-    {
       "clue": "Fast Animal",
       "answer": "CHEETAH"
     },
     {
-      "clue": "Ocean Animal",
-      "answer": "BLUEWHALE"
-    },
-    {
-      "clue": "Flightless Bird",
-      "answer": "PENGUIN"
-    },
-    {
       "clue": "Magic School",
       "answer": "HOGWARTS"
-    },
-    {
-      "clue": "Spider Hero",
-      "answer": "SPIDERMAN"
-    },
-    {
-      "clue": "Dark Hero",
-      "answer": "BATMANHERO"
-    },
-    {
-      "clue": "Wizard Character",
-      "answer": "HARRYPOTTER"
-    },
-    {
-      "clue": "Snow Movie",
-      "answer": "FROZENMOVIE"
     },
     {
       "clue": "Popular Sport",
@@ -133,18 +41,6 @@
       "answer": "WIMBLEDON"
     },
     {
-      "clue": "Basketball League",
-      "answer": "NBALEAGUE"
-    },
-    {
-      "clue": "Car Company",
-      "answer": "TOYOTA"
-    },
-    {
-      "clue": "Electric Car",
-      "answer": "TESLACAR"
-    },
-    {
       "clue": "Luxury Vehicle",
       "answer": "MERCEDES"
     },
@@ -153,60 +49,12 @@
       "answer": "SAMSUNG"
     },
     {
-      "clue": "Tech Company",
-      "answer": "MICROSOFT"
-    },
-    {
-      "clue": "Shopping Platform",
-      "answer": "AMAZONSHOP"
-    },
-    {
-      "clue": "Video Platform",
-      "answer": "YOUTUBE"
-    },
-    {
       "clue": "Social Platform",
       "answer": "INSTAGRAM"
     },
     {
-      "clue": "Search Engine",
-      "answer": "GOOGLE"
-    },
-    {
-      "clue": "Meeting Software",
-      "answer": "ZOOMMEETING"
-    },
-    {
-      "clue": "Code Editor",
-      "answer": "VISUALSTUDIO"
-    },
-    {
-      "clue": "Game Engine",
-      "answer": "UNITYENGINE"
-    },
-    {
       "clue": "Virtual World",
       "answer": "METAVERSE"
-    },
-    {
-      "clue": "Digital Money",
-      "answer": "CRYPTOCURRENCY"
-    },
-    {
-      "clue": "Cloud Service",
-      "answer": "CLOUDSTORAGE"
-    },
-    {
-      "clue": "Cyber Attack",
-      "answer": "RANSOMWARE"
-    },
-    {
-      "clue": "French Capital",
-      "answer": "PARISCITY"
-    },
-    {
-      "clue": "Water Body",
-      "answer": "OCEANWATER"
     },
     {
       "clue": "Book Place",
@@ -221,36 +69,188 @@
       "answer": "TRIANGLE"
     },
     {
-      "clue": "Planet We Live",
-      "answer": "EARTHPLANET"
-    },
-    {
-      "clue": "Fruit Doctor Says",
-      "answer": "APPLEFRUIT"
-    },
-    {
-      "clue": "Milk Animal",
-      "answer": "COWANIMAL"
-    },
-    {
-      "clue": "Google Browser",
-      "answer": "CHROME"
-    },
-    {
-      "clue": "Programming Language",
-      "answer": "PYTHONLANG"
-    },
-    {
-      "clue": "Operating System",
-      "answer": "WINDOWS"
-    },
-    {
       "clue": "Robot Intelligence",
       "answer": "ROBOTICS"
     },
     {
-      "clue": "Human Organ",
-      "answer": "HEART"
+      "clue": "Container Platform",
+      "answer": "DOCKERAPP"
+    },
+    {
+      "clue": "Database System",
+      "answer": "DATABASE"
+    },
+    {
+      "clue": "Internet Protocol",
+      "answer": "ETHERNET"
+    },
+    {
+      "clue": "Computer Brain",
+      "answer": "HARDWARE"
+    },
+    {
+      "clue": "Software Testing",
+      "answer": "PIPELINE"
+    },
+    {
+      "clue": "Java Framework",
+      "answer": "SPRINGBOOT"
+    },
+    {
+      "clue": "Network Terminal",
+      "answer": "TERMINAL"
+    },
+    {
+      "clue": "System Operator",
+      "answer": "OPERATOR"
+    },
+    {
+      "clue": "Scripting Tool",
+      "answer": "COMPILER"
+    },
+    {
+      "clue": "Data Transfer",
+      "answer": "PROTOCOL"
+    },
+    {
+      "clue": "Web Address",
+      "answer": "HOSTNAME"
+    },
+    {
+      "clue": "Cloud Network",
+      "answer": "INTERNET"
+    },
+    {
+      "clue": "Keyboard Button",
+      "answer": "FUNCTION"
+    },
+    {
+      "clue": "Software Build",
+      "answer": "ARTIFACT"
+    },
+    {
+      "clue": "Security Key",
+      "answer": "PASSWORD"
+    },
+    {
+      "clue": "Device Screen",
+      "answer": "MONITORS"
+    },
+    {
+      "clue": "Input Device",
+      "answer": "KEYBOARD"
+    },
+    {
+      "clue": "Tech Assistant",
+      "answer": "BOTAGENT"
+    },
+    {
+      "clue": "Software Version",
+      "answer": "REVISION"
+    },
+    {
+      "clue": "Code Repository",
+      "answer": "REGISTRY"
+    },
+    {
+      "clue": "Coding Pattern",
+      "answer": "ABSTRACT"
+    },
+    {
+      "clue": "Data Format",
+      "answer": "DOCUMENT"
+    },
+    {
+      "clue": "System Backup",
+      "answer": "SNAPSHOT"
+    },
+    {
+      "clue": "Server Location",
+      "answer": "INSTANCE"
+    },
+    {
+      "clue": "Process State",
+      "answer": "RUNNINGS"
+    },
+    {
+      "clue": "System Alert",
+      "answer": "WARNINGS"
+    },
+    {
+      "clue": "Software Module",
+      "answer": "RESOURCE"
+    },
+    {
+      "clue": "File System",
+      "answer": "DIRECTORY"
+    },
+    {
+      "clue": "Program Output",
+      "answer": "RESPONSE"
+    },
+    {
+      "clue": "Web Service",
+      "answer": "ENDPOINTS"
+    },
+    {
+      "clue": "Digital Signal",
+      "answer": "TELECOMMS"
+    },
+    {
+      "clue": "Binary File",
+      "answer": "EXECUTED"
+    },
+    {
+      "clue": "System Memory",
+      "answer": "REGISTERS"
+    },
+    {
+      "clue": "Network Guard",
+      "answer": "WATCHDOG"
+    },
+    {
+      "clue": "Code Function",
+      "answer": "CALLBACK"
+    },
+    {
+      "clue": "Software Patch",
+      "answer": "UPDATER"
+    },
+    {
+      "clue": "Data Stream",
+      "answer": "PIPELINES"
+    },
+    {
+      "clue": "Task Manager",
+      "answer": "SCHEDULE"
+    },
+    {
+      "clue": "Security Token",
+      "answer": "IDENTITY"
+    },
+    {
+      "clue": "User Interface",
+      "answer": "ELEMENTS"
+    },
+    {
+      "clue": "Web Protocol",
+      "answer": "DOWNLOAD"
+    },
+    {
+      "clue": "Cloud Cluster",
+      "answer": "PODSGRID"
+    },
+    {
+      "clue": "Data Storage",
+      "answer": "MEMORIES"
+    },
+    {
+      "clue": "System Command",
+      "answer": "TERMINAL"
+    },
+    {
+      "clue": "Digital Record",
+      "answer": "DATABASE"
     }
   ]
 }
