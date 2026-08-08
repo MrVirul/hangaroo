@@ -30,6 +30,9 @@ public class UIManager : MonoBehaviour
             hud.SetActive(false);
 
         gameOverPanel.SetActive(true);
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayDefeat();
     }
 
 
@@ -46,6 +49,9 @@ public class UIManager : MonoBehaviour
             hud.SetActive(false);
 
         victoryPanel.SetActive(true);
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayVictory();
     }
 
 
