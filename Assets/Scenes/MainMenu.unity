@@ -307,7 +307,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
@@ -873,14 +873,14 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 330531880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 103, y: 8}
-  m_SizeDelta: {x: 134.7513, y: 220.5022}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -728.5, y: 8}
+  m_SizeDelta: {x: -1528.2487, y: -1027.4978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1106391510
 MonoBehaviour:
@@ -904,7 +904,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 1595854124088719539, guid: af887c578a7a6476d8e6b582877bffd2, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -2360,6 +2360,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2164637219130336191, guid: dc3c0d3626c984a1a88bc5b65d6032aa, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2368253851248112924, guid: dc3c0d3626c984a1a88bc5b65d6032aa, type: 3}
       propertyPath: m_SizeDelta.x
       value: 362.6379
@@ -2457,7 +2461,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 966408172}
   - {fileID: 1879757358}
@@ -2847,6 +2851,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2709368062052376532, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3309765324310424929, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
       propertyPath: m_SizeDelta.y
       value: 54.554733
@@ -2983,6 +2991,10 @@ PrefabInstance:
     - target: {fileID: 2164637219130336191, guid: dc3c0d3626c984a1a88bc5b65d6032aa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2164637219130336191, guid: dc3c0d3626c984a1a88bc5b65d6032aa, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7857714820867132763, guid: dc3c0d3626c984a1a88bc5b65d6032aa, type: 3}
       propertyPath: m_Name
