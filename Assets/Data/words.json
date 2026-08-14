@@ -27,6 +27,238 @@
     {
       "clue": "Software Patch",
       "answer": "UPDATER"
+    },
+    {
+      "clue": "Space Rock",
+      "answer": "ASTEROID"
+    },
+    {
+      "clue": "Cosmic Particles",
+      "answer": "STARDUST"
+    },
+    {
+      "clue": "Large Animal",
+      "answer": "ELEPHANT"
+    },
+    {
+      "clue": "Pink Bird",
+      "answer": "FLAMINGO"
+    },
+    {
+      "clue": "Jumping Marsupial",
+      "answer": "KANGAROO"
+    },
+    {
+      "clue": "Horned Grazer",
+      "answer": "ANTELOPE"
+    },
+    {
+      "clue": "Spiky Mammal",
+      "answer": "HEDGEHOG"
+    },
+    {
+      "clue": "Structured Data Store",
+      "answer": "DATABASE"
+    },
+    {
+      "clue": "Global Network",
+      "answer": "INTERNET"
+    },
+    {
+      "clue": "Command Line Interface",
+      "answer": "TERMINAL"
+    },
+    {
+      "clue": "Typing Device",
+      "answer": "KEYBOARD"
+    },
+    {
+      "clue": "Electronic Machine",
+      "answer": "COMPUTER"
+    },
+    {
+      "clue": "Fetch From Server",
+      "answer": "DOWNLOAD"
+    },
+    {
+      "clue": "Program Code",
+      "answer": "SOFTWARE"
+    },
+    {
+      "clue": "Physical Parts",
+      "answer": "HARDWARE"
+    },
+    {
+      "clue": "Network Security",
+      "answer": "FIREWALL"
+    },
+    {
+      "clue": "Visual Rendering",
+      "answer": "GRAPHICS"
+    },
+    {
+      "clue": "Reusable Code Block",
+      "answer": "FUNCTION"
+    },
+    {
+      "clue": "Async Routine",
+      "answer": "CALLBACK"
+    },
+    {
+      "clue": "System Backup",
+      "answer": "SNAPSHOT"
+    },
+    {
+      "clue": "Login Secret",
+      "answer": "PASSWORD"
+    },
+    {
+      "clue": "Windows Database",
+      "answer": "REGISTRY"
+    },
+    {
+      "clue": "Code Translator",
+      "answer": "COMPILER"
+    },
+    {
+      "clue": "Communication Rules",
+      "answer": "PROTOCOL"
+    },
+    {
+      "clue": "Build Output",
+      "answer": "ARTIFACT"
+    },
+    {
+      "clue": "Available Asset",
+      "answer": "RESOURCE"
+    },
+    {
+      "clue": "Server Reply",
+      "answer": "RESPONSE"
+    },
+    {
+      "clue": "UI Components",
+      "answer": "ELEMENTS"
+    },
+    {
+      "clue": "Text File",
+      "answer": "DOCUMENT"
+    },
+    {
+      "clue": "Design Pattern",
+      "answer": "ABSTRACT"
+    },
+    {
+      "clue": "Running Copy",
+      "answer": "INSTANCE"
+    },
+    {
+      "clue": "Code Version",
+      "answer": "REVISION"
+    },
+    {
+      "clue": "Display Devices",
+      "answer": "MONITORS"
+    },
+    {
+      "clue": "Popular Sport",
+      "answer": "FOOTBALL"
+    },
+    {
+      "clue": "Bat And Ball",
+      "answer": "BASEBALL"
+    },
+    {
+      "clue": "Team Sport",
+      "answer": "HANDBALL"
+    },
+    {
+      "clue": "Pool Sport",
+      "answer": "SWIMMING"
+    },
+    {
+      "clue": "Long Distance Run",
+      "answer": "MARATHON"
+    },
+    {
+      "clue": "Global Games",
+      "answer": "OLYMPICS"
+    },
+    {
+      "clue": "High Terrain",
+      "answer": "MOUNTAIN"
+    },
+    {
+      "clue": "Bright Daylight",
+      "answer": "SUNSHINE"
+    },
+    {
+      "clue": "Night Hour",
+      "answer": "MIDNIGHT"
+    },
+    {
+      "clue": "Annual Celebration",
+      "answer": "BIRTHDAY"
+    },
+    {
+      "clue": "Time Off",
+      "answer": "VACATION"
+    },
+    {
+      "clue": "Citrus Drink",
+      "answer": "LEMONADE"
+    },
+    {
+      "clue": "Green Vegetable",
+      "answer": "CUCUMBER"
+    },
+    {
+      "clue": "Green Veggie",
+      "answer": "BROCCOLI"
+    },
+    {
+      "clue": "Fungus Food",
+      "answer": "MUSHROOM"
+    },
+    {
+      "clue": "Comic Hero",
+      "answer": "SUPERMAN"
+    },
+    {
+      "clue": "Hero Team",
+      "answer": "AVENGERS"
+    },
+    {
+      "clue": "Famous Detective",
+      "answer": "SHERLOCK"
+    },
+    {
+      "clue": "Magic School",
+      "answer": "HOGWARTS"
+    },
+    {
+      "clue": "Celtic Country",
+      "answer": "SCOTLAND"
+    },
+    {
+      "clue": "Asian Country",
+      "answer": "THAILAND"
+    },
+    {
+      "clue": "Southeast Nation",
+      "answer": "MALAYSIA"
+    },
+    {
+      "clue": "Iberian Country",
+      "answer": "PORTUGAL"
+    },
+    {
+      "clue": "African Country",
+      "answer": "BOTSWANA"
+    },
+    {
+      "clue": "Southern Africa",
+      "answer": "ZIMBABWE"
     }
   ]
 }
