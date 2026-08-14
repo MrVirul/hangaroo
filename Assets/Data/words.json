@@ -5,10 +5,6 @@
       "answer": "JUPITER"
     },
     {
-      "clue": "Home Galaxy",
-      "answer": "MILKYWAY"
-    },
-    {
       "clue": "Natural Force",
       "answer": "GRAVITY"
     },
@@ -17,240 +13,20 @@
       "answer": "BIOLOGY"
     },
     {
-      "clue": "Large Animal",
-      "answer": "ELEPHANT"
-    },
-    {
       "clue": "Fast Animal",
       "answer": "CHEETAH"
-    },
-    {
-      "clue": "Magic School",
-      "answer": "HOGWARTS"
-    },
-    {
-      "clue": "Popular Sport",
-      "answer": "FOOTBALL"
-    },
-    {
-      "clue": "Combat Sport",
-      "answer": "WRESTLING"
-    },
-    {
-      "clue": "Tennis Event",
-      "answer": "WIMBLEDON"
-    },
-    {
-      "clue": "Luxury Vehicle",
-      "answer": "MERCEDES"
     },
     {
       "clue": "Phone Company",
       "answer": "SAMSUNG"
     },
     {
-      "clue": "Social Platform",
-      "answer": "INSTAGRAM"
-    },
-    {
-      "clue": "Virtual World",
-      "answer": "METAVERSE"
-    },
-    {
       "clue": "Book Place",
       "answer": "LIBRARY"
     },
     {
-      "clue": "Flying Vehicle",
-      "answer": "AIRPLANE"
-    },
-    {
-      "clue": "Three Side Shape",
-      "answer": "TRIANGLE"
-    },
-    {
-      "clue": "Robot Intelligence",
-      "answer": "ROBOTICS"
-    },
-    {
-      "clue": "Container Platform",
-      "answer": "DOCKERAPP"
-    },
-    {
-      "clue": "Database System",
-      "answer": "DATABASE"
-    },
-    {
-      "clue": "Internet Protocol",
-      "answer": "ETHERNET"
-    },
-    {
-      "clue": "Computer Brain",
-      "answer": "HARDWARE"
-    },
-    {
-      "clue": "Software Testing",
-      "answer": "PIPELINE"
-    },
-    {
-      "clue": "Java Framework",
-      "answer": "SPRINGBOOT"
-    },
-    {
-      "clue": "Network Terminal",
-      "answer": "TERMINAL"
-    },
-    {
-      "clue": "System Operator",
-      "answer": "OPERATOR"
-    },
-    {
-      "clue": "Scripting Tool",
-      "answer": "COMPILER"
-    },
-    {
-      "clue": "Data Transfer",
-      "answer": "PROTOCOL"
-    },
-    {
-      "clue": "Web Address",
-      "answer": "HOSTNAME"
-    },
-    {
-      "clue": "Cloud Network",
-      "answer": "INTERNET"
-    },
-    {
-      "clue": "Keyboard Button",
-      "answer": "FUNCTION"
-    },
-    {
-      "clue": "Software Build",
-      "answer": "ARTIFACT"
-    },
-    {
-      "clue": "Security Key",
-      "answer": "PASSWORD"
-    },
-    {
-      "clue": "Device Screen",
-      "answer": "MONITORS"
-    },
-    {
-      "clue": "Input Device",
-      "answer": "KEYBOARD"
-    },
-    {
-      "clue": "Tech Assistant",
-      "answer": "BOTAGENT"
-    },
-    {
-      "clue": "Software Version",
-      "answer": "REVISION"
-    },
-    {
-      "clue": "Code Repository",
-      "answer": "REGISTRY"
-    },
-    {
-      "clue": "Coding Pattern",
-      "answer": "ABSTRACT"
-    },
-    {
-      "clue": "Data Format",
-      "answer": "DOCUMENT"
-    },
-    {
-      "clue": "System Backup",
-      "answer": "SNAPSHOT"
-    },
-    {
-      "clue": "Server Location",
-      "answer": "INSTANCE"
-    },
-    {
-      "clue": "Process State",
-      "answer": "RUNNINGS"
-    },
-    {
-      "clue": "System Alert",
-      "answer": "WARNINGS"
-    },
-    {
-      "clue": "Software Module",
-      "answer": "RESOURCE"
-    },
-    {
-      "clue": "File System",
-      "answer": "DIRECTORY"
-    },
-    {
-      "clue": "Program Output",
-      "answer": "RESPONSE"
-    },
-    {
-      "clue": "Web Service",
-      "answer": "ENDPOINTS"
-    },
-    {
-      "clue": "Digital Signal",
-      "answer": "TELECOMMS"
-    },
-    {
-      "clue": "Binary File",
-      "answer": "EXECUTED"
-    },
-    {
-      "clue": "System Memory",
-      "answer": "REGISTERS"
-    },
-    {
-      "clue": "Network Guard",
-      "answer": "WATCHDOG"
-    },
-    {
-      "clue": "Code Function",
-      "answer": "CALLBACK"
-    },
-    {
       "clue": "Software Patch",
       "answer": "UPDATER"
-    },
-    {
-      "clue": "Data Stream",
-      "answer": "PIPELINES"
-    },
-    {
-      "clue": "Task Manager",
-      "answer": "SCHEDULE"
-    },
-    {
-      "clue": "Security Token",
-      "answer": "IDENTITY"
-    },
-    {
-      "clue": "User Interface",
-      "answer": "ELEMENTS"
-    },
-    {
-      "clue": "Web Protocol",
-      "answer": "DOWNLOAD"
-    },
-    {
-      "clue": "Cloud Cluster",
-      "answer": "PODSGRID"
-    },
-    {
-      "clue": "Data Storage",
-      "answer": "MEMORIES"
-    },
-    {
-      "clue": "System Command",
-      "answer": "TERMINAL"
-    },
-    {
-      "clue": "Digital Record",
-      "answer": "DATABASE"
     }
   ]
 }
