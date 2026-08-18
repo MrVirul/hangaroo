@@ -47,7 +47,8 @@ public class HeartManager : MonoBehaviour
 
         if (lives <= 0)
         {
-            UIManager.Instance.ShowGameOver();
+            string currentScore = GameManager.Instance != null ? GameManager.Instance.CurrentScore.ToString() : "0";
+            UIManager.Instance.ShowGameOver(currentScore);
         }
 
     }

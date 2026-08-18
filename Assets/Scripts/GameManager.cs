@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
 
     private int score;
+    public int CurrentScore => score;
     private int revealedCount;
 
 

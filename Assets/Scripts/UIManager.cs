@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
 
     public TMP_Text victoryAnswerText;
     public TMP_Text victoryScoreText;
+    public TMP_Text gameOverScoreText;
 
 
     void Awake()
@@ -24,8 +25,26 @@ public class UIManager : MonoBehaviour
 
 
 
-    public void ShowGameOver()
+    public void ShowGameOver(string score = null)
     {
+        if (string.IsNullOrEmpty(score) && GameManager.Instance != null)
+        {
+            score = GameManager.Instance.CurrentScore.ToString();
+        }
+
+        if (gameOverScoreText == null && gameOverPanel != null)
+        {
+            var t = gameOverPanel.transform.Find("Board/score");
+            if (t != null)
+                gameOverScoreText = t.GetComponent<TMP_Text>();
+        }
+
+        if (gameOverScoreText != null)
+        {
+            gameOverScoreText.text = "Score: " + (score ?? "0");
+            gameOverScoreText.ForceMeshUpdate();
+        }
+
         if (hud != null)
             hud.SetActive(false);
 
