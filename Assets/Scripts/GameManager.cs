@@ -222,13 +222,20 @@ public class GameManager : MonoBehaviour
 
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)letterSlotParent);
 
+        if (letterSlotParent.parent is RectTransform parentRt)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(parentRt);
+        }
+
         float availableWidth =
         ((RectTransform)letterSlotParent).rect.width;
 
         if (availableWidth <= 0f)
             return;
 
-        float spacing = 5f;
+        float spacing = 10f;
+        var hlg = ((RectTransform)letterSlotParent).GetComponent<HorizontalLayoutGroup>();
+        if (hlg != null) spacing = hlg.spacing;
 
         float total = 0f;
 
@@ -239,9 +246,14 @@ public class GameManager : MonoBehaviour
 
         total += spacing * (slots.Count - 1);
 
-
         if (total <= availableWidth)
+        {
+            foreach (LetterSlot slot in slots)
+            {
+                slot.transform.localScale = Vector3.one;
+            }
             return;
+        }
 
         float scale = availableWidth / total;
 
