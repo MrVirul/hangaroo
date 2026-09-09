@@ -29,6 +29,12 @@ public class SettingsManager : MonoBehaviour
     }
 
 
+    public void OpenSettings()
+    {
+        gameObject.SetActive(true);
+    }
+
+
     public void ResetToDefault()
     {
         if (hintsToggle != null)
