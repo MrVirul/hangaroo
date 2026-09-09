@@ -6,6 +6,7 @@ public class MainMenuManager : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject howToPlayPanel;
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject creditPanel;
 
     [Header("Scene Names")]
     [SerializeField] private string gameplayScene = "GamePlay";
@@ -14,6 +15,7 @@ public class MainMenuManager : MonoBehaviour
     {
         howToPlayPanel.SetActive(false);
         settingsPanel.SetActive(false);
+        creditPanel.SetActive(false);
     }
 
     //=========================
@@ -48,6 +50,19 @@ public class MainMenuManager : MonoBehaviour
     public void CloseSettings()
     {
         settingsPanel.SetActive(false);
+    }
+
+    //=========================
+    // Credits
+    //=========================
+    public void OpenCredits()
+    {
+        creditPanel.SetActive(true);
+    }
+
+    public void CloseCredits()
+    {
+        creditPanel.SetActive(false);
     }
 
     //=========================
