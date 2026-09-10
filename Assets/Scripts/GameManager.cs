@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     public TMP_Text clueText;
     public TMP_Text scoreText;
+    public TMP_Text hintText;
 
 
     private int score;
@@ -71,7 +72,7 @@ public class GameManager : MonoBehaviour
 
         foreach (WordData word in data.words)
         {
-            words.Add(new WordData(word.clue, word.answer));
+            words.Add(new WordData(word.clue, word.answer, word.hint));
         }
     }
 
@@ -112,7 +113,29 @@ public class GameManager : MonoBehaviour
 
         clueText.text = currentWord.clue;
 
+        RefreshHint();
+
         CreateLetterSlots();
+    }
+
+
+    public void RefreshHint()
+    {
+        if (hintText == null)
+            return;
+
+        bool enabled = PlayerPrefs.GetInt("Hints", 1) == 1;
+
+        hintText.gameObject.SetActive(enabled);
+
+        if (currentWord == null)
+            return;
+
+        string hint = string.IsNullOrEmpty(currentWord.hint)
+            ? currentWord.clue
+            : currentWord.hint;
+
+        hintText.text = hint;
     }
 
 

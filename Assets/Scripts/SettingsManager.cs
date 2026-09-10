@@ -59,6 +59,9 @@ public class SettingsManager : MonoBehaviour
     {
         SaveSettings();
 
+        if (GameManager.Instance != null)
+            GameManager.Instance.RefreshHint();
+
         gameObject.SetActive(false);
     }
 
