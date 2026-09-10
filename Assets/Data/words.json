@@ -2,263 +2,328 @@
   "words": [
     {
       "clue": "Largest Planet",
-      "answer": "JUPITER"
+      "answer": "JUPITER",
+      "hint": "Starts with J and has 7 letters"
     },
     {
       "clue": "Natural Force",
-      "answer": "GRAVITY"
+      "answer": "GRAVITY",
+      "hint": "Keeps your feet on the ground"
     },
     {
       "clue": "Life Science",
-      "answer": "BIOLOGY"
+      "answer": "BIOLOGY",
+      "hint": "The study of living things"
     },
     {
       "clue": "Fast Animal",
-      "answer": "CHEETAH"
+      "answer": "CHEETAH",
+      "hint": "The fastest land animal, covered in spots"
     },
     {
       "clue": "Phone Company",
-      "answer": "SAMSUNG"
+      "answer": "SAMSUNG",
+      "hint": "A tech giant from South Korea"
     },
     {
       "clue": "Book Place",
-      "answer": "LIBRARY"
+      "answer": "LIBRARY",
+      "hint": "Where you borrow and read books"
     },
     {
       "clue": "Software Patch",
-      "answer": "UPDATER"
+      "answer": "UPDATER",
+      "hint": "Keeps apps current with new fixes"
     },
     {
       "clue": "Space Rock",
-      "answer": "ASTEROID"
+      "answer": "ASTEROID",
+      "hint": "A rocky body orbiting the sun"
     },
     {
       "clue": "Cosmic Particles",
-      "answer": "STARDUST"
+      "answer": "STARDUST",
+      "hint": "The glittery grains from dying stars"
     },
     {
       "clue": "Large Animal",
-      "answer": "ELEPHANT"
+      "answer": "ELEPHANT",
+      "hint": "The largest land animal, with a trunk"
     },
     {
       "clue": "Pink Bird",
-      "answer": "FLAMINGO"
+      "answer": "FLAMINGO",
+      "hint": "Often stands on one leg in the water"
     },
     {
       "clue": "Jumping Marsupial",
-      "answer": "KANGAROO"
+      "answer": "KANGAROO",
+      "hint": "Carries its baby in a pouch"
     },
     {
       "clue": "Horned Grazer",
-      "answer": "ANTELOPE"
+      "answer": "ANTELOPE",
+      "hint": "A fast, horned mammal of the plains"
     },
     {
       "clue": "Spiky Mammal",
-      "answer": "HEDGEHOG"
+      "answer": "HEDGEHOG",
+      "hint": "A small mammal covered in spines"
     },
     {
       "clue": "Structured Data Store",
-      "answer": "DATABASE"
+      "answer": "DATABASE",
+      "hint": "Where tables, rows and queries live"
     },
     {
       "clue": "Global Network",
-      "answer": "INTERNET"
+      "answer": "INTERNET",
+      "hint": "The worldwide web of connected computers"
     },
     {
       "clue": "Command Line Interface",
-      "answer": "TERMINAL"
+      "answer": "TERMINAL",
+      "hint": "Where programmers type text commands"
     },
     {
       "clue": "Typing Device",
-      "answer": "KEYBOARD"
+      "answer": "KEYBOARD",
+      "hint": "Has all 26 letters on it"
     },
     {
       "clue": "Electronic Machine",
-      "answer": "COMPUTER"
+      "answer": "COMPUTER",
+      "hint": "Processes your programs and data"
     },
     {
       "clue": "Fetch From Server",
-      "answer": "DOWNLOAD"
+      "answer": "DOWNLOAD",
+      "hint": "Copying a file to your device"
     },
     {
       "clue": "Program Code",
-      "answer": "SOFTWARE"
+      "answer": "SOFTWARE",
+      "hint": "Programs and apps you install"
     },
     {
       "clue": "Physical Parts",
-      "answer": "HARDWARE"
+      "answer": "HARDWARE",
+      "hint": "The parts of a computer you can touch"
     },
     {
       "clue": "Network Security",
-      "answer": "FIREWALL"
+      "answer": "FIREWALL",
+      "hint": "Blocks unwanted network traffic"
     },
     {
       "clue": "Visual Rendering",
-      "answer": "GRAPHICS"
+      "answer": "GRAPHICS",
+      "hint": "What the GPU draws on screen"
     },
     {
       "clue": "Reusable Code Block",
-      "answer": "FUNCTION"
+      "answer": "FUNCTION",
+      "hint": "A named piece of code you can call"
     },
     {
       "clue": "Async Routine",
-      "answer": "CALLBACK"
+      "answer": "CALLBACK",
+      "hint": "Runs when an event finishes happening"
     },
     {
       "clue": "System Backup",
-      "answer": "SNAPSHOT"
+      "answer": "SNAPSHOT",
+      "hint": "A point-in-time copy of your data"
     },
     {
       "clue": "Login Secret",
-      "answer": "PASSWORD"
+      "answer": "PASSWORD",
+      "hint": "The secret word that unlocks your account"
     },
     {
       "clue": "Windows Database",
-      "answer": "REGISTRY"
+      "answer": "REGISTRY",
+      "hint": "Windows keeps its config settings here"
     },
     {
       "clue": "Code Translator",
-      "answer": "COMPILER"
+      "answer": "COMPILER",
+      "hint": "Turns source code into a program"
     },
     {
       "clue": "Communication Rules",
-      "answer": "PROTOCOL"
+      "answer": "PROTOCOL",
+      "hint": "The agreed rules of data exchange"
     },
     {
       "clue": "Build Output",
-      "answer": "ARTIFACT"
+      "answer": "ARTIFACT",
+      "hint": "The final file produced by a build"
     },
     {
       "clue": "Available Asset",
-      "answer": "RESOURCE"
+      "answer": "RESOURCE",
+      "hint": "Something reusable, like an icon or file"
     },
     {
       "clue": "Server Reply",
-      "answer": "RESPONSE"
+      "answer": "RESPONSE",
+      "hint": "What a server sends back to a request"
     },
     {
       "clue": "UI Components",
-      "answer": "ELEMENTS"
+      "answer": "ELEMENTS",
+      "hint": "Buttons, sliders and inputs live in a UI"
     },
     {
       "clue": "Text File",
-      "answer": "DOCUMENT"
+      "answer": "DOCUMENT",
+      "hint": "A file you can read and edit as text"
     },
     {
       "clue": "Design Pattern",
-      "answer": "ABSTRACT"
+      "answer": "ABSTRACT",
+      "hint": "Opposite of concrete, hides the details"
     },
     {
       "clue": "Running Copy",
-      "answer": "INSTANCE"
+      "answer": "INSTANCE",
+      "hint": "A living object created from a class"
     },
     {
       "clue": "Code Version",
-      "answer": "REVISION"
+      "answer": "REVISION",
+      "hint": "A specific version of your code"
     },
     {
       "clue": "Display Devices",
-      "answer": "MONITORS"
+      "answer": "MONITORS",
+      "hint": "Screens that show your game"
     },
     {
       "clue": "Popular Sport",
-      "answer": "FOOTBALL"
+      "answer": "FOOTBALL",
+      "hint": "The world's most popular game, played with feet"
     },
     {
       "clue": "Bat And Ball",
-      "answer": "BASEBALL"
+      "answer": "BASEBALL",
+      "hint": "America's pastime, 9 innings per game"
     },
     {
       "clue": "Team Sport",
-      "answer": "HANDBALL"
+      "answer": "HANDBALL",
+      "hint": "Throwing a ball into a goal by hand"
     },
     {
       "clue": "Pool Sport",
-      "answer": "SWIMMING"
+      "answer": "SWIMMING",
+      "hint": "Race through water in a pool"
     },
     {
       "clue": "Long Distance Run",
-      "answer": "MARATHON"
+      "answer": "MARATHON",
+      "hint": "A race of about 42 kilometres"
     },
     {
       "clue": "Global Games",
-      "answer": "OLYMPICS"
+      "answer": "OLYMPICS",
+      "hint": "Held once every four years with a torch"
     },
     {
       "clue": "High Terrain",
-      "answer": "MOUNTAIN"
+      "answer": "MOUNTAIN",
+      "hint": "Everest is the tallest one"
     },
     {
       "clue": "Bright Daylight",
-      "answer": "SUNSHINE"
+      "answer": "SUNSHINE",
+      "hint": "Warm light coming from the sun"
     },
     {
       "clue": "Night Hour",
-      "answer": "MIDNIGHT"
+      "answer": "MIDNIGHT",
+      "hint": "Twelve hours after noon"
     },
     {
       "clue": "Annual Celebration",
-      "answer": "BIRTHDAY"
+      "answer": "BIRTHDAY",
+      "hint": "You get older every time it comes"
     },
     {
       "clue": "Time Off",
-      "answer": "VACATION"
+      "answer": "VACATION",
+      "hint": "A break away from work"
     },
     {
       "clue": "Citrus Drink",
-      "answer": "LEMONADE"
+      "answer": "LEMONADE",
+      "hint": "A cool, sour-and-sweet summer drink"
     },
     {
       "clue": "Green Vegetable",
-      "answer": "CUCUMBER"
+      "answer": "CUCUMBER",
+      "hint": "Long, green and very refreshing"
     },
     {
       "clue": "Green Veggie",
-      "answer": "BROCCOLI"
+      "answer": "BROCCOLI",
+      "hint": "Looks like a tiny green tree"
     },
     {
       "clue": "Fungus Food",
-      "answer": "MUSHROOM"
+      "answer": "MUSHROOM",
+      "hint": "A fungi that likes to be on pizza"
     },
     {
       "clue": "Comic Hero",
-      "answer": "SUPERMAN"
+      "answer": "SUPERMAN",
+      "hint": "The Man of Steel"
     },
     {
       "clue": "Hero Team",
-      "answer": "AVENGERS"
+      "answer": "AVENGERS",
+      "hint": "Earth's mightiest heroes assembled"
     },
     {
       "clue": "Famous Detective",
-      "answer": "SHERLOCK"
+      "answer": "SHERLOCK",
+      "hint": "Lives at 221B Baker Street"
     },
     {
       "clue": "Magic School",
-      "answer": "HOGWARTS"
+      "answer": "HOGWARTS",
+      "hint": "A wizard school with three castles"
     },
     {
       "clue": "Celtic Country",
-      "answer": "SCOTLAND"
+      "answer": "SCOTLAND",
+      "hint": "Part of the UK, north of England"
     },
     {
       "clue": "Asian Country",
-      "answer": "THAILAND"
+      "answer": "THAILAND",
+      "hint": "Known as the Land of Smiles"
     },
     {
       "clue": "Southeast Nation",
-      "answer": "MALAYSIA"
+      "answer": "MALAYSIA",
+      "hint": "Home to the Petronas Towers"
     },
     {
       "clue": "Iberian Country",
-      "answer": "PORTUGAL"
+      "answer": "PORTUGAL",
+      "hint": "Lisbon is its capital city"
     },
     {
       "clue": "African Country",
-      "answer": "BOTSWANA"
+      "answer": "BOTSWANA",
+      "hint": "Landlocked nation famous for its diamonds"
     },
     {
       "clue": "Southern Africa",
-      "answer": "ZIMBABWE"
+      "answer": "ZIMBABWE",
+      "hint": "Shares Victoria Falls with a neighbour"
     }
   ]
 }
