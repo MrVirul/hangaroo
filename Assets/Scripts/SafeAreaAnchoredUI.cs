@@ -22,6 +22,10 @@ public class SafeAreaAnchoredUI : MonoBehaviour
     [Tooltip("Extra distance kept from the safe-area edge (in canvas units).")]
     [SerializeField] private float insetPadding = 8f;
 
+    [Header("Adaptive")]
+    [Tooltip("Optional. When set, also pulls the element inward by the canvas overlap exposed by AdaptiveCanvasScaler, so edge UI stays on screen on aspect ratios where the canvas is larger than the device.")]
+    [SerializeField] private AdaptiveCanvasScaler adaptiveScaler;
+
     private RectTransform rect;
     private RectTransform reference;
     private Vector2 basePosition;
@@ -83,6 +87,13 @@ public class SafeAreaAnchoredUI : MonoBehaviour
 
         float dx = Mathf.Lerp(leftInset, -rightInset, horizontalAnchor);
         float dy = Mathf.Lerp(bottomInset, -topInset, verticalAnchor);
+
+        if (adaptiveScaler != null)
+        {
+            Vector2 overflow = adaptiveScaler.Overflow;
+            dx += overflow.x * (1f - 2f * horizontalAnchor);
+            dy += overflow.y * (1f - 2f * verticalAnchor);
+        }
 
         rect.anchoredPosition = basePosition + new Vector2(dx, dy);
     }

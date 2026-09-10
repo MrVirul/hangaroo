@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 3376050606780833931}
   - component: {fileID: 8525208758139920462}
   - component: {fileID: -5468463698738764793}
+  - component: {fileID: 8987283875965179066}
   m_Layer: 5
   m_Name: LetterSlot
   m_TagString: Untagged
@@ -228,3 +229,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LetterSlot
   letterText: {fileID: 8852129244692811458}
   isRevealed: 0
+--- !u!114 &8987283875965179066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428970831033285879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 76
+  m_PreferredHeight: 72
+  m_FlexibleWidth: 0
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
