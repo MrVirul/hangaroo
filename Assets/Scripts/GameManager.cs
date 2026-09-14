@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -124,9 +125,7 @@ public class GameManager : MonoBehaviour
         if (hintText == null)
             return;
 
-        bool enabled = PlayerPrefs.GetInt("Hints", 1) == 1;
-
-        hintText.gameObject.SetActive(enabled);
+        hintText.gameObject.SetActive(true);
 
         if (currentWord == null)
             return;
@@ -200,8 +199,13 @@ public class GameManager : MonoBehaviour
         if (slots.Count == 0 || letterSlotParent == null)
             return;
 
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)letterSlotParent);
+
         float availableWidth =
         ((RectTransform)letterSlotParent).rect.width;
+
+        if (availableWidth <= 0f)
+            return;
 
         float spacing = 5f;
 
