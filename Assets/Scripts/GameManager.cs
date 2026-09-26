@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     public TMP_Text clueText;
     public TMP_Text scoreText;
+    public TMP_Text hintText;
 
 
     private int score;
@@ -71,7 +73,7 @@ public class GameManager : MonoBehaviour
 
         foreach (WordData word in data.words)
         {
-            words.Add(new WordData(word.clue, word.answer));
+            words.Add(new WordData(word.clue, word.answer, word.hint));
         }
     }
 
@@ -112,7 +114,27 @@ public class GameManager : MonoBehaviour
 
         clueText.text = currentWord.clue;
 
+        RefreshHint();
+
         CreateLetterSlots();
+    }
+
+
+    public void RefreshHint()
+    {
+        if (hintText == null)
+            return;
+
+        hintText.gameObject.SetActive(true);
+
+        if (currentWord == null)
+            return;
+
+        string hint = string.IsNullOrEmpty(currentWord.hint)
+            ? currentWord.clue
+            : currentWord.hint;
+
+        hintText.text = hint;
     }
 
 
@@ -177,8 +199,13 @@ public class GameManager : MonoBehaviour
         if (slots.Count == 0 || letterSlotParent == null)
             return;
 
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)letterSlotParent);
+
         float availableWidth =
         ((RectTransform)letterSlotParent).rect.width;
+
+        if (availableWidth <= 0f)
+            return;
 
         float spacing = 5f;
 

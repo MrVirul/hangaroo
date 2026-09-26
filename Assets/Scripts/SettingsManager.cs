@@ -29,6 +29,12 @@ public class SettingsManager : MonoBehaviour
     }
 
 
+    public void OpenSettings()
+    {
+        gameObject.SetActive(true);
+    }
+
+
     public void ResetToDefault()
     {
         if (hintsToggle != null)
@@ -52,6 +58,9 @@ public class SettingsManager : MonoBehaviour
     public void Save()
     {
         SaveSettings();
+
+        if (GameManager.Instance != null)
+            GameManager.Instance.RefreshHint();
 
         gameObject.SetActive(false);
     }
@@ -169,8 +178,11 @@ public class SettingsManager : MonoBehaviour
 
     void SaveSettings()
     {
-        PlayerPrefs.SetInt("Hints", hintsToggle != null && hintsToggle.isOn ? 1 : 0);
-        PlayerPrefs.SetInt("ShowCategory", showCategoryToggle != null && showCategoryToggle.isOn ? 1 : 0);
+        if (hintsToggle != null)
+            PlayerPrefs.SetInt("Hints", hintsToggle.isOn ? 1 : 0);
+
+        if (showCategoryToggle != null)
+            PlayerPrefs.SetInt("ShowCategory", showCategoryToggle.isOn ? 1 : 0);
 
         if (difficultyDropdown != null)
             PlayerPrefs.SetInt("Difficulty", difficultyDropdown.value);
