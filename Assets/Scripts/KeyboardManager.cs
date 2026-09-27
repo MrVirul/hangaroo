@@ -4,24 +4,56 @@ using UnityEngine.UI;
 
 public class KeyboardManager : MonoBehaviour
 {
-    public void PressLetter(string letter)
+
+    public static KeyboardManager Instance;
+
+
+    void Awake()
     {
-        char selectedLetter = letter.ToUpper()[0];
-
-        GameManager.Instance.CheckLetter(selectedLetter);
-
-        DisableKey(letter);
+        Instance = this;
     }
 
-    private void DisableKey(string letter)
+
+    public void PressLetter(string letter)
     {
-        foreach (var button in GetComponentsInChildren<Button>(true))
+        if (string.IsNullOrEmpty(letter) || GameManager.Instance == null)
+            return;
+
+        GameManager.Instance.CheckLetter(letter.ToUpperInvariant()[0]);
+
+        RefreshKeys();
+    }
+
+
+    public void RefreshForNewWord()
+    {
+        RefreshKeys();
+    }
+
+
+    void RefreshKeys()
+    {
+        GameManager game = GameManager.Instance;
+
+        if (game == null)
+            return;
+
+        foreach (Button button in GetComponentsInChildren<Button>(true))
         {
-            if (button.name.Equals(letter, System.StringComparison.OrdinalIgnoreCase))
-            {
-                button.interactable = false;
-                return;
-            }
+            char letter = FirstLetter(button.name);
+
+            button.interactable = letter == '\0' || !game.IsLetterUsed(letter);
         }
+    }
+
+
+    static char FirstLetter(string buttonName)
+    {
+        if (string.IsNullOrEmpty(buttonName))
+            return '\0';
+
+        char first = buttonName.ToUpperInvariant()[0];
+
+        return char.IsLetter(first) ? first : '\0';
     }
 }
