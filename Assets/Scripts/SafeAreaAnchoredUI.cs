@@ -53,10 +53,11 @@ public class SafeAreaAnchoredUI : MonoBehaviour
     private void Update()
     {
         Vector2 size = new Vector2(Screen.width, Screen.height);
-        if (size != lastScreenSize || Screen.safeArea != lastSafeArea)
+        Rect safeArea = SafeAreaUtil.GetNormalizedSafeArea();
+        if (size != lastScreenSize || safeArea != lastSafeArea)
         {
             lastScreenSize = size;
-            lastSafeArea = Screen.safeArea;
+            lastSafeArea = safeArea;
             Apply();
         }
     }
@@ -72,10 +73,11 @@ public class SafeAreaAnchoredUI : MonoBehaviour
             return;
 
         lastScreenSize = new Vector2(Screen.width, Screen.height);
-        lastSafeArea = Screen.safeArea;
+        lastSafeArea = SafeAreaUtil.GetNormalizedSafeArea();
 
         // Distance (in reference-local units) between the reference edges and
-        // the safe-area edges.
+        // the safe-area edges. The safe area is clamped to the screen first so
+        // these insets can never exceed the reference rect.
         float leftInset = SafeAreaMin().x - reference.rect.xMin + insetPadding;
         float rightInset = reference.rect.xMax - SafeAreaMax().x + insetPadding;
         float bottomInset = SafeAreaMin().y - reference.rect.yMin + insetPadding;
@@ -100,17 +102,17 @@ public class SafeAreaAnchoredUI : MonoBehaviour
 
     private Vector2 SafeAreaMin()
     {
-        Rect safe = Screen.safeArea;
+        Vector2 fraction = SafeAreaUtil.GetNormalizedSafeAreaMinFraction();
         return new Vector2(
-            (safe.xMin / Screen.width - 0.5f) * reference.rect.width,
-            (safe.yMin / Screen.height - 0.5f) * reference.rect.height);
+            (fraction.x - 0.5f) * reference.rect.width,
+            (fraction.y - 0.5f) * reference.rect.height);
     }
 
     private Vector2 SafeAreaMax()
     {
-        Rect safe = Screen.safeArea;
+        Vector2 fraction = SafeAreaUtil.GetNormalizedSafeAreaMaxFraction();
         return new Vector2(
-            (safe.xMax / Screen.width - 0.5f) * reference.rect.width,
-            (safe.yMax / Screen.height - 0.5f) * reference.rect.height);
+            (fraction.x - 0.5f) * reference.rect.width,
+            (fraction.y - 0.5f) * reference.rect.height);
     }
 }

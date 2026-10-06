@@ -13,6 +13,10 @@
 /[lL]ocal[cC]ache/
 /[mM]emoryCaptures/
 /[rR]ecordings/
+/Assets/Screenshots/
+
+# Unity scratch / temp
+.utmp/
 
 # Memory Dumps
 *.lmp
