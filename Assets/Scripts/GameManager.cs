@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
     private int revealedCount;
 
 
+    private readonly UsedLetters usedLetters = new UsedLetters();
+
+
     [Header("Letter Slots")]
     public GameObject letterSlotPrefab;
     public Transform letterSlotParent;
@@ -112,11 +115,28 @@ public class GameManager : MonoBehaviour
 
         revealedCount = 0;
 
+        usedLetters.Clear();
+
         clueText.text = currentWord.clue;
 
         RefreshHint();
 
         CreateLetterSlots();
+
+        RefreshKeyboard();
+    }
+
+
+    void RefreshKeyboard()
+    {
+        if (KeyboardManager.Instance != null)
+            KeyboardManager.Instance.RefreshForNewWord();
+    }
+
+
+    public bool IsLetterUsed(char letter)
+    {
+        return usedLetters.Contains(letter);
     }
 
 
@@ -236,6 +256,9 @@ public class GameManager : MonoBehaviour
 
     public void CheckLetter(char guess)
     {
+
+        if (!usedLetters.TryAdd(guess))
+            return;
 
         bool correct = false;
 
