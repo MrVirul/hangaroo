@@ -156,14 +156,14 @@
       "hint": "The agreed rules of data exchange"
     },
     {
-      "clue": "Build Output",
+      "clue": "Ancient Relic",
       "answer": "ARTIFACT",
-      "hint": "The final file produced by a build"
+      "hint": "A historical object unearthed from the past"
     },
     {
-      "clue": "Available Asset",
+      "clue": "Natural Supply",
       "answer": "RESOURCE",
-      "hint": "Something reusable, like an icon or file"
+      "hint": "Water, timber or minerals"
     },
     {
       "clue": "Server Reply",
@@ -171,9 +171,9 @@
       "hint": "What a server sends back to a request"
     },
     {
-      "clue": "UI Components",
+      "clue": "Basic Elements",
       "answer": "ELEMENTS",
-      "hint": "Buttons, sliders and inputs live in a UI"
+      "hint": "Primary substances on the periodic table"
     },
     {
       "clue": "Text File",
@@ -181,24 +181,24 @@
       "hint": "A file you can read and edit as text"
     },
     {
-      "clue": "Design Pattern",
+      "clue": "Art Style",
       "answer": "ABSTRACT",
-      "hint": "Opposite of concrete, hides the details"
+      "hint": "Non-realistic shapes and colors"
     },
     {
-      "clue": "Running Copy",
+      "clue": "Single Example",
       "answer": "INSTANCE",
-      "hint": "A living object created from a class"
+      "hint": "A particular occurrence or case"
     },
     {
-      "clue": "Code Version",
+      "clue": "Updated Draft",
       "answer": "REVISION",
-      "hint": "A specific version of your code"
+      "hint": "An edited or corrected version of work"
     },
     {
-      "clue": "Display Devices",
+      "clue": "Computer Screens",
       "answer": "MONITORS",
-      "hint": "Screens that show your game"
+      "hint": "Displays connected to a computer"
     },
     {
       "clue": "Popular Sport",

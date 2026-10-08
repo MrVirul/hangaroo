@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
 
         usedLetters.Clear();
 
-        clueText.text = currentWord.clue;
+        RefreshClue();
 
         RefreshHint();
 
@@ -141,21 +141,37 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void RefreshClue()
+    {
+        if (clueText == null)
+            return;
+
+        bool showCategory = PlayerPrefs.GetInt("ShowCategory", 1) == 1;
+        clueText.gameObject.SetActive(showCategory);
+
+        if (!showCategory || currentWord == null)
+            return;
+
+        clueText.text = "CLUE: " + currentWord.clue.ToUpper();
+    }
+
+
     public void RefreshHint()
     {
         if (hintText == null)
             return;
 
-        hintText.gameObject.SetActive(true);
+        bool showHint = PlayerPrefs.GetInt("Hints", 1) == 1;
+        hintText.gameObject.SetActive(showHint);
 
-        if (currentWord == null)
+        if (!showHint || currentWord == null)
             return;
 
         string hint = string.IsNullOrEmpty(currentWord.hint)
             ? currentWord.clue
             : currentWord.hint;
 
-        hintText.text = hint;
+        hintText.text = "HINT: " + hint.ToUpper();
     }
 
 

@@ -60,7 +60,10 @@ public class SettingsManager : MonoBehaviour
         SaveSettings();
 
         if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RefreshClue();
             GameManager.Instance.RefreshHint();
+        }
 
         gameObject.SetActive(false);
     }
