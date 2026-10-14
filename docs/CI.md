@@ -1,52 +1,75 @@
 # CI
 
-`.github/workflows/unity-ci.yml` gates pull requests against `main`.
+## What GitHub runs
 
-## Jobs
+`.github/workflows/content-checks.yml` gates pull requests against `main` with
+checks that need **no Unity Editor** — they run on a stock `ubuntu-latest`
+runner with Python 3, so they work without a Unity licence.
 
 | Job | When | What it runs |
 |---|---|---|
-| `editmode-tests` | every PR and push to `main` | EditMode tests, then the word-list validator |
-| `playmode-tests` | `main` and tags only | PlayMode tests (slower, and needs a licence) |
+| `content` | every PR and push to `main` | `scripts/validate-content.py` |
 
-Fast checks run on every PR; the slow, licence-heavy PlayMode run is held back
-to `main`/tags so PR feedback stays in the minutes range.
+`scripts/validate-content.py` checks, without opening Unity:
 
-## Required repository secrets
+- `Assets/Data/words.json` parses, has a non-empty `words` array, and every entry
+  satisfies the shipped content policy — non-empty clue/hint, `A`–`Z` answers,
+  answer length 4–12, hint not duplicating the clue, no duplicate answers.
+- Every asset under `Assets/` has a `.meta` with a `guid:`, GUIDs are unique, and
+  every script under `Assets/Scripts/` has a `.meta`.
 
-Set these in **Settings → Secrets and variables → Actions**. None are committed.
+It is the **fast** gate. The Editor-side validators below remain the source of
+truth, so keep the length constants in `validate-content.py` in sync with
+`Assets/Scripts/Words/WordValidator.cs`.
 
-| Secret | Purpose |
-|---|---|
-| `UNITY_LICENSE` | Unity activation (`.ulf` contents for Personal/Pro) |
-| `UNITY_EMAIL` | Editor sign-in |
-| `UNITY_PASSWORD` | Editor sign-in |
+## Why there is no Unity job
 
-`UNITY_VERSION` is pinned to `6000.3.10f1` in the workflow, matching
-`ProjectSettings/ProjectVersion.txt`.
+The Unity tests used to run on GitHub via GameCI, but activating Unity in CI
+requires a licence secret. Without one, the container fails immediately:
 
-## Caching
-
-`Library/` is cached on `runner.os` + Unity version + hashes of
-`Packages/manifest.json` and `Packages/packages-lock.json`. Without it every run
-pays a full reimport.
-
-## Run the same checks locally
-
-```bash
-scripts/run-tests.sh EditMode      # same tests as the gate
-scripts/validate-words.sh          # same content check as the gate
+```
+License activation strategy could not be determined.
+  * UNITY_EMAIL + UNITY_PASSWORD                 - Personal (free) seat
+  * UNITY_EMAIL + UNITY_PASSWORD + UNITY_SERIAL  - Pro/Plus seat
+  * UNITY_LICENSE or UNITY_LICENSE_FILE          - a .ulf
 ```
 
-Both exit non-zero on failure, so they can be used as a pre-push hook.
+That job was removed so PRs are not blocked by an activation we cannot perform.
+The Unity-dependent checks are run **locally** instead (below). To restore a
+Unity job later, add one of the activation secrets in **Settings → Secrets and
+variables → Actions** and re-add a `game-ci/unity-test-runner@v4` job with
+`unityVersion: 6000.3.10f1`.
+
+## Run the checks locally
+
+The Editor **must be closed** while these run — Unity refuses to open a project
+that another instance already holds. Override the editor path with
+`UNITY=/path/to/Unity` if yours differs.
+
+| Check | Command |
+|---|---|
+| Content (same as CI, no Unity) | `python3 scripts/validate-content.py` |
+| EditMode tests | `scripts/run-tests.sh EditMode` |
+| PlayMode tests | `scripts/run-tests.sh PlayMode` |
+| Word list validator (Editor) | `scripts/validate-words.sh` |
+| Script reference validator (Editor) | `-executeMethod UnreferencedScriptValidator.ValidateBatchmode` |
+
+Each exits non-zero on failure, so they can be chained into a pre-push hook:
+
+```bash
+python3 scripts/validate-content.py && scripts/run-tests.sh EditMode && scripts/validate-words.sh
+```
+
+The two Editor validators are also available from the menu, which is handy while
+the project is open:
+
+- **Hangaroo → Content → Validate Word List**
+- **Hangaroo → Content → Validate Script References**
 
 ## Still outstanding (tracked in #39)
 
-- **Warning-free compile.** Warnings should be errors for the assemblies we own,
-  with third-party packages excluded. The blocker is the deprecated
-  `Object.FindObjectsOfType` call fixed in **#21**; the gate lands once the
-  project compiles clean.
-- **Branch protection.** `main` must require the `EditMode Tests & Word
-  Validation` check before merge (repository setting, not a file).
-- **Verified failure path.** "A failing test blocks the PR" has to be confirmed
-  by opening a deliberately failing PR against the live workflow.
+- **Verified failure path in CI.** "A failing check blocks the PR" is exercised
+  locally, but has not been confirmed against the live workflow with a
+  deliberately broken commit.
+- **Branch protection.** `main` should require the `Word list & asset metadata`
+  check before merge (a repository setting, not a file).
