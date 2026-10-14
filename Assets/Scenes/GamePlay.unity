@@ -2208,9 +2208,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Exit
-
-'
+  m_text: Exit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 56f52370398aa442d837962fcf7d4a7f, type: 2}
   m_sharedMaterial: {fileID: -4580782342501228099, guid: 56f52370398aa442d837962fcf7d4a7f, type: 2}
@@ -4270,11 +4268,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   wordsFile: {fileID: 4900000, guid: 18d8822287d2640e4988928871c1486c, type: 3}
+  minAnswerLength: 4
+  maxAnswerLength: 12
   clueText: {fileID: 1359425569}
   scoreText: {fileID: 424454011}
   hintText: {fileID: 457500143}
   letterSlotPrefab: {fileID: 5428970831033285879, guid: bb573871c121a402c9778c3c2499e1a0, type: 3}
   letterSlotParent: {fileID: 1293384967}
+  minSlotWidth: 32
 --- !u!1 &861202671
 GameObject:
   m_ObjectHideFlags: 0
@@ -6372,6 +6373,7 @@ GameObject:
   - component: {fileID: 1313521211}
   - component: {fileID: 1313521210}
   - component: {fileID: 1313521209}
+  - component: {fileID: 1313521212}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -6445,11 +6447,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 812764146}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ExitToMainMenu
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6493,6 +6495,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1313521207}
   m_CullTransparentMesh: 1
+--- !u!114 &1313521212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313521207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717275f6282154ed7a06f39373c84ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuitButton
 --- !u!1 &1359425567
 GameObject:
   m_ObjectHideFlags: 0
@@ -8212,7 +8226,7 @@ GameObject:
   - component: {fileID: 1922460454}
   - component: {fileID: 1922460453}
   m_Layer: 5
-  m_Name: Main Manue
+  m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

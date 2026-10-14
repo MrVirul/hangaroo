@@ -41,8 +41,15 @@ public class GameManager : MonoBehaviour
     public GameObject letterSlotPrefab;
     public Transform letterSlotParent;
 
+    [Tooltip("Smallest width the fit-to-width pass will shrink a letter slot to (legibility floor).")]
+    [Min(1f)] public float minSlotWidth = SlotStripLayout.MinSlotWidth;
+
 
     private List<LetterSlot> slots = new List<LetterSlot>();
+
+    // Authored slot width, captured once from the prefab's LayoutElement so the
+    // fit pass can restore it when a word is short enough to fit at full size.
+    private float authoredSlotWidth = -1f;
 
     private List<int> wordOrder = new List<int>();
     private int wordPosition;
@@ -264,48 +271,91 @@ public class GameManager : MonoBehaviour
         if (slots.Count == 0 || letterSlotParent == null)
             return;
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)letterSlotParent);
+        RectTransform container = (RectTransform)letterSlotParent;
 
-        if (letterSlotParent.parent is RectTransform parentRt)
+        LayoutRebuilder.ForceRebuildLayoutImmediate(container);
+
+        if (container.parent is RectTransform parentRt)
         {
             LayoutRebuilder.ForceRebuildLayoutImmediate(parentRt);
         }
 
-        float availableWidth =
-        ((RectTransform)letterSlotParent).rect.width;
+        float availableWidth = container.rect.width;
 
         if (availableWidth <= 0f)
             return;
 
         float spacing = 10f;
-        var hlg = ((RectTransform)letterSlotParent).GetComponent<HorizontalLayoutGroup>();
+        var hlg = container.GetComponent<HorizontalLayoutGroup>();
         if (hlg != null) spacing = hlg.spacing;
 
-        float total = 0f;
+        float fittedWidth = SlotStripLayout.FitSlotWidth(
+            slots.Count,
+            availableWidth,
+            spacing,
+            ResolveAuthoredSlotWidth(),
+            minSlotWidth);
 
         foreach (LetterSlot slot in slots)
         {
-            total += ((RectTransform)slot.transform).rect.width;
+            SetSlotWidth(slot, fittedWidth);
         }
 
-        total += spacing * (slots.Count - 1);
+        // A layout group ignores localScale, so the strip is resized by writing
+        // each slot's RectTransform width and LayoutElement, then rebuilding.
+        LayoutRebuilder.ForceRebuildLayoutImmediate(container);
 
-        if (total <= availableWidth)
+    }
+
+
+    float ResolveAuthoredSlotWidth()
+    {
+
+        if (authoredSlotWidth > 0f)
+            return authoredSlotWidth;
+
+        if (letterSlotPrefab != null)
         {
-            foreach (LetterSlot slot in slots)
-            {
-                slot.transform.localScale = Vector3.one;
-            }
+            var prefabLayout = letterSlotPrefab.GetComponent<LayoutElement>();
+
+            if (prefabLayout != null && prefabLayout.preferredWidth > 0f)
+                authoredSlotWidth = prefabLayout.preferredWidth;
+        }
+
+        if (authoredSlotWidth <= 0f)
+            authoredSlotWidth = 100f;
+
+        return authoredSlotWidth;
+
+    }
+
+
+    static void SetSlotWidth(LetterSlot slot, float width)
+    {
+
+        if (slot == null)
             return;
-        }
 
-        float scale = availableWidth / total;
+        // A HorizontalLayoutGroup only drives child widths when childControlWidth
+        // is on; otherwise it lays children out at their RectTransform width.
+        // Keep both in sync so the fit applies either way (issue #16, part 2).
+        var rt = slot.transform as RectTransform;
 
-        foreach (LetterSlot slot in slots)
+        if (rt != null)
         {
-            slot.transform.localScale =
-            Vector3.one * scale;
+            var size = rt.sizeDelta;
+            size.x = width;
+            rt.sizeDelta = size;
         }
+
+        var layout = slot.GetComponent<LayoutElement>();
+
+        if (layout == null)
+            return;
+
+        layout.minWidth = width;
+        layout.preferredWidth = width;
+        layout.flexibleWidth = 0f;
 
     }
 
@@ -386,6 +436,16 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
+    }
+
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
 }
