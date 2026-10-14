@@ -603,7 +603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   bgMusic: {fileID: 8300000, guid: f77e55f95e8d34dbcbac39e70472dd74, type: 3}
-  musicVolume: 0.078
+  defaultMusicVolume: 0.078
   clickSound: {fileID: 8300000, guid: f0579cc5af2444ac799d64fdbb8572ce, type: 3}
   victorySound: {fileID: 8300000, guid: 3f6defd21e56f464da1c394fa55c9657, type: 3}
   defeatSound: {fileID: 8300000, guid: 565d5f31cdd9e4f6291fb7fac41d7313, type: 3}
