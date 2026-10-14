@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa3919b2ef2be485c8a83d042fe72e02, type: 3}
+  m_Name: DifficultyLibrary
+  m_EditorClassIdentifier: Hangaroo.Difficulty::DifficultyLibrary
+  configs:
+  - {fileID: 11400000, guid: 1a72d01657a9e4ee2912f41df1baf34d, type: 2}
+  - {fileID: 11400000, guid: 38dfa4955e9744b9280a50c56b6159f7, type: 2}
+  - {fileID: 11400000, guid: 16f91c47c4e1e4835917d42b8c29d1f7, type: 2}

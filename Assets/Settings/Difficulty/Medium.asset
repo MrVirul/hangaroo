@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56a67c924306d4ecca316200fad70ea3, type: 3}
+  m_Name: Medium
+  m_EditorClassIdentifier: Hangaroo.Difficulty::DifficultyConfig
+  id: 1
+  displayName: Medium
+  description: 'The default run: three lives, six-to-eight letter words, hint after
+    two misses.'
+  livesPerWord: 3
+  minWordLength: 6
+  maxWordLength: 8
+  hintPolicy: 1
+  hintThresholdWrongGuesses: 2
+  hintScorePenalty: 0
+  scoreMultiplier: 1.5
