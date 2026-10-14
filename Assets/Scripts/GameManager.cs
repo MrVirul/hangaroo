@@ -46,7 +46,21 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Time.timeScale = 1f;
         Instance = this;
+
+        // Auto-heal PlayerPrefs: ensure ShowCategory and Hints default to enabled (1).
+        // Older versions of SettingsManager saved 0 when toggle references were unassigned.
+        if (PlayerPrefs.GetInt("ShowCategory", 1) == 0)
+        {
+            PlayerPrefs.SetInt("ShowCategory", 1);
+        }
+
+        if (PlayerPrefs.GetInt("Hints", 1) == 0)
+        {
+            PlayerPrefs.SetInt("Hints", 1);
+        }
+        PlayerPrefs.Save();
 
         LoadWords();
         BuildWordOrder();
@@ -118,7 +132,7 @@ public class GameManager : MonoBehaviour
 
         usedLetters.Clear();
 
-        clueText.text = currentWord.clue;
+        RefreshClue();
 
         RefreshHint();
 
@@ -141,21 +155,39 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void RefreshClue()
+    {
+        if (clueText == null)
+            return;
+
+        bool showCategory = PlayerPrefs.GetInt("ShowCategory", 1) == 1;
+        clueText.gameObject.SetActive(showCategory);
+
+        if (!showCategory || currentWord == null)
+            return;
+
+        clueText.text = "CLUE: " + currentWord.clue.ToUpper();
+        clueText.ForceMeshUpdate();
+    }
+
+
     public void RefreshHint()
     {
         if (hintText == null)
             return;
 
-        hintText.gameObject.SetActive(true);
+        bool showHint = PlayerPrefs.GetInt("Hints", 1) == 1;
+        hintText.gameObject.SetActive(showHint);
 
-        if (currentWord == null)
+        if (!showHint || currentWord == null)
             return;
 
         string hint = string.IsNullOrEmpty(currentWord.hint)
             ? currentWord.clue
             : currentWord.hint;
 
-        hintText.text = hint;
+        hintText.text = "HINT: " + hint.ToUpper();
+        hintText.ForceMeshUpdate();
     }
 
 
@@ -341,6 +373,7 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
