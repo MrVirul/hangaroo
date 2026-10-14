@@ -305,9 +305,7 @@ public class GameManager : MonoBehaviour
         if (!usedLetters.TryAdd(guess))
             return;
 
-        bool correct = false;
-
-        int points = LetterValue(guess);
+        int revealedThisGuess = 0;
 
 
         foreach (LetterSlot slot in slots)
@@ -316,16 +314,16 @@ public class GameManager : MonoBehaviour
             if (slot.GetLetter() == guess)
             {
                 slot.ShowLetter();
-                correct = true;
                 revealedCount++;
+                revealedThisGuess++;
             }
 
         }
 
 
-        if (correct)
+        if (revealedThisGuess > 0)
         {
-            score += points * revealedCount;
+            score += ScoreCalculator.BasePoints(guess, revealedThisGuess);
             UpdateScore();
         }
         else
@@ -337,12 +335,6 @@ public class GameManager : MonoBehaviour
 
         CheckWin();
 
-    }
-
-
-    int LetterValue(char letter)
-    {
-        return char.ToUpper(letter) - 'A' + 1;
     }
 
 
