@@ -37,6 +37,12 @@ public class GameManager : MonoBehaviour
     private readonly UsedLetters usedLetters = new UsedLetters();
 
 
+    // Run lifecycle: the scene mirrors it, it is never owned by the UI.
+    private RunLifecycle run;
+    private readonly IBestScoreStore bestScoreStore = new PlayerPrefsBestScoreStore();
+    private bool runEnded;
+
+
     [Header("Letter Slots")]
     public GameObject letterSlotPrefab;
     public Transform letterSlotParent;
@@ -82,7 +88,32 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        StartRun();
         LoadWord();
+    }
+
+
+    /// <summary>
+    /// Begins a fresh run for the active difficulty. Lives come from the
+    /// difficulty config (per word), so they are not derived from the scene.
+    /// </summary>
+    void StartRun()
+    {
+        DifficultyConfig config = DifficultyLibrary.CurrentConfig;
+        int livesPerWord = config != null ? config.livesPerWord : 4;
+
+        score = 0;
+        runEnded = false;
+
+        run = new RunLifecycle(
+            new RunState
+            {
+                runId = System.Guid.NewGuid().ToString("N"),
+                difficulty = DifficultyLibrary.Current,
+                totalWords = words.Count,
+                startedAtUnixMs = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+            },
+            livesPerWord);
     }
 
 
@@ -151,9 +182,17 @@ public class GameManager : MonoBehaviour
 
         usedLetters.Clear();
 
+        // Lives are per word: every word starts with a full set (issue #19).
+        if (run != null)
+            run.BeginWord();
+
+        if (HeartManager.Instance != null && run != null)
+            HeartManager.Instance.ResetLives(run.MaxLivesPerWord);
+
         RefreshClue();
 
-        RefreshHint();
+        if (RefreshHint() && run != null)
+            run.RegisterHint();
 
         CreateLetterSlots();
 
@@ -190,16 +229,17 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void RefreshHint()
+    /// <summary>Refreshes the hint line. Returns true when a hint is now visible.</summary>
+    public bool RefreshHint()
     {
         if (hintText == null)
-            return;
+            return false;
 
         bool showHint = PlayerPrefs.GetInt("Hints", 1) == 1;
         hintText.gameObject.SetActive(showHint);
 
         if (!showHint || currentWord == null)
-            return;
+            return false;
 
         string hint = string.IsNullOrEmpty(currentWord.hint)
             ? currentWord.clue
@@ -207,18 +247,22 @@ public class GameManager : MonoBehaviour
 
         hintText.text = "HINT: " + hint.ToUpper();
         hintText.ForceMeshUpdate();
+
+        return true;
     }
 
 
     public void ContinueGame()
     {
+        if (runEnded)
+            return;
+
         ClearSlots();
 
-        if (HeartManager.Instance.HasLives())
-        {
-            UIManager.Instance.HideVictory();
-            LoadWord();
-        }
+        if (UIManager.Instance != null)
+            UIManager.Instance.HideEndPanels();
+
+        LoadWord();
     }
 
 
@@ -364,6 +408,9 @@ public class GameManager : MonoBehaviour
     public void CheckLetter(char guess)
     {
 
+        if (runEnded || run == null)
+            return;
+
         if (!usedLetters.TryAdd(guess))
             return;
 
@@ -385,12 +432,23 @@ public class GameManager : MonoBehaviour
 
         if (revealedThisGuess > 0)
         {
-            score += ScoreCalculator.BasePoints(guess, revealedThisGuess);
+            run.RegisterCorrectGuess(ScoreCalculator.BasePoints(guess, revealedThisGuess));
+            score = run.State.score;
             UpdateScore();
         }
         else
         {
-            HeartManager.Instance.LoseHeart();
+            bool wordFailed = run.RegisterWrongGuess();
+
+            if (HeartManager.Instance != null)
+                HeartManager.Instance.SetLives(run.LivesRemaining);
+
+            if (wordFailed)
+            {
+                run.FailWord();
+                EndRun(false);
+                return;
+            }
         }
 
 
@@ -417,11 +475,42 @@ public class GameManager : MonoBehaviour
                 return;
         }
 
+        run.CompleteWord();
 
-        Debug.Log("Victory");
+        // Every word solved: show the run-complete summary instead of looping.
+        if (run.IsRunComplete)
+        {
+            EndRun(true);
+            return;
+        }
 
         UIManager.Instance.ShowVictory(currentWord.answer, score.ToString());
 
+    }
+
+
+    /// <summary>
+    /// Ends the current run, folds it into the local personal best, and shows the
+    /// matching panel. Restarting later builds a fresh run in <see cref="StartRun"/>.
+    /// </summary>
+    void EndRun(bool completedAllWords)
+    {
+        runEnded = true;
+
+        long finishedAt = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        RunSummary summary = RunSummary.From(run.State, finishedAt, completedAllWords);
+
+        PersonalBest best = bestScoreStore.Load();
+        summary.isNewBestScore = best.Record(summary);
+        bestScoreStore.Save(best);
+
+        if (UIManager.Instance == null)
+            return;
+
+        if (completedAllWords)
+            UIManager.Instance.ShowRunComplete(summary, best);
+        else
+            UIManager.Instance.ShowGameOver(summary.score.ToString());
     }
 
 

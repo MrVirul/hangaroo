@@ -10,12 +10,18 @@ public class UIManager : MonoBehaviour
 
     public GameObject gameOverPanel;
     public GameObject victoryPanel;
+    public GameObject runCompletePanel;
     public GameObject pausePanel;
     public GameObject hud;
 
     public TMP_Text victoryAnswerText;
     public TMP_Text victoryScoreText;
     public TMP_Text gameOverScoreText;
+
+    [Tooltip("Optional title shown on the run-complete panel (e.g. 'RUN COMPLETE').")]
+    public TMP_Text runCompleteTitleText;
+    [Tooltip("End-of-run summary lines shown on the run-complete panel.")]
+    public TMP_Text runCompleteSummaryText;
 
 
     void Awake()
@@ -26,10 +32,11 @@ public class UIManager : MonoBehaviour
 
     private void InitializePanels()
     {
-        if (gameOverPanel != null) gameOverPanel.SetActive(false);
-        if (victoryPanel != null)  victoryPanel.SetActive(false);
-        if (pausePanel != null)    pausePanel.SetActive(false);
-        if (hud != null)           hud.SetActive(true);
+        if (gameOverPanel != null)   gameOverPanel.SetActive(false);
+        if (victoryPanel != null)    victoryPanel.SetActive(false);
+        if (runCompletePanel != null) runCompletePanel.SetActive(false);
+        if (pausePanel != null)      pausePanel.SetActive(false);
+        if (hud != null)             hud.SetActive(true);
 
         Transform settings = transform.Find("Settings_Panel");
         if (settings != null) settings.gameObject.SetActive(false);
@@ -92,6 +99,55 @@ public class UIManager : MonoBehaviour
     public void HideVictory()
     {
         victoryPanel.SetActive(false);
+
+        if (hud != null)
+            hud.SetActive(true);
+    }
+
+
+    /// <summary>
+    /// Completing every word in a run: shows the distinct run-complete summary
+    /// instead of looping straight into another word.
+    /// </summary>
+    public void ShowRunComplete(RunSummary summary, PersonalBest best)
+    {
+        if (runCompleteTitleText != null && summary != null)
+        {
+            runCompleteTitleText.text = summary.isNewBestScore ? "NEW BEST!" : "RUN COMPLETE";
+        }
+
+        if (runCompleteSummaryText != null && summary != null)
+        {
+            int accuracy = Mathf.RoundToInt(summary.Accuracy * 100f);
+            int personalBest = best != null ? best.bestScore : summary.score;
+
+            runCompleteSummaryText.text =
+                "Score: " + summary.score + "\n" +
+                "Words: " + summary.wordsSolved + "/" + summary.totalWords + "\n" +
+                "Accuracy: " + accuracy + "%\n" +
+                "Hints: " + summary.hintsUsed + "\n" +
+                "Best streak: " + summary.bestStreak + "\n" +
+                "Personal best: " + personalBest;
+            runCompleteSummaryText.ForceMeshUpdate();
+        }
+
+        if (hud != null)
+            hud.SetActive(false);
+
+        if (runCompletePanel != null)
+            runCompletePanel.SetActive(true);
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayVictory();
+    }
+
+
+    /// <summary>Hides every end-of-run panel and restores the HUD.</summary>
+    public void HideEndPanels()
+    {
+        if (victoryPanel != null)    victoryPanel.SetActive(false);
+        if (gameOverPanel != null)   gameOverPanel.SetActive(false);
+        if (runCompletePanel != null) runCompletePanel.SetActive(false);
 
         if (hud != null)
             hud.SetActive(true);
