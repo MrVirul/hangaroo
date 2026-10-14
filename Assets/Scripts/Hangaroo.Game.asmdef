@@ -1,0 +1,22 @@
+{
+    "name": "Hangaroo.Game",
+    "rootNamespace": "",
+    "references": [
+        "Unity.TextMeshPro",
+        "UnityEngine.UI",
+        "Hangaroo.Difficulty",
+        "Hangaroo.Layout",
+        "Hangaroo.Run",
+        "Hangaroo.Scoring",
+        "Hangaroo.Words"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
