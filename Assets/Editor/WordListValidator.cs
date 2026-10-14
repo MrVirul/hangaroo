@@ -68,6 +68,30 @@ public static class WordListValidator
 
         Debug.LogError("[WordListValidator] " + problems.Count + " problem(s) in " + WordsAssetPath + ".");
     }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// Batchmode entry point for CI. Logs any problems and exits with a non-zero
+    /// code on failure so the workflow gates the PR.
+    /// </summary>
+    public static void ValidateWordListBatchmode()
+    {
+        List<string> problems = Validate();
+
+        if (problems.Count == 0)
+        {
+            Debug.Log("[WordListValidator] " + WordsAssetPath + " is valid.");
+            EditorApplication.Exit(0);
+            return;
+        }
+
+        foreach (string problem in problems)
+            Debug.LogError("[WordListValidator] " + problem);
+
+        Debug.LogError("[WordListValidator] " + problems.Count + " problem(s) in " + WordsAssetPath + ".");
+        EditorApplication.Exit(1);
+    }
+#endif
 }
 
 /// <summary>Validates the word list on every build and fails the build if it is malformed.</summary>
