@@ -6,7 +6,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Music")]
     [SerializeField] private AudioClip bgMusic;
-    [SerializeField, Range(0f, 1f)] private float musicVolume = 0.15f;
+    [SerializeField, Range(0f, 1f)] private float defaultMusicVolume = 0.15f;
 
     [Header("SFX")]
     [SerializeField] private AudioClip clickSound;
@@ -20,11 +20,17 @@ public class AudioManager : MonoBehaviour
     public bool GameSoundsEnabled { get; private set; } = true;
     public bool MusicEnabled { get; private set; } = true;
     public float SfxVolume { get; private set; } = 1f;
+    public float MusicVolume { get; private set; } = 0.15f;
 
     private void Awake()
     {
         if (Instance != null)
         {
+            Debug.LogWarning(
+                "[AudioManager] A second AudioManager was found in scene '" +
+                gameObject.scene.name + "'. Exactly one should be authored (in splash); " +
+                "this duplicate will be destroyed.",
+                this);
             Destroy(gameObject);
             return;
         }
@@ -38,7 +44,7 @@ public class AudioManager : MonoBehaviour
         musicSource.loop = true;
         musicSource.playOnAwake = false;
         musicSource.clip = bgMusic;
-        musicSource.volume = musicVolume * SfxVolume;
+        musicSource.volume = MusicVolume;
 
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.playOnAwake = false;
@@ -51,27 +57,42 @@ public class AudioManager : MonoBehaviour
     public void SetSfxVolume(float volume)
     {
         SfxVolume = Mathf.Clamp01(volume);
+        PlayerPrefs.SetFloat("SfxVolume", SfxVolume);
+        PlayerPrefs.Save();
 
         if (sfxSource != null)
             sfxSource.volume = SfxVolume;
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        MusicVolume = Mathf.Clamp01(volume);
+        PlayerPrefs.SetFloat("MusicVolume", MusicVolume);
+        PlayerPrefs.Save();
 
         if (musicSource != null)
-            musicSource.volume = musicVolume * SfxVolume;
+            musicSource.volume = MusicVolume;
     }
 
     public void SetClickEnabled(bool enabled)
     {
         ClickEnabled = enabled;
+        PlayerPrefs.SetInt("ClickSound", enabled ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     public void SetGameSoundsEnabled(bool enabled)
     {
         GameSoundsEnabled = enabled;
+        PlayerPrefs.SetInt("GameSounds", enabled ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     public void SetMusicEnabled(bool enabled)
     {
         MusicEnabled = enabled;
+        PlayerPrefs.SetInt("MusicEnabled", enabled ? 1 : 0);
+        PlayerPrefs.Save();
         ApplyMusicState();
     }
 
@@ -129,5 +150,6 @@ public class AudioManager : MonoBehaviour
         ClickEnabled = PlayerPrefs.GetInt("ClickSound", 1) == 1;
         GameSoundsEnabled = PlayerPrefs.GetInt("GameSounds", 1) == 1;
         MusicEnabled = PlayerPrefs.GetInt("MusicEnabled", 1) == 1;
+        MusicVolume = Mathf.Clamp01(PlayerPrefs.GetFloat("MusicVolume", defaultMusicVolume));
     }
 }
