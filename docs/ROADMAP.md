@@ -7,9 +7,9 @@
 | **Repository** | [`MrVirul/hangaroo`](https://github.com/MrVirul/hangaroo) |
 | **Project board** | [HANGARoo Roadmap](https://github.com/users/MrVirul/projects/12) |
 | **Issues** | 12 current bugs (#10–#21) · 4 EPICs (#22–#25) · 15 stories (#26–#40) |
-| **Rules of record** | [`AGENTS.md`](../AGENTS.md) — prefab binding conventions, verification limits |
+| **Rules of record** | [`docs/TESTING.md`](TESTING.md) — test suite, conventions, verification limits |
 
-> **Verification note.** Per `AGENTS.md` there is no test suite, linter or CI, and the project cannot be built from the CLI (`Assembly-CSharp.csproj` hard-references `/Applications/Unity/Hub/Editor/6000.3.10f1/`). Until **Wave 1** lands, the only verification for every item below is opening the Unity editor and confirming a clean console. The items in Wave 1 exist to change that.
+> **Verification note.** **Wave 1 (#38) has landed**: the project now ships EditMode and PlayMode suites that run headlessly via `scripts/run-tests.sh`, which exits non-zero on failure. See [`docs/TESTING.md`](TESTING.md) for how to run them and what is covered. The project still cannot be **built** from the CLI (`Assembly-CSharp.csproj` hard-references `/Applications/Unity/Hub/Editor/6000.3.10f1/`), and there is no CI wiring yet — that is **#39**.
 
 ---
 
