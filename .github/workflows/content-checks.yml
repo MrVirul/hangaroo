@@ -1,0 +1,23 @@
+name: Content Checks
+
+# Checks that need no Unity Editor, so they run on every PR without a licence.
+# The Unity-dependent gates (EditMode tests, the Editor content validators) are
+# run locally — see docs/CI.md.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  content:
+    name: Word list & asset metadata
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate word list and asset metadata
+        run: python3 scripts/validate-content.py
