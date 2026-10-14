@@ -21,6 +21,21 @@ public class UIManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        InitializePanels();
+    }
+
+    private void InitializePanels()
+    {
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (victoryPanel != null)  victoryPanel.SetActive(false);
+        if (pausePanel != null)    pausePanel.SetActive(false);
+        if (hud != null)           hud.SetActive(true);
+
+        Transform settings = transform.Find("Settings_Panel");
+        if (settings != null) settings.gameObject.SetActive(false);
+
+        Transform howToPlay = transform.Find("How to Play Panel");
+        if (howToPlay != null) howToPlay.gameObject.SetActive(false);
     }
 
 

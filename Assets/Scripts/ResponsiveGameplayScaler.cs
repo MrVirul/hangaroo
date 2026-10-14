@@ -89,7 +89,7 @@ public class ResponsiveGameplayScaler : MonoBehaviour
     /// </summary>
     public void ApplyLayout()
     {
-        if (rect == null || reference == null)
+        if (!isActiveAndEnabled || rect == null || reference == null)
             return;
 
         lastScreenSize = new Vector2(Screen.width, Screen.height);

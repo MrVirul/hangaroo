@@ -46,7 +46,21 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Time.timeScale = 1f;
         Instance = this;
+
+        // Auto-heal PlayerPrefs: ensure ShowCategory and Hints default to enabled (1).
+        // Older versions of SettingsManager saved 0 when toggle references were unassigned.
+        if (PlayerPrefs.GetInt("ShowCategory", 1) == 0)
+        {
+            PlayerPrefs.SetInt("ShowCategory", 1);
+        }
+
+        if (PlayerPrefs.GetInt("Hints", 1) == 0)
+        {
+            PlayerPrefs.SetInt("Hints", 1);
+        }
+        PlayerPrefs.Save();
 
         LoadWords();
         BuildWordOrder();
@@ -153,6 +167,7 @@ public class GameManager : MonoBehaviour
             return;
 
         clueText.text = "CLUE: " + currentWord.clue.ToUpper();
+        clueText.ForceMeshUpdate();
     }
 
 
@@ -172,6 +187,7 @@ public class GameManager : MonoBehaviour
             : currentWord.hint;
 
         hintText.text = "HINT: " + hint.ToUpper();
+        hintText.ForceMeshUpdate();
     }
 
 
@@ -357,6 +373,7 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

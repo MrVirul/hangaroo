@@ -18,6 +18,16 @@ public static class UITools
         ConfigureTarget(ConfigureLetter);
     }
 
+    [MenuItem("Tools/Fix Clue & Hint (Enable in PlayerPrefs)")]
+    public static void FixHintsAndCluesPlayerPrefs()
+    {
+        PlayerPrefs.SetInt("ShowCategory", 1);
+        PlayerPrefs.SetInt("Hints", 1);
+        PlayerPrefs.Save();
+        Debug.Log("[UITools] Successfully set ShowCategory=1 and Hints=1 in PlayerPrefs.");
+        EditorUtility.DisplayDialog("PlayerPrefs Updated", "ShowCategory and Hints have been set to 1 in PlayerPrefs.", "OK");
+    }
+
     private static void ConfigureTarget(Action<GameObject, bool> configure)
     {
         GameObject selected = Selection.activeGameObject;
