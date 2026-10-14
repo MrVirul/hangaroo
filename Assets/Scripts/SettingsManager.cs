@@ -196,7 +196,7 @@ public class SettingsManager : MonoBehaviour
             PlayerPrefs.SetInt("ShowCategory", 1);
 
         if (difficultyDropdown != null)
-            PlayerPrefs.SetInt("Difficulty", difficultyDropdown.value);
+            DifficultyLibrary.SetCurrent(DifficultyIdExtensions.FromPlayerPrefs(difficultyDropdown.value));
 
         if (AudioManager.Instance != null)
         {
@@ -219,7 +219,7 @@ public class SettingsManager : MonoBehaviour
             showCategoryToggle.isOn = PlayerPrefs.GetInt("ShowCategory", 1) == 1;
 
         if (difficultyDropdown != null)
-            difficultyDropdown.value = PlayerPrefs.GetInt("Difficulty", 0);
+            difficultyDropdown.value = DifficultyLibrary.Current.ToPlayerPrefs();
     }
 
 }
