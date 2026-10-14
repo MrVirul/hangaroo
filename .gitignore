@@ -18,6 +18,9 @@
 # Unity scratch / temp
 .utmp/
 
+# Local tooling state (NuGet fallback packages, machine-specific)
+.local/
+
 # Memory Dumps
 *.lmp
 
