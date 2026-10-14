@@ -55,21 +55,30 @@ public class SettingsManager : MonoBehaviour
         ApplyGameSounds(true);
         ApplyBgMusic(true);
 
+        // "Reset To Default" reads as a committed action, so write the values
+        // through and close the panel exactly like Save does.
+        SaveSettings();
         RefreshAudioSettings();
+        RefreshGameplay();
+        gameObject.SetActive(false);
     }
 
 
     public void Save()
     {
         SaveSettings();
+        RefreshGameplay();
+        gameObject.SetActive(false);
+    }
 
+
+    void RefreshGameplay()
+    {
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RefreshClue();
             GameManager.Instance.RefreshHint();
         }
-
-        gameObject.SetActive(false);
     }
 
 
@@ -77,6 +86,8 @@ public class SettingsManager : MonoBehaviour
     {
         if (AudioManager.Instance != null)
             AudioManager.Instance.SetSfxVolume(value);
+
+        PersistVolume(value);
     }
 
 
@@ -120,8 +131,11 @@ public class SettingsManager : MonoBehaviour
     {
         if (volumeSlider != null)
             volumeSlider.value = value;
-        else if (AudioManager.Instance != null)
+
+        if (AudioManager.Instance != null)
             AudioManager.Instance.SetSfxVolume(value);
+
+        PersistVolume(value);
     }
 
 
@@ -130,6 +144,7 @@ public class SettingsManager : MonoBehaviour
         if (AudioManager.Instance != null)
             AudioManager.Instance.SetClickEnabled(enabled);
 
+        PersistToggle("ClickSound", enabled);
         UpdateButtonVisual(clickSoundButton, enabled);
     }
 
@@ -139,6 +154,7 @@ public class SettingsManager : MonoBehaviour
         if (AudioManager.Instance != null)
             AudioManager.Instance.SetGameSoundsEnabled(enabled);
 
+        PersistToggle("GameSounds", enabled);
         UpdateButtonVisual(gameSoundsButton, enabled);
     }
 
@@ -148,7 +164,24 @@ public class SettingsManager : MonoBehaviour
         if (AudioManager.Instance != null)
             AudioManager.Instance.SetMusicEnabled(enabled);
 
+        PersistToggle("MusicEnabled", enabled);
         UpdateButtonVisual(bgMusicButton, enabled);
+    }
+
+
+    // Audio changes are written through on every interaction so the panel's exit
+    // path is no longer load-bearing: closing it by any route keeps the choice.
+    static void PersistToggle(string key, bool value)
+    {
+        PlayerPrefs.SetInt(key, value ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+
+    static void PersistVolume(float value)
+    {
+        PlayerPrefs.SetFloat("SfxVolume", value);
+        PlayerPrefs.Save();
     }
 
 

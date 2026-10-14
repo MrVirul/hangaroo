@@ -5,7 +5,9 @@ public class ButtonClickSound : MonoBehaviour
 {
     private void Start()
     {
-        Button[] buttons = Object.FindObjectsOfType<Button>(true);
+        Button[] buttons = Object.FindObjectsByType<Button>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None);
 
         foreach (Button button in buttons)
         {
