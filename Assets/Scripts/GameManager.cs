@@ -13,10 +13,14 @@ public class GameManager : MonoBehaviour
     [Header("Word Data")]
     public TextAsset wordsFile;
 
-    private List<WordData> words = new List<WordData>();
+    [Tooltip("Inclusive answer-length band applied to the authored word list. Defaults to the union of the difficulty bands.")]
+    [Min(1)] public int minAnswerLength = WordValidator.MinAnswerLength;
+    [Min(1)] public int maxAnswerLength = WordValidator.MaxAnswerLength;
+
+    private List<WordEntry> words = new List<WordEntry>();
 
 
-    private WordData currentWord;
+    private WordEntry currentWord;
 
 
     [Header("UI")]
@@ -42,6 +46,8 @@ public class GameManager : MonoBehaviour
 
     private List<int> wordOrder = new List<int>();
     private int wordPosition;
+
+    private readonly System.Random rng = new System.Random();
 
 
     void Awake()
@@ -75,55 +81,61 @@ public class GameManager : MonoBehaviour
 
     void LoadWords()
     {
+        words.Clear();
+
         if (wordsFile == null)
         {
-            Debug.LogWarning("Words file not assigned in the Inspector.");
+            Debug.LogError("GameManager: wordsFile is not assigned. Using the built-in fallback word pool.");
+            UseFallbackWords();
             return;
         }
 
-        WordList data = JsonUtility.FromJson<WordList>(wordsFile.text);
+        WordPool.ParseResult parsed =
+            WordPool.Parse(wordsFile.text, minAnswerLength, maxAnswerLength);
 
-        if (data == null || data.words == null)
+        if (parsed.rejected.Count > 0)
         {
-            Debug.LogWarning("Words file is empty or malformed.");
+            string noun = parsed.rejected.Count == 1 ? "entry" : "entries";
+            Debug.LogError(
+                "GameManager: rejected " + parsed.rejected.Count + " malformed word " + noun +
+                " from " + wordsFile.name + ":\n - " + string.Join("\n - ", parsed.rejected));
+        }
+
+        if (!parsed.HasWords)
+        {
+            Debug.LogError("GameManager: no valid words remained in " + wordsFile.name + ". Using the built-in fallback word pool.");
+            UseFallbackWords();
             return;
         }
 
-        foreach (WordData word in data.words)
-        {
-            words.Add(new WordData(word.clue, word.answer, word.hint));
-        }
+        words.AddRange(parsed.words);
+    }
+
+
+    void UseFallbackWords()
+    {
+        words.Clear();
+        words.AddRange(WordPool.CreateFallback());
     }
 
 
     void BuildWordOrder()
     {
-        wordOrder.Clear();
-
-        for (int i = 0; i < words.Count; i++)
-            wordOrder.Add(i);
-
-        for (int i = 0; i < wordOrder.Count; i++)
-        {
-            int swap = Random.Range(i, wordOrder.Count);
-            int temp = wordOrder[i];
-            wordOrder[i] = wordOrder[swap];
-            wordOrder[swap] = temp;
-        }
-
+        // Re-shuffle on every wrap-around so each playthrough of the list is a
+        // fresh order, and never the exact order of the previous playthrough.
+        wordOrder = WordOrderBuilder.ShuffleDifferentFrom(words.Count, wordOrder, rng);
         wordPosition = 0;
     }
 
 
     void LoadWord()
     {
-        if (words.Count == 0 || wordPosition >= words.Count)
-        {
-            wordPosition = 0;
+        if (words.Count == 0)
+            return;
 
-            if (words.Count == 0)
-                return;
-        }
+        // A full cycle just completed (or the pool changed): start a new run.
+        if (wordPosition >= words.Count || wordOrder.Count != words.Count)
+            BuildWordOrder();
 
         currentWord = words[wordOrder[wordPosition]];
         wordPosition++;
