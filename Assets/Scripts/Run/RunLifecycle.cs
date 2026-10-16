@@ -19,6 +19,9 @@ public class RunLifecycle
     public int CurrentStreak { get; private set; }
     public bool IsWordFailed { get; private set; }
 
+    /// <summary>Wrong guesses on the current word only; drives the hint threshold.</summary>
+    public int WrongGuessesThisWord { get; private set; }
+
     public RunLifecycle(RunState state, int maxLivesPerWord)
     {
         State = state ?? throw new ArgumentNullException(nameof(state));
@@ -34,6 +37,7 @@ public class RunLifecycle
     public void BeginWord()
     {
         LivesRemaining = MaxLivesPerWord;
+        WrongGuessesThisWord = 0;
         IsWordFailed = false;
     }
 
@@ -44,6 +48,7 @@ public class RunLifecycle
     public bool RegisterWrongGuess()
     {
         State.RecordWrongGuess();
+        WrongGuessesThisWord++;
         LivesRemaining = Math.Max(0, LivesRemaining - 1);
         IsWordFailed = LivesRemaining <= 0;
         return IsWordFailed;

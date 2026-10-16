@@ -28,4 +28,40 @@ public static class ScoreCalculator
 
         return LetterValue(guess) * lettersRevealedByGuess;
     }
+
+    /// <summary>
+    /// Points for a correct guess after the difficulty's multiplier is applied
+    /// (Story 1.3): <c>base x scoreMultiplier</c>. Rounding is per guess, so the
+    /// total for a word stays independent of the order its letters are guessed in.
+    /// A multiplier of zero or less is treated as 1 so a bad config cannot zero
+    /// the scoreboard.
+    /// </summary>
+    public static int GuessPoints(int basePoints, float scoreMultiplier)
+    {
+        if (basePoints <= 0)
+        {
+            return 0;
+        }
+
+        float multiplier = scoreMultiplier <= 0f ? 1f : scoreMultiplier;
+
+        return (int)System.Math.Round(basePoints * multiplier, System.MidpointRounding.AwayFromZero);
+    }
+
+    /// <summary>
+    /// Points removed from a word's running total when a penalised hint is
+    /// revealed: a fraction of the points earned on that word so far, clamped to
+    /// <c>[0, 1]</c>. Returns 0 when there is nothing to penalise.
+    /// </summary>
+    public static int HintPenalty(int wordPointsSoFar, float hintScorePenalty)
+    {
+        if (wordPointsSoFar <= 0 || hintScorePenalty <= 0f)
+        {
+            return 0;
+        }
+
+        float fraction = hintScorePenalty > 1f ? 1f : hintScorePenalty;
+
+        return (int)System.Math.Round(wordPointsSoFar * fraction, System.MidpointRounding.AwayFromZero);
+    }
 }
