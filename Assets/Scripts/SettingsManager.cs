@@ -48,7 +48,10 @@ public class SettingsManager : MonoBehaviour
             PlayerPrefs.SetInt("ShowCategory", 1);
 
         if (difficultyDropdown != null)
-            difficultyDropdown.value = 0;
+        {
+            difficultyDropdown.SetValueWithoutNotify(DifficultyIdExtensions.Default.ToPlayerPrefs());
+            difficultyDropdown.RefreshShownValue();
+        }
 
         ApplyVolume(1f);
         ApplyClickSound(true);
@@ -88,6 +91,30 @@ public class SettingsManager : MonoBehaviour
             AudioManager.Instance.SetSfxVolume(value);
 
         PersistVolume(value);
+    }
+
+
+    /// <summary>
+    /// Applied the moment the dropdown changes (not only on Save), so the
+    /// difficulty the player selects is live immediately.
+    /// </summary>
+    public void OnDifficultyChanged(int index)
+    {
+        DifficultyLibrary.SetCurrent(DifficultyIdExtensions.FromPlayerPrefs(index));
+    }
+
+
+    public void OnHintsChanged(bool enabled)
+    {
+        PersistToggle("Hints", enabled);
+        RefreshGameplay();
+    }
+
+
+    public void OnShowCategoryChanged(bool enabled)
+    {
+        PersistToggle("ShowCategory", enabled);
+        RefreshGameplay();
     }
 
 
@@ -245,14 +272,20 @@ public class SettingsManager : MonoBehaviour
 
     void LoadSettings()
     {
+        // SetValueWithoutNotify / SetIsOnWithoutNotify: loading the persisted
+        // values must not fire the change handlers (which would re-write the very
+        // keys we are reading).
         if (hintsToggle != null)
-            hintsToggle.isOn = PlayerPrefs.GetInt("Hints", 1) == 1;
+            hintsToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("Hints", 1) == 1);
 
         if (showCategoryToggle != null)
-            showCategoryToggle.isOn = PlayerPrefs.GetInt("ShowCategory", 1) == 1;
+            showCategoryToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt("ShowCategory", 1) == 1);
 
         if (difficultyDropdown != null)
-            difficultyDropdown.value = DifficultyLibrary.Current.ToPlayerPrefs();
+        {
+            difficultyDropdown.SetValueWithoutNotify(DifficultyLibrary.Current.ToPlayerPrefs());
+            difficultyDropdown.RefreshShownValue();
+        }
     }
 
 }
