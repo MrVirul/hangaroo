@@ -10,7 +10,8 @@ of truth:
   * `UnreferencedScriptValidator`          - dead-MonoBehaviour detection
 
 Keep the constants below in sync with `Assets/Scripts/Words/WordValidator.cs`
-(`MinAnswerLength` / `MaxAnswerLength`).
+(`MinAnswerLength` / `MaxAnswerLength`), `WordDifficulty.cs` (difficulty bands)
+and `WordCategory.cs` (the documented category set).
 
 Exits 0 when clean, 1 with a list of problems otherwise.
 """
@@ -30,12 +31,45 @@ SCRIPTS_DIR = ROOT / "Assets/Scripts"
 MIN_ANSWER_LENGTH = 4
 MAX_ANSWER_LENGTH = 12
 
+# Mirrors WordDifficulty: inclusive per-difficulty answer-length bands.
+DIFFICULTY_BANDS = {
+    "easy": (4, 6),
+    "medium": (6, 8),
+    "hard": (8, 12),
+}
+
+# Mirrors WordCategory.All.
+KNOWN_CATEGORIES = frozenset(
+    {
+        "animals",
+        "food",
+        "geography",
+        "history",
+        "movies",
+        "music",
+        "nature",
+        "science",
+        "space",
+        "sports",
+        "technology",
+        "general",
+    }
+)
+
+# Mirrors WordListValidator.MinWordsPerBand (Story 1.4).
+MIN_WORDS_PER_BAND = 60
+
 LETTERS_ONLY = re.compile(r"^[A-Z]+$")
 
 
 def normalize(value: object) -> str:
     """Trimmed, upper-cased copy of a JSON value; never raises."""
     return value.strip().upper() if isinstance(value, str) else ""
+
+
+def normalize_key(value: object) -> str:
+    """Trimmed, lower-cased copy of a JSON metadata value; never raises."""
+    return value.strip().lower() if isinstance(value, str) else ""
 
 
 def check_word_list() -> list[str]:
@@ -58,6 +92,8 @@ def check_word_list() -> list[str]:
 
     problems: list[str] = []
     first_seen: dict[str, int] = {}
+    band_counts: dict[str, int] = {band: 0 for band in DIFFICULTY_BANDS}
+    band_longest: dict[str, int] = {band: 0 for band in DIFFICULTY_BANDS}
 
     for index, entry in enumerate(words):
         label = f"words[{index}]"
@@ -69,6 +105,8 @@ def check_word_list() -> list[str]:
         clue = entry.get("clue")
         answer = entry.get("answer")
         hint = entry.get("hint")
+        category = normalize_key(entry.get("category"))
+        difficulty = normalize_key(entry.get("difficulty"))
 
         if not normalize(clue):
             problems.append(f"{label}: clue is empty")
@@ -78,25 +116,61 @@ def check_word_list() -> list[str]:
             problems.append(f"{label}: answer is empty")
             continue
 
+        answer_ok = True
         if not LETTERS_ONLY.match(normalized_answer):
             problems.append(
                 f"{label}: answer '{answer}' contains characters outside A-Z"
             )
+            answer_ok = False
         elif len(normalized_answer) < MIN_ANSWER_LENGTH:
             problems.append(
                 f"{label}: answer '{normalized_answer}' is shorter than "
                 f"the minimum of {MIN_ANSWER_LENGTH}"
             )
+            answer_ok = False
         elif len(normalized_answer) > MAX_ANSWER_LENGTH:
             problems.append(
                 f"{label}: answer '{normalized_answer}' is longer than "
                 f"the maximum of {MAX_ANSWER_LENGTH}"
             )
+            answer_ok = False
 
         if not normalize(hint):
             problems.append(f"{label}: hint is empty")
         elif normalize(hint) == normalize(clue):
             problems.append(f"{label}: hint duplicates the clue")
+
+        if not category:
+            problems.append(f"{label}: category is empty")
+        elif category not in KNOWN_CATEGORIES:
+            problems.append(
+                f"{label}: category '{category}' is not one of the documented categories"
+            )
+
+        if not difficulty:
+            problems.append(f"{label}: difficulty is empty")
+        elif difficulty not in DIFFICULTY_BANDS:
+            problems.append(
+                f"{label}: difficulty '{difficulty}' is not easy/medium/hard"
+            )
+        else:
+            band_min, band_max = DIFFICULTY_BANDS[difficulty]
+            if not band_min <= len(normalized_answer) <= band_max:
+                problems.append(
+                    f"{label}: answer '{normalized_answer}' is outside the "
+                    f"{difficulty} band ({band_min}-{band_max})"
+                )
+            elif answer_ok:
+                band_counts[difficulty] += 1
+                band_longest[difficulty] = max(
+                    band_longest[difficulty], len(normalized_answer)
+                )
+
+        # Copy hygiene: neither the clue nor the hint may contain the answer.
+        if normalized_answer in normalize(clue):
+            problems.append(f"{label}: clue contains the answer (giveaway)")
+        if normalized_answer in normalize(hint):
+            problems.append(f"{label}: hint contains the answer (giveaway)")
 
         if normalized_answer in first_seen:
             problems.append(
@@ -105,6 +179,20 @@ def check_word_list() -> list[str]:
             )
         else:
             first_seen[normalized_answer] = index
+
+    for band, count in band_counts.items():
+        if count < MIN_WORDS_PER_BAND:
+            problems.append(
+                f"{rel}: difficulty '{band}' has only {count} valid word(s); "
+                f"at least {MIN_WORDS_PER_BAND} are required"
+            )
+
+    hard_max = DIFFICULTY_BANDS["hard"][1]
+    if band_longest["hard"] < hard_max:
+        problems.append(
+            f"{rel}: difficulty 'hard' tops out at {band_longest['hard']} letters; "
+            f"at least one word must reach {hard_max}"
+        )
 
     return problems
 

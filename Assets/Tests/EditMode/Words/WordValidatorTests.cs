@@ -87,4 +87,51 @@ public class WordValidatorTests
 
         CollectionAssert.AreEqual(new[] { "GRAVITY", "JUPITER" }, duplicates);
     }
+
+    // --- Story 1.4: category, difficulty and copy hygiene ------------------
+
+    [Test]
+    public void ValidateFull_AcceptsAWellFormedEntry()
+    {
+        WordValidationResult result = WordValidator.Validate(
+            "Largest Planet", "JUPITER", "Starts with J", "space", "medium", Min, Max);
+        Assert.IsTrue(result.IsValid, result.Reason);
+    }
+
+    [Test]
+    public void ValidateFull_RequiresKnownCategoryAndDifficulty()
+    {
+        StringAssert.Contains("category", WordValidator.Validate(
+            "Largest Planet", "JUPITER", "Starts with J", "", "medium", Min, Max).Reason);
+        StringAssert.Contains("category", WordValidator.Validate(
+            "Largest Planet", "JUPITER", "Starts with J", "nonsense", "medium", Min, Max).Reason);
+        StringAssert.Contains("difficulty", WordValidator.Validate(
+            "Largest Planet", "JUPITER", "Starts with J", "space", "", Min, Max).Reason);
+        StringAssert.Contains("difficulty", WordValidator.Validate(
+            "Largest Planet", "JUPITER", "Starts with J", "space", "nightmare", Min, Max).Reason);
+    }
+
+    [Test]
+    public void ValidateFull_RejectsAnswerOutsideItsDeclaredBand()
+    {
+        WordValidationResult result = WordValidator.Validate(
+            "Largest Planet", "JUPITER", "Starts with J", "space", "hard", Min, Max);
+
+        Assert.IsFalse(result.IsValid);
+        StringAssert.Contains("outside the hard band", result.Reason);
+    }
+
+    [Test]
+    public void ValidateFull_RejectsClueOrHintContainingTheAnswer()
+    {
+        WordValidationResult clue = WordValidator.Validate(
+            "Largest Planet JUPITER", "JUPITER", "Starts with J", "space", "medium", Min, Max);
+        Assert.IsFalse(clue.IsValid);
+        StringAssert.Contains("giveaway", clue.Reason);
+
+        WordValidationResult hint = WordValidator.Validate(
+            "Largest Planet", "JUPITER", "JUPITER is big", "space", "medium", Min, Max);
+        Assert.IsFalse(hint.IsValid);
+        StringAssert.Contains("giveaway", hint.Reason);
+    }
 }
