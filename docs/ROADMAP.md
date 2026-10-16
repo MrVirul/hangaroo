@@ -259,7 +259,7 @@ All other Phase A bugs (#10 #11 #12 #13 #14 #16 #17 #19 #20 #21) are closed by t
 ## Working rules
 
 1. **Verify in the editor, and say so.** Per `AGENTS.md`, open the project, confirm a clean console, then tell the user to check. Do not attempt a CLI build.
-2. **Never hand-edit `.meta` files.** Let Unity regenerate them — `AGENTS.md` flags several as hand-authored stubs.
+2. **Never hand-edit `.meta` files.** Four scripts (`AdaptiveCanvasScaler`, `DynamicUIAnchor`, `LevelEndPanelScaler`, `PopupScaler`) still carry a legacy `MonoImporter:` block and a human-patterned GUID. They are valid, unique and referenced by scenes/prefabs, so regenerating them would break those references for no gain; `scripts/validate-content.py` guards uniqueness in CI instead. Unity's own current output is the two-line form (issue #21).
 3. **Bind UI in the prefab, never in the scenes.** Scenes override only `RectTransform` / `m_IsActive`. `m_Target: {fileID: 0}` means unwired.
 4. **Do not create a second `AudioManager`.** It is spawned in `splash` and `DontDestroyOnLoad`; `Awake` destroys duplicates.
 5. **Commit on a feature branch**, conventional-commit style (`feat:`, `fix:`, `chore:`), opened as a PR. `AGENTS.md` records merges to `development`/`main` are done via PR.
