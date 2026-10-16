@@ -80,18 +80,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         Instance = this;
 
-        // Auto-heal PlayerPrefs: ensure ShowCategory and Hints default to enabled (1).
-        // Older versions of SettingsManager saved 0 when toggle references were unassigned.
-        if (PlayerPrefs.GetInt("ShowCategory", 1) == 0)
-        {
-            PlayerPrefs.SetInt("ShowCategory", 1);
-        }
-
-        if (PlayerPrefs.GetInt("Hints", 1) == 0)
-        {
-            PlayerPrefs.SetInt("Hints", 1);
-        }
-        PlayerPrefs.Save();
+        // The old "auto-heal" that forced Hints/ShowCategory back to enabled is
+        // gone: it existed because SettingsManager's toggles were unassigned, so
+        // the setting could never be turned off. Now that the toggles are bound
+        // (Story 1.2), forcing them on would defeat the setting itself.
 
         LoadWords();
     }
@@ -277,16 +269,19 @@ public class GameManager : MonoBehaviour
 
     public void RefreshClue()
     {
-        if (clueText == null)
+        if (clueText == null || currentWord == null)
             return;
 
+        // ShowCategory reveals the word's category as an extra nudge (Story 1.4).
+        // The clue itself is always shown.
         bool showCategory = PlayerPrefs.GetInt("ShowCategory", 1) == 1;
-        clueText.gameObject.SetActive(showCategory);
+        string text = "CLUE: " + currentWord.clue.ToUpper();
 
-        if (!showCategory || currentWord == null)
-            return;
+        if (showCategory && !string.IsNullOrEmpty(currentWord.category))
+            text += "\n<size=70%>CATEGORY: " + currentWord.category.ToUpper() + "</size>";
 
-        clueText.text = "CLUE: " + currentWord.clue.ToUpper();
+        clueText.gameObject.SetActive(true);
+        clueText.text = text;
         clueText.ForceMeshUpdate();
     }
 
