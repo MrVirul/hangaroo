@@ -27,7 +27,10 @@ public class SafeArea : MonoBehaviour
     private RectTransform rectTransform;
     private Rect lastSafeArea = Rect.zero;
     private Vector2Int lastScreenSize = Vector2Int.zero;
-    private ScreenOrientation lastOrientation = ScreenOrientation.Unknown;
+    // Null until the first sample. ScreenOrientation.Unknown used to serve as
+    // this sentinel but is [Obsolete] in Unity 6, and no non-obsolete member
+    // means "not sampled yet", so nullable is the honest representation.
+    private ScreenOrientation? lastOrientation;
 
     private void Awake()
     {
