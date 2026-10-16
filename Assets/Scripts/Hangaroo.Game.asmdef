@@ -2,6 +2,7 @@
     "name": "Hangaroo.Game",
     "rootNamespace": "",
     "references": [
+        "Unity.InputSystem",
         "Unity.TextMeshPro",
         "UnityEngine.UI",
         "Hangaroo.Difficulty",
