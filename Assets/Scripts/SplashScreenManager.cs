@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class SplashScreenManager : MonoBehaviour
@@ -41,6 +42,30 @@ public class SplashScreenManager : MonoBehaviour
 
     private static bool SkipRequested()
     {
-        return Input.anyKeyDown || Input.touchCount > 0;
+        return SkipRequested(Keyboard.current, Pointer.current);
+    }
+
+    /// <summary>
+    /// True when the given devices report a skip gesture this frame.
+    ///
+    /// The project runs with Active Input Handling = "Input System Package
+    /// (New)" (ProjectSettings.asset, activeInputHandler: 1), where the legacy
+    /// UnityEngine.Input API throws InvalidOperationException on first use, so
+    /// the gesture is read through the package instead (issue #60). A Pointer is
+    /// any mouse, touch or pen, covering the old Input.anyKeyDown (which
+    /// included mouse buttons) and Input.touchCount > 0.
+    ///
+    /// Taking the devices as parameters keeps the query testable without a live
+    /// splash scene; the parameterless overload supplies the current devices.
+    /// </summary>
+    public static bool SkipRequested(Keyboard keyboard, Pointer pointer)
+    {
+        if (keyboard != null && keyboard.anyKey.wasPressedThisFrame)
+            return true;
+
+        if (pointer != null && pointer.press.wasPressedThisFrame)
+            return true;
+
+        return false;
     }
 }
