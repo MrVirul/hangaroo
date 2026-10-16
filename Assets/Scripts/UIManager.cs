@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public GameObject victoryPanel;
     public GameObject runCompletePanel;
     public GameObject pausePanel;
+    public GameObject howToPlayPanel;
     public GameObject hud;
 
     public TMP_Text victoryAnswerText;
@@ -41,8 +42,32 @@ public class UIManager : MonoBehaviour
         Transform settings = transform.Find("Settings_Panel");
         if (settings != null) settings.gameObject.SetActive(false);
 
-        Transform howToPlay = transform.Find("How to Play Panel");
-        if (howToPlay != null) howToPlay.gameObject.SetActive(false);
+        if (howToPlayPanel == null)
+        {
+            Transform howToPlay = transform.Find("How to Play Panel");
+            if (howToPlay != null) howToPlayPanel = howToPlay.gameObject;
+        }
+
+        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
+    }
+
+
+    /// <summary>
+    /// Shows the rules reference. Reachable from the pause menu so a mid-run
+    /// player can look up how to play (issue #20, part 3).
+    /// </summary>
+    public void OpenHowToPlay()
+    {
+        if (howToPlayPanel != null)
+            howToPlayPanel.SetActive(true);
+    }
+
+
+    /// <summary>Hides the rules reference; the panel's own exit uses <see cref="PanelToggle"/>.</summary>
+    public void CloseHowToPlay()
+    {
+        if (howToPlayPanel != null)
+            howToPlayPanel.SetActive(false);
     }
 
 

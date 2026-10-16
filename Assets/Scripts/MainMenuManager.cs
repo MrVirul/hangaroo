@@ -29,14 +29,11 @@ public class MainMenuManager : MonoBehaviour
     //=========================
     // How To Play
     //=========================
+    // The matching closes are handled by the shared PanelToggle.Close() on each
+    // panel's own exit control, so this component only opens.
     public void OpenHowToPlay()
     {
         howToPlayPanel.SetActive(true);
-    }
-
-    public void CloseHowToPlay()
-    {
-        howToPlayPanel.SetActive(false);
     }
 
     //=========================
@@ -47,22 +44,12 @@ public class MainMenuManager : MonoBehaviour
         settingsPanel.SetActive(true);
     }
 
-    public void CloseSettings()
-    {
-        settingsPanel.SetActive(false);
-    }
-
     //=========================
     // Credits
     //=========================
     public void OpenCredits()
     {
         creditPanel.SetActive(true);
-    }
-
-    public void CloseCredits()
-    {
-        creditPanel.SetActive(false);
     }
 
     //=========================
