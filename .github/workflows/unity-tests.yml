@@ -1,0 +1,171 @@
+name: Unity Tests
+
+# The Unity-dependent gates (issue #39). Unlike content-checks.yml these need a
+# licensed editor, so they are opt-in: `detect-license` looks for an activation
+# secret and the test jobs are skipped when it is absent. That keeps every PR
+# green today, and turns the gates on the moment a licence is configured under
+# Settings -> Secrets and variables -> Actions.
+#
+#   UNITY_LICENSE                        (a .ulf, Personal or Pro)
+#   UNITY_EMAIL + UNITY_PASSWORD         (Personal seat)
+#   UNITY_EMAIL + UNITY_PASSWORD + UNITY_SERIAL   (Pro/Plus seat)
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: unity-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  detect-license:
+    name: Detect Unity licence
+    runs-on: ubuntu-latest
+    outputs:
+      licensed: ${{ steps.detect.outputs.licensed }}
+      ulf: ${{ steps.detect.outputs.ulf }}
+    steps:
+      - id: detect
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        run: |
+          if [ -n "${UNITY_LICENSE}" ]; then
+            echo "ulf=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ulf=false" >> "$GITHUB_OUTPUT"
+            if [ -n "${UNITY_EMAIL}" ] && [ -n "${UNITY_PASSWORD}" ]; then
+              echo "::warning title=Warning gate inactive::A licence is configured via email/password but not as UNITY_LICENSE (.ulf), so the warning-free compile job cannot run. See docs/CI.md."
+            fi
+          fi
+
+          if [ -n "${UNITY_LICENSE}" ] || { [ -n "${UNITY_EMAIL}" ] && [ -n "${UNITY_PASSWORD}" ]; }; then
+            echo "licensed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "licensed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Unity tests skipped::No Unity activation secret is configured. See docs/CI.md."
+          fi
+
+  warnings:
+    name: Warning-free compile
+    needs: detect-license
+    # check-warnings.sh drives the editor image directly, so it needs a .ulf;
+    # email/password activation only works through the game-ci actions.
+    if: needs.detect-license.outputs.ulf == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-6000.3.10f1-${{ hashFiles('Packages/manifest.json', 'Packages/packages-lock.json', 'ProjectSettings/ProjectVersion.txt') }}
+          restore-keys: |
+            Library-${{ runner.os }}-6000.3.10f1-
+
+      - name: Compile project code, warnings are errors
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        run: ./scripts/check-warnings.sh --docker
+
+      - name: Upload compile log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compile-warnings-log
+          path: Logs/compile-warnings.log
+          if-no-files-found: ignore
+
+  editmode:
+    name: EditMode tests
+    needs: detect-license
+    if: needs.detect-license.outputs.licensed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-6000.3.10f1-${{ hashFiles('Packages/manifest.json', 'Packages/packages-lock.json', 'ProjectSettings/ProjectVersion.txt') }}
+          restore-keys: |
+            Library-${{ runner.os }}-6000.3.10f1-
+
+      - name: Run EditMode tests
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          unityVersion: 6000.3.10f1
+          testMode: editmode
+          artifactsPath: editmode-results
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          checkName: EditMode tests
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: editmode-results
+          path: editmode-results
+          if-no-files-found: ignore
+
+  playmode:
+    name: PlayMode tests
+    needs: detect-license
+    # PlayMode is the slow, licence-heavy suite: only on main, tags and manual runs.
+    if: needs.detect-license.outputs.licensed == 'true' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-6000.3.10f1-${{ hashFiles('Packages/manifest.json', 'Packages/packages-lock.json', 'ProjectSettings/ProjectVersion.txt') }}
+          restore-keys: |
+            Library-${{ runner.os }}-6000.3.10f1-
+
+      - name: Run PlayMode tests
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          unityVersion: 6000.3.10f1
+          testMode: playmode
+          artifactsPath: playmode-results
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          checkName: PlayMode tests
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playmode-results
+          path: playmode-results
+          if-no-files-found: ignore
