@@ -27,11 +27,19 @@ public class GameManager : MonoBehaviour
     public TMP_Text clueText;
     public TMP_Text scoreText;
     public TMP_Text hintText;
+    public TMP_Text difficultyText;
 
 
     private int score;
     public int CurrentScore => score;
     private int revealedCount;
+
+    // Difficulty rules resolved once per run (Story 1.3): the config never
+    // changes mid-run, and neither does its multiplier.
+    private DifficultyConfig config;
+    private float scoreMultiplier = 1f;
+    private int wordScore;
+    private bool hintCounted;
 
 
     private readonly UsedLetters usedLetters = new UsedLetters();
@@ -99,8 +107,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void StartRun()
     {
-        DifficultyConfig config = DifficultyLibrary.CurrentConfig;
+        config = DifficultyLibrary.CurrentConfig;
         int livesPerWord = config != null ? config.livesPerWord : 4;
+        scoreMultiplier = config != null ? config.scoreMultiplier : 1f;
 
         score = 0;
         runEnded = false;
@@ -114,6 +123,18 @@ public class GameManager : MonoBehaviour
                 startedAtUnixMs = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             },
             livesPerWord);
+
+        RefreshDifficultyLabel();
+    }
+
+
+    void RefreshDifficultyLabel()
+    {
+        if (difficultyText == null)
+            return;
+
+        string label = config != null ? config.displayName : DifficultyLibrary.Current.ToString();
+        difficultyText.text = "Difficulty: " + label.ToUpperInvariant();
     }
 
 
@@ -179,6 +200,8 @@ public class GameManager : MonoBehaviour
         wordPosition++;
 
         revealedCount = 0;
+        wordScore = 0;
+        hintCounted = false;
 
         usedLetters.Clear();
 
@@ -190,9 +213,7 @@ public class GameManager : MonoBehaviour
             HeartManager.Instance.ResetLives(run.MaxLivesPerWord);
 
         RefreshClue();
-
-        if (RefreshHint() && run != null)
-            run.RegisterHint();
+        RefreshHint();
 
         CreateLetterSlots();
 
@@ -229,13 +250,24 @@ public class GameManager : MonoBehaviour
     }
 
 
-    /// <summary>Refreshes the hint line. Returns true when a hint is now visible.</summary>
+    /// <summary>
+    /// Refreshes the hint line from the active difficulty's <see cref="HintPolicy"/>
+    /// and the player's Hints preference. Returns true when a hint is visible.
+    ///
+    /// Safe to call at any point (word load, a wrong guess, or the Hints setting
+    /// changing mid-run): the decision is re-derived from the current wrong-guess
+    /// count every time. The hint is counted and, on a penalised policy, its
+    /// score cost is applied exactly once per word.
+    /// </summary>
     public bool RefreshHint()
     {
         if (hintText == null)
             return false;
 
-        bool showHint = PlayerPrefs.GetInt("Hints", 1) == 1;
+        bool hintsEnabled = PlayerPrefs.GetInt("Hints", 1) == 1;
+        int wrongGuesses = run != null ? run.WrongGuessesThisWord : 0;
+        bool showHint = HintRules.ShouldShow(config, hintsEnabled, wrongGuesses);
+
         hintText.gameObject.SetActive(showHint);
 
         if (!showHint || currentWord == null)
@@ -248,7 +280,41 @@ public class GameManager : MonoBehaviour
         hintText.text = "HINT: " + hint.ToUpper();
         hintText.ForceMeshUpdate();
 
+        // Count the reveal once per word, even though RefreshHint is called again
+        // on every wrong guess after the threshold is met. Easy's FreeImmediate
+        // hint is not a "use" - it is simply part of the board - so only hints
+        // that are earned (Medium) or paid for (Hard) are counted.
+        if (!hintCounted)
+        {
+            hintCounted = true;
+
+            if (config != null && config.hintPolicy != HintPolicy.FreeImmediate)
+            {
+                if (run != null)
+                    run.RegisterHint();
+
+                ApplyHintPenalty();
+            }
+        }
+
         return true;
+    }
+
+
+    void ApplyHintPenalty()
+    {
+        if (run == null || config == null || config.hintPolicy != HintPolicy.Penalised)
+            return;
+
+        int penalty = ScoreCalculator.HintPenalty(wordScore, config.hintScorePenalty);
+
+        if (penalty <= 0)
+            return;
+
+        run.State.DeductScore(penalty);
+        wordScore -= penalty;
+        score = run.State.score;
+        UpdateScore();
     }
 
 
@@ -432,7 +498,12 @@ public class GameManager : MonoBehaviour
 
         if (revealedThisGuess > 0)
         {
-            run.RegisterCorrectGuess(ScoreCalculator.BasePoints(guess, revealedThisGuess));
+            int points = ScoreCalculator.GuessPoints(
+                ScoreCalculator.BasePoints(guess, revealedThisGuess),
+                scoreMultiplier);
+
+            run.RegisterCorrectGuess(points);
+            wordScore += points;
             score = run.State.score;
             UpdateScore();
         }
@@ -449,6 +520,10 @@ public class GameManager : MonoBehaviour
                 EndRun(false);
                 return;
             }
+
+            // A wrong guess can satisfy the difficulty's hint threshold, so the
+            // hint (and its penalty) is re-evaluated here, not only on load.
+            RefreshHint();
         }
 
 

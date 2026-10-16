@@ -34,6 +34,22 @@ public class RunLifecycleTests
     }
 
     [Test]
+    public void WrongGuessesThisWord_ResetsOnEachWord()
+    {
+        var run = new RunLifecycle(NewState(3), 3);
+        run.BeginWord();
+
+        run.RegisterWrongGuess();
+        run.RegisterWrongGuess();
+        Assert.AreEqual(2, run.WrongGuessesThisWord, "Counted against the current word.");
+        Assert.AreEqual(2, run.State.wrongGuesses, "Also counted for the run.");
+
+        run.BeginWord();
+        Assert.AreEqual(0, run.WrongGuessesThisWord, "The hint threshold must start fresh each word.");
+        Assert.AreEqual(2, run.State.wrongGuesses, "The run total is cumulative.");
+    }
+
+    [Test]
     public void CompleteWord_TracksSolvedWordsScoreAndStreak()
     {
         var run = new RunLifecycle(NewState(2), 3);

@@ -49,6 +49,17 @@ public class RunState
         }
     }
 
+    /// <summary>Removes points (e.g. a revealed hint's penalty), never below zero.</summary>
+    public void DeductScore(int points)
+    {
+        if (points <= 0)
+        {
+            return;
+        }
+
+        score = System.Math.Max(0, score - points);
+    }
+
     public void RecordCorrectGuess()
     {
         correctGuesses++;

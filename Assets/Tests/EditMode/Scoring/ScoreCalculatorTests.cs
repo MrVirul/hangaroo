@@ -50,4 +50,63 @@ public class ScoreCalculatorTests
         Assert.AreEqual(99, forward, "JUPITER must total 99 before difficulty/hint multipliers.");
         Assert.AreEqual(forward, reverse, "Score contribution must be independent of guess order.");
     }
+
+    [Test]
+    public void GuessPoints_AppliesTheDifficultyMultiplier()
+    {
+        // base x multiplier, rounded away from zero per guess.
+        Assert.AreEqual(30, ScoreCalculator.GuessPoints(20, 1.5f), "Medium: T (20) x 1.5");
+        Assert.AreEqual(50, ScoreCalculator.GuessPoints(20, 2.5f), "Hard: T (20) x 2.5");
+        Assert.AreEqual(26, ScoreCalculator.GuessPoints(17, 1.5f), "25.5 rounds away from zero");
+        Assert.AreEqual(20, ScoreCalculator.GuessPoints(20, 1f), "Easy: multiplier 1");
+    }
+
+    [Test]
+    public void GuessPoints_IsZeroWhenBaseIsZero()
+    {
+        Assert.AreEqual(0, ScoreCalculator.GuessPoints(0, 2.5f));
+    }
+
+    [Test]
+    public void GuessPoints_TreatsNonPositiveMultiplierAsOne()
+    {
+        Assert.AreEqual(20, ScoreCalculator.GuessPoints(20, 0f));
+        Assert.AreEqual(20, ScoreCalculator.GuessPoints(20, -3f));
+    }
+
+    [Test]
+    public void MultipliedWord_IsStillOrderIndependent()
+    {
+        string word = "JUPITER";
+        float multiplier = 1.5f;
+
+        int forward = 0;
+        foreach (char c in word)
+        {
+            forward += ScoreCalculator.GuessPoints(ScoreCalculator.BasePoints(c, 1), multiplier);
+        }
+
+        int reverse = 0;
+        for (int i = word.Length - 1; i >= 0; i--)
+        {
+            reverse += ScoreCalculator.GuessPoints(ScoreCalculator.BasePoints(word[i], 1), multiplier);
+        }
+
+        Assert.AreEqual(forward, reverse, "Applying a constant multiplier must not introduce order dependence.");
+    }
+
+    [Test]
+    public void HintPenalty_IsAFractionOfTheWordPoints()
+    {
+        Assert.AreEqual(25, ScoreCalculator.HintPenalty(100, 0.25f), "Hard: 25% of 100");
+        Assert.AreEqual(0, ScoreCalculator.HintPenalty(0, 0.25f), "Nothing earned yet, nothing to penalise");
+        Assert.AreEqual(0, ScoreCalculator.HintPenalty(100, 0f), "Easy/Medium apply no hint penalty");
+        Assert.AreEqual(10, ScoreCalculator.HintPenalty(40, 0.25f));
+    }
+
+    [Test]
+    public void HintPenalty_ClampsTheFractionToOne()
+    {
+        Assert.AreEqual(50, ScoreCalculator.HintPenalty(50, 2f));
+    }
 }
