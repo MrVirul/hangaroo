@@ -16,6 +16,12 @@ public class MainMenuManager : MonoBehaviour
         howToPlayPanel.SetActive(false);
         settingsPanel.SetActive(false);
         creditPanel.SetActive(false);
+
+        // A run that ended left the music stopped for its summary panel, and
+        // AudioManager survives scene loads, so returning to the menu would
+        // otherwise arrive silent. The menu always has music (issue #21).
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.ResumeMusic();
     }
 
     //=========================
