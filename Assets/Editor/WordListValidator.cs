@@ -21,6 +21,12 @@ public static class WordListValidator
 {
     public const string WordsAssetPath = "Assets/Data/words.json";
 
+    /// <summary>
+    /// Minimum valid words a difficulty must offer (Story 1.4). Below this a run
+    /// can end early or repeat words, so it is treated as a content failure.
+    /// </summary>
+    public const int MinWordsPerBand = 60;
+
     /// <summary>Returns every problem found in the shipped word list (empty when clean).</summary>
     public static List<string> Validate()
     {
@@ -38,6 +44,9 @@ public static class WordListValidator
             return problems;
         }
 
+        // Parse covers the per-entry rules: non-empty fields, A-Z answers, the
+        // union length band, a known category, a known difficulty, the band the
+        // entry declares, and the two copy-hygiene rules.
         WordPool.ParseResult parsed = WordPool.Parse(
             asset.text,
             WordValidator.MinAnswerLength,
@@ -47,9 +56,108 @@ public static class WordListValidator
             problems.Add(rejection);
 
         if (!parsed.HasWords)
+        {
             problems.Add("No valid words remained after validation.");
+            return problems;
+        }
+
+        problems.AddRange(CheckBandPopulation(parsed.words));
+        problems.AddRange(CheckBandsMatchConfigs());
 
         return problems;
+    }
+
+    /// <summary>
+    /// Asserts every difficulty has enough words, and that Hard actually reaches
+    /// the top of its band so the 8-12 promise is real rather than nominal.
+    /// </summary>
+    private static List<string> CheckBandPopulation(List<WordEntry> words)
+    {
+        var problems = new List<string>();
+        var counts = new Dictionary<string, int>();
+        var longest = new Dictionary<string, int>();
+
+        foreach (WordEntry entry in words)
+        {
+            string band = WordDifficulty.Normalize(entry.difficulty);
+
+            int count;
+            counts.TryGetValue(band, out count);
+            counts[band] = count + 1;
+
+            int current;
+            longest.TryGetValue(band, out current);
+            if (entry.answer.Length > current)
+                longest[band] = entry.answer.Length;
+        }
+
+        foreach (string band in WordDifficulty.All)
+        {
+            int count;
+            counts.TryGetValue(band, out count);
+
+            if (count < MinWordsPerBand)
+            {
+                problems.Add(
+                    "difficulty '" + band + "' has only " + count + " valid word(s); at least " +
+                    MinWordsPerBand + " are required or a run can repeat.");
+            }
+        }
+
+        int hardLongest;
+        longest.TryGetValue(WordDifficulty.Hard, out hardLongest);
+        int hardMax = WordDifficulty.MaxLength(WordDifficulty.Hard);
+
+        if (hardLongest < hardMax)
+        {
+            problems.Add(
+                "difficulty 'hard' tops out at " + hardLongest + " letters; at least one word must reach " +
+                hardMax + " so the 8-12 band is not silently degenerate.");
+        }
+
+        return problems;
+    }
+
+    /// <summary>
+    /// Fails when the word-content bands drift from the authored DifficultyConfig
+    /// assets, so the validator and the gameplay band can never disagree.
+    /// </summary>
+    private static List<string> CheckBandsMatchConfigs()
+    {
+        var problems = new List<string>();
+
+        foreach (string band in WordDifficulty.All)
+        {
+            DifficultyConfig config = DifficultyLibrary.GetConfig(ToDifficultyId(band));
+
+            if (config == null)
+            {
+                problems.Add("no DifficultyConfig asset is registered for '" + band + "'.");
+                continue;
+            }
+
+            int expectedMin = WordDifficulty.MinLength(band);
+            int expectedMax = WordDifficulty.MaxLength(band);
+
+            if (config.minWordLength != expectedMin || config.maxWordLength != expectedMax)
+            {
+                problems.Add(
+                    "difficulty '" + band + "' band (" + config.minWordLength + "-" + config.maxWordLength +
+                    ") does not match WordDifficulty (" + expectedMin + "-" + expectedMax + ").");
+            }
+        }
+
+        return problems;
+    }
+
+    private static DifficultyId ToDifficultyId(string band)
+    {
+        switch (WordDifficulty.Normalize(band))
+        {
+            case WordDifficulty.Easy: return DifficultyId.Easy;
+            case WordDifficulty.Hard: return DifficultyId.Hard;
+            default: return DifficultyId.Medium;
+        }
     }
 
     [MenuItem("Hangaroo/Content/Validate Word List")]

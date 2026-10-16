@@ -80,6 +80,59 @@ public static class WordValidator
     }
 
     /// <summary>
+    /// Full Story 1.4 validation: the base rules above plus a required, known
+    /// category, a required, known difficulty, an answer length inside that
+    /// difficulty's band, and the two copy-hygiene rules (the clue must not
+    /// contain the answer, and neither may the hint).
+    ///
+    /// The length band is checked against <see cref="WordDifficulty"/> rather
+    /// than the caller's <paramref name="minLength"/> / <paramref name="maxLength"/>
+    /// so a wrong band cannot be smuggled in by the union check alone.
+    /// </summary>
+    public static WordValidationResult Validate(
+        string clue,
+        string answer,
+        string hint,
+        string category,
+        string difficulty,
+        int minLength,
+        int maxLength)
+    {
+        WordValidationResult baseResult = Validate(clue, answer, hint, minLength, maxLength);
+        if (!baseResult.IsValid)
+            return baseResult;
+
+        if (string.IsNullOrWhiteSpace(category))
+            return WordValidationResult.Invalid("category is empty");
+
+        if (!WordCategory.IsKnown(category))
+            return WordValidationResult.Invalid("category '" + category + "' is not one of the documented categories");
+
+        if (string.IsNullOrWhiteSpace(difficulty))
+            return WordValidationResult.Invalid("difficulty is empty");
+
+        if (!WordDifficulty.IsKnown(difficulty))
+            return WordValidationResult.Invalid("difficulty '" + difficulty + "' is not easy/medium/hard");
+
+        string normalizedAnswer = Normalize(answer);
+
+        if (!WordDifficulty.IsInBand(difficulty, normalizedAnswer.Length))
+        {
+            return WordValidationResult.Invalid(
+                "answer '" + normalizedAnswer + "' is outside the " + WordDifficulty.Normalize(difficulty) +
+                " band (" + WordDifficulty.MinLength(difficulty) + "-" + WordDifficulty.MaxLength(difficulty) + ")");
+        }
+
+        if (Normalize(clue).Contains(normalizedAnswer))
+            return WordValidationResult.Invalid("clue contains the answer (giveaway)");
+
+        if (Normalize(hint).Contains(normalizedAnswer))
+            return WordValidationResult.Invalid("hint contains the answer (giveaway)");
+
+        return WordValidationResult.Valid();
+    }
+
+    /// <summary>
     /// Returns each normalized answer that appears more than once, in first-seen
     /// order. Blank answers are ignored (they are reported as invalid elsewhere).
     /// </summary>

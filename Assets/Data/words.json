@@ -3,327 +3,2172 @@
     {
       "clue": "Largest Planet",
       "answer": "JUPITER",
-      "hint": "Starts with J and has 7 letters"
+      "hint": "7 letters, starts with J and ends with R",
+      "category": "space",
+      "difficulty": "medium"
     },
     {
       "clue": "Natural Force",
       "answer": "GRAVITY",
-      "hint": "Keeps your feet on the ground"
+      "hint": "7 letters, starts with G and ends with Y",
+      "category": "science",
+      "difficulty": "medium"
     },
     {
       "clue": "Life Science",
       "answer": "BIOLOGY",
-      "hint": "The study of living things"
+      "hint": "7 letters, starts with B and ends with Y",
+      "category": "science",
+      "difficulty": "medium"
     },
     {
       "clue": "Fast Animal",
       "answer": "CHEETAH",
-      "hint": "The fastest land animal, covered in spots"
+      "hint": "7 letters, starts with C and ends with H",
+      "category": "animals",
+      "difficulty": "medium"
     },
     {
       "clue": "Phone Company",
       "answer": "SAMSUNG",
-      "hint": "A tech giant from South Korea"
+      "hint": "7 letters, starts with S and ends with G",
+      "category": "technology",
+      "difficulty": "medium"
     },
     {
       "clue": "Book Place",
       "answer": "LIBRARY",
-      "hint": "Where you borrow and read books"
+      "hint": "7 letters, starts with L and ends with Y",
+      "category": "general",
+      "difficulty": "medium"
     },
     {
       "clue": "Software Patch",
       "answer": "UPDATER",
-      "hint": "Keeps apps current with new fixes"
+      "hint": "7 letters, starts with U and ends with R",
+      "category": "technology",
+      "difficulty": "medium"
     },
     {
       "clue": "Space Rock",
       "answer": "ASTEROID",
-      "hint": "A rocky body orbiting the sun"
+      "hint": "8 letters, starts with A and ends with D",
+      "category": "space",
+      "difficulty": "hard"
     },
     {
       "clue": "Cosmic Particles",
       "answer": "STARDUST",
-      "hint": "The glittery grains from dying stars"
+      "hint": "8 letters, starts with S and ends with T",
+      "category": "space",
+      "difficulty": "hard"
     },
     {
       "clue": "Large Animal",
       "answer": "ELEPHANT",
-      "hint": "The largest land animal, with a trunk"
+      "hint": "8 letters, starts with E and ends with T",
+      "category": "animals",
+      "difficulty": "hard"
     },
     {
       "clue": "Pink Bird",
       "answer": "FLAMINGO",
-      "hint": "Often stands on one leg in the water"
+      "hint": "8 letters, starts with F and ends with O",
+      "category": "animals",
+      "difficulty": "hard"
     },
     {
-      "clue": "Jumping Marsupial",
+      "clue": "Marsupial that hops on strong hind legs",
       "answer": "KANGAROO",
-      "hint": "Carries its baby in a pouch"
+      "hint": "8 letters, starts with K and ends with O",
+      "category": "animals",
+      "difficulty": "hard"
     },
     {
       "clue": "Horned Grazer",
       "answer": "ANTELOPE",
-      "hint": "A fast, horned mammal of the plains"
+      "hint": "8 letters, starts with A and ends with E",
+      "category": "animals",
+      "difficulty": "hard"
     },
     {
       "clue": "Spiky Mammal",
       "answer": "HEDGEHOG",
-      "hint": "A small mammal covered in spines"
+      "hint": "8 letters, starts with H and ends with G",
+      "category": "animals",
+      "difficulty": "hard"
     },
     {
       "clue": "Structured Data Store",
       "answer": "DATABASE",
-      "hint": "Where tables, rows and queries live"
+      "hint": "8 letters, starts with D and ends with E",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Global Network",
       "answer": "INTERNET",
-      "hint": "The worldwide web of connected computers"
+      "hint": "8 letters, starts with I and ends with T",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Command Line Interface",
       "answer": "TERMINAL",
-      "hint": "Where programmers type text commands"
+      "hint": "8 letters, starts with T and ends with L",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Typing Device",
       "answer": "KEYBOARD",
-      "hint": "Has all 26 letters on it"
+      "hint": "8 letters, starts with K and ends with D",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Electronic Machine",
       "answer": "COMPUTER",
-      "hint": "Processes your programs and data"
+      "hint": "8 letters, starts with C and ends with R",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Fetch From Server",
       "answer": "DOWNLOAD",
-      "hint": "Copying a file to your device"
+      "hint": "8 letters, starts with D and ends with D",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Program Code",
       "answer": "SOFTWARE",
-      "hint": "Programs and apps you install"
+      "hint": "8 letters, starts with S and ends with E",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Physical Parts",
       "answer": "HARDWARE",
-      "hint": "The parts of a computer you can touch"
+      "hint": "8 letters, starts with H and ends with E",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Network Security",
       "answer": "FIREWALL",
-      "hint": "Blocks unwanted network traffic"
+      "hint": "8 letters, starts with F and ends with L",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Visual Rendering",
       "answer": "GRAPHICS",
-      "hint": "What the GPU draws on screen"
+      "hint": "8 letters, starts with G and ends with S",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Reusable Code Block",
       "answer": "FUNCTION",
-      "hint": "A named piece of code you can call"
+      "hint": "8 letters, starts with F and ends with N",
+      "category": "science",
+      "difficulty": "hard"
     },
     {
       "clue": "Async Routine",
       "answer": "CALLBACK",
-      "hint": "Runs when an event finishes happening"
+      "hint": "8 letters, starts with C and ends with K",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "System Backup",
       "answer": "SNAPSHOT",
-      "hint": "A point-in-time copy of your data"
+      "hint": "8 letters, starts with S and ends with T; second letter is N",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Login Secret",
       "answer": "PASSWORD",
-      "hint": "The secret word that unlocks your account"
+      "hint": "8 letters, starts with P and ends with D",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Windows Database",
       "answer": "REGISTRY",
-      "hint": "Windows keeps its config settings here"
+      "hint": "8 letters, starts with R and ends with Y",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Code Translator",
       "answer": "COMPILER",
-      "hint": "Turns source code into a program"
+      "hint": "8 letters, starts with C and ends with R; second letter is O",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Communication Rules",
       "answer": "PROTOCOL",
-      "hint": "The agreed rules of data exchange"
+      "hint": "8 letters, starts with P and ends with L",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Ancient Relic",
       "answer": "ARTIFACT",
-      "hint": "A historical object unearthed from the past"
+      "hint": "8 letters, starts with A and ends with T",
+      "category": "history",
+      "difficulty": "hard"
     },
     {
       "clue": "Natural Supply",
       "answer": "RESOURCE",
-      "hint": "Water, timber or minerals"
+      "hint": "8 letters, starts with R and ends with E",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Server Reply",
       "answer": "RESPONSE",
-      "hint": "What a server sends back to a request"
+      "hint": "8 letters, starts with R and ends with E; second letter is E",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
-      "clue": "Basic Elements",
+      "clue": "Basic substances in chemistry",
       "answer": "ELEMENTS",
-      "hint": "Primary substances on the periodic table"
+      "hint": "8 letters, starts with E and ends with S",
+      "category": "science",
+      "difficulty": "hard"
     },
     {
       "clue": "Text File",
       "answer": "DOCUMENT",
-      "hint": "A file you can read and edit as text"
+      "hint": "8 letters, starts with D and ends with T",
+      "category": "general",
+      "difficulty": "hard"
     },
     {
       "clue": "Art Style",
       "answer": "ABSTRACT",
-      "hint": "Non-realistic shapes and colors"
+      "hint": "8 letters, starts with A and ends with T; second letter is B",
+      "category": "science",
+      "difficulty": "hard"
     },
     {
       "clue": "Single Example",
       "answer": "INSTANCE",
-      "hint": "A particular occurrence or case"
+      "hint": "8 letters, starts with I and ends with E",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Updated Draft",
       "answer": "REVISION",
-      "hint": "An edited or corrected version of work"
+      "hint": "8 letters, starts with R and ends with N",
+      "category": "general",
+      "difficulty": "hard"
     },
     {
       "clue": "Computer Screens",
       "answer": "MONITORS",
-      "hint": "Displays connected to a computer"
+      "hint": "8 letters, starts with M and ends with S",
+      "category": "technology",
+      "difficulty": "hard"
     },
     {
       "clue": "Popular Sport",
       "answer": "FOOTBALL",
-      "hint": "The world's most popular game, played with feet"
+      "hint": "8 letters, starts with F and ends with L; second letter is O",
+      "category": "sports",
+      "difficulty": "hard"
     },
     {
       "clue": "Bat And Ball",
       "answer": "BASEBALL",
-      "hint": "America's pastime, 9 innings per game"
+      "hint": "8 letters, starts with B and ends with L",
+      "category": "sports",
+      "difficulty": "hard"
     },
     {
       "clue": "Team Sport",
       "answer": "HANDBALL",
-      "hint": "Throwing a ball into a goal by hand"
+      "hint": "8 letters, starts with H and ends with L",
+      "category": "sports",
+      "difficulty": "hard"
     },
     {
-      "clue": "Pool Sport",
+      "clue": "Moving through water for sport",
       "answer": "SWIMMING",
-      "hint": "Race through water in a pool"
+      "hint": "8 letters, starts with S and ends with G",
+      "category": "sports",
+      "difficulty": "hard"
     },
     {
       "clue": "Long Distance Run",
       "answer": "MARATHON",
-      "hint": "A race of about 42 kilometres"
+      "hint": "8 letters, starts with M and ends with N",
+      "category": "sports",
+      "difficulty": "hard"
     },
     {
       "clue": "Global Games",
       "answer": "OLYMPICS",
-      "hint": "Held once every four years with a torch"
+      "hint": "8 letters, starts with O and ends with S",
+      "category": "sports",
+      "difficulty": "hard"
     },
     {
       "clue": "High Terrain",
       "answer": "MOUNTAIN",
-      "hint": "Everest is the tallest one"
+      "hint": "8 letters, starts with M and ends with N; second letter is O",
+      "category": "nature",
+      "difficulty": "hard"
     },
     {
       "clue": "Bright Daylight",
       "answer": "SUNSHINE",
-      "hint": "Warm light coming from the sun"
+      "hint": "8 letters, starts with S and ends with E; second letter is U",
+      "category": "nature",
+      "difficulty": "hard"
     },
     {
       "clue": "Night Hour",
       "answer": "MIDNIGHT",
-      "hint": "Twelve hours after noon"
+      "hint": "8 letters, starts with M and ends with T",
+      "category": "general",
+      "difficulty": "hard"
     },
     {
       "clue": "Annual Celebration",
       "answer": "BIRTHDAY",
-      "hint": "You get older every time it comes"
+      "hint": "8 letters, starts with B and ends with Y",
+      "category": "general",
+      "difficulty": "hard"
     },
     {
       "clue": "Time Off",
       "answer": "VACATION",
-      "hint": "A break away from work"
+      "hint": "8 letters, starts with V and ends with N",
+      "category": "general",
+      "difficulty": "hard"
     },
     {
       "clue": "Citrus Drink",
       "answer": "LEMONADE",
-      "hint": "A cool, sour-and-sweet summer drink"
+      "hint": "8 letters, starts with L and ends with E",
+      "category": "food",
+      "difficulty": "hard"
     },
     {
       "clue": "Green Vegetable",
       "answer": "CUCUMBER",
-      "hint": "Long, green and very refreshing"
+      "hint": "8 letters, starts with C and ends with R; second letter is U",
+      "category": "food",
+      "difficulty": "hard"
     },
     {
       "clue": "Green Veggie",
       "answer": "BROCCOLI",
-      "hint": "Looks like a tiny green tree"
+      "hint": "8 letters, starts with B and ends with I",
+      "category": "food",
+      "difficulty": "hard"
     },
     {
-      "clue": "Fungus Food",
+      "clue": "Fungus with a stalk and a cap",
       "answer": "MUSHROOM",
-      "hint": "A fungi that likes to be on pizza"
+      "hint": "8 letters, starts with M and ends with M",
+      "category": "food",
+      "difficulty": "hard"
     },
     {
-      "clue": "Comic Hero",
+      "clue": "Caped superhero from another world",
       "answer": "SUPERMAN",
-      "hint": "The Man of Steel"
+      "hint": "8 letters, starts with S and ends with N",
+      "category": "movies",
+      "difficulty": "hard"
     },
     {
       "clue": "Hero Team",
       "answer": "AVENGERS",
-      "hint": "Earth's mightiest heroes assembled"
+      "hint": "8 letters, starts with A and ends with S",
+      "category": "movies",
+      "difficulty": "hard"
     },
     {
       "clue": "Famous Detective",
       "answer": "SHERLOCK",
-      "hint": "Lives at 221B Baker Street"
+      "hint": "8 letters, starts with S and ends with K",
+      "category": "movies",
+      "difficulty": "hard"
     },
     {
       "clue": "Magic School",
       "answer": "HOGWARTS",
-      "hint": "A wizard school with three castles"
+      "hint": "8 letters, starts with H and ends with S",
+      "category": "movies",
+      "difficulty": "hard"
     },
     {
       "clue": "Celtic Country",
       "answer": "SCOTLAND",
-      "hint": "Part of the UK, north of England"
+      "hint": "8 letters, starts with S and ends with D",
+      "category": "geography",
+      "difficulty": "hard"
     },
     {
       "clue": "Asian Country",
       "answer": "THAILAND",
-      "hint": "Known as the Land of Smiles"
+      "hint": "8 letters, starts with T and ends with D",
+      "category": "geography",
+      "difficulty": "hard"
     },
     {
       "clue": "Southeast Nation",
       "answer": "MALAYSIA",
-      "hint": "Home to the Petronas Towers"
+      "hint": "8 letters, starts with M and ends with A",
+      "category": "geography",
+      "difficulty": "hard"
     },
     {
       "clue": "Iberian Country",
       "answer": "PORTUGAL",
-      "hint": "Lisbon is its capital city"
+      "hint": "8 letters, starts with P and ends with L; second letter is O",
+      "category": "geography",
+      "difficulty": "hard"
     },
     {
       "clue": "African Country",
       "answer": "BOTSWANA",
-      "hint": "Landlocked nation famous for its diamonds"
+      "hint": "8 letters, starts with B and ends with A",
+      "category": "geography",
+      "difficulty": "hard"
     },
     {
       "clue": "Southern Africa",
       "answer": "ZIMBABWE",
-      "hint": "Shares Victoria Falls with a neighbour"
+      "hint": "8 letters, starts with Z and ends with E",
+      "category": "geography",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Lives in water and breathes with gills",
+      "answer": "FISH",
+      "hint": "Starts with F and has 4 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Big cat called the king of the jungle",
+      "answer": "LION",
+      "hint": "Starts with L and has 4 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Wild canine that hunts in packs",
+      "answer": "WOLF",
+      "hint": "Starts with W and has 4 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Green jumper that croaks",
+      "answer": "FROG",
+      "hint": "Starts with F and has 4 letters; second letter is R",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Waterbird that quacks",
+      "answer": "DUCK",
+      "hint": "Starts with D and has 4 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Sea creature with claws and a shell",
+      "answer": "CRAB",
+      "hint": "Starts with C and has 4 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Farm animal that eats almost anything",
+      "answer": "GOAT",
+      "hint": "Starts with G and has 4 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Tiny rodent that loves cheese",
+      "answer": "MOUSE",
+      "hint": "Starts with M and has 5 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Striped big cat",
+      "answer": "TIGER",
+      "hint": "Starts with T and has 5 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Toothy ocean predator",
+      "answer": "SHARK",
+      "hint": "Starts with S and has 5 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Long reptile with no legs",
+      "answer": "SNAKE",
+      "hint": "Starts with S and has 5 letters; second letter is N",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Woolly farm animal",
+      "answer": "SHEEP",
+      "hint": "Starts with S and has 5 letters; second letter is H",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Huge ocean mammal",
+      "answer": "WHALE",
+      "hint": "Starts with W and has 5 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Striped African horse",
+      "answer": "ZEBRA",
+      "hint": "Starts with Z and has 5 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Bamboo-eating black-and-white bear",
+      "answer": "PANDA",
+      "hint": "Starts with P and has 5 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Australian tree-hugging marsupial",
+      "answer": "KOALA",
+      "hint": "Starts with K and has 5 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Animal you ride",
+      "answer": "HORSE",
+      "hint": "Starts with H and has 5 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Majestic bird of prey",
+      "answer": "EAGLE",
+      "hint": "Starts with E and has 5 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Common city bird",
+      "answer": "PIGEON",
+      "hint": "Starts with P and has 6 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Long-eared hopper",
+      "answer": "RABBIT",
+      "hint": "Starts with R and has 6 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Tree-climbing primate",
+      "answer": "MONKEY",
+      "hint": "Starts with M and has 6 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Reptile with a hard shell",
+      "answer": "TURTLE",
+      "hint": "Starts with T and has 6 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Stubborn relative of the horse",
+      "answer": "DONKEY",
+      "hint": "Starts with D and has 6 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Colourful bird that mimics speech",
+      "answer": "PARROT",
+      "hint": "Starts with P and has 6 letters; second letter is A",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Eight-legged web spinner",
+      "answer": "SPIDER",
+      "hint": "Starts with S and has 6 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Hard-shelled insect",
+      "answer": "BEETLE",
+      "hint": "Starts with B and has 6 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Fast diving bird of prey",
+      "answer": "FALCON",
+      "hint": "Starts with F and has 6 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Pink fish that swims upstream",
+      "answer": "SALMON",
+      "hint": "Starts with S and has 6 letters; second letter is A",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Herd of cows",
+      "answer": "CATTLE",
+      "hint": "Starts with C and has 6 letters",
+      "category": "animals",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Sweet baked treat for birthdays",
+      "answer": "CAKE",
+      "hint": "Starts with C and has 4 letters; second letter is A",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Staple grain of Asia",
+      "answer": "RICE",
+      "hint": "Starts with R and has 4 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "White drink from cows",
+      "answer": "MILK",
+      "hint": "Starts with M and has 4 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Yellow grain on a cob",
+      "answer": "CORN",
+      "hint": "Starts with C and has 4 letters; second letter is O",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Seed that grows in a pod",
+      "answer": "BEAN",
+      "hint": "Starts with B and has 4 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "White seasoning in a shaker",
+      "answer": "SALT",
+      "hint": "Starts with S and has 4 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Red or green fruit",
+      "answer": "APPLE",
+      "hint": "Starts with A and has 5 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Small fruit that grows in bunches",
+      "answer": "GRAPE",
+      "hint": "Starts with G and has 5 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Sour yellow citrus",
+      "answer": "LEMON",
+      "hint": "Starts with L and has 5 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Sweet golden syrup from bees",
+      "answer": "HONEY",
+      "hint": "Starts with H and has 5 letters; second letter is O",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Cheesy Italian flatbread",
+      "answer": "PIZZA",
+      "hint": "Starts with P and has 5 letters; second letter is I",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Bowl of raw greens",
+      "answer": "SALAD",
+      "hint": "Starts with S and has 5 letters; second letter is A",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Drink squeezed from fruit",
+      "answer": "JUICE",
+      "hint": "Starts with J and has 5 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Baked loaf staple",
+      "answer": "BREAD",
+      "hint": "Starts with B and has 5 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Sweet white crystals",
+      "answer": "SUGAR",
+      "hint": "Starts with S and has 5 letters; second letter is U",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Grain used to make flour",
+      "answer": "WHEAT",
+      "hint": "Starts with W and has 5 letters; second letter is H",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Sweet tropical orange fruit",
+      "answer": "MANGO",
+      "hint": "Starts with M and has 5 letters; second letter is A",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Small green fruit of the Mediterranean",
+      "answer": "OLIVE",
+      "hint": "Starts with O and has 5 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Big juicy summer fruit",
+      "answer": "MELON",
+      "hint": "Starts with M and has 5 letters; second letter is E",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Layered vegetable that makes you cry",
+      "answer": "ONION",
+      "hint": "Starts with O and has 5 letters; second letter is N",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Dairy product made from milk",
+      "answer": "CHEESE",
+      "hint": "Starts with C and has 6 letters; second letter is H",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Long yellow fruit",
+      "answer": "BANANA",
+      "hint": "Starts with B and has 6 letters; second letter is A",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Citrus fruit and a colour",
+      "answer": "ORANGE",
+      "hint": "Starts with O and has 6 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Small red fruit with a stone",
+      "answer": "CHERRY",
+      "hint": "Starts with C and has 6 letters; third letter is E",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Orange root vegetable",
+      "answer": "CARROT",
+      "hint": "Starts with C and has 6 letters; second letter is A",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Starchy vegetable used for chips",
+      "answer": "POTATO",
+      "hint": "Starts with P and has 6 letters; second letter is O",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Red fruit used in sauces",
+      "answer": "TOMATO",
+      "hint": "Starts with T and has 6 letters; second letter is O",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Strong-smelling bulb",
+      "answer": "GARLIC",
+      "hint": "Starts with G and has 6 letters",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Spice sold in a grinder",
+      "answer": "PEPPER",
+      "hint": "Starts with P and has 6 letters; second letter is E",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Hot drink from roasted beans",
+      "answer": "COFFEE",
+      "hint": "Starts with C and has 6 letters; second letter is O",
+      "category": "food",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Body that orbits a star",
+      "answer": "PLANET",
+      "hint": "Starts with P and has 6 letters; second letter is L",
+      "category": "space",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Vehicle that launches upward",
+      "answer": "ROCKET",
+      "hint": "Starts with R and has 6 letters; second letter is O",
+      "category": "space",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Icy traveller with a tail",
+      "answer": "COMET",
+      "hint": "Starts with C and has 5 letters",
+      "category": "space",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "The world we live on",
+      "answer": "EARTH",
+      "hint": "Starts with E and has 5 letters; second letter is A",
+      "category": "space",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Second planet from the sun",
+      "answer": "VENUS",
+      "hint": "Starts with V and has 5 letters",
+      "category": "space",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Dwarf planet at the edge",
+      "answer": "PLUTO",
+      "hint": "Starts with P and has 5 letters; second letter is L",
+      "category": "space",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Device that takes photos",
+      "answer": "CAMERA",
+      "hint": "Starts with C and has 6 letters; third letter is M",
+      "category": "technology",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Device for calls and apps",
+      "answer": "PHONE",
+      "hint": "Starts with P and has 5 letters; second letter is H",
+      "category": "technology",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Device that tunes to stations",
+      "answer": "RADIO",
+      "hint": "Starts with R and has 5 letters",
+      "category": "technology",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Device that tells the time",
+      "answer": "CLOCK",
+      "hint": "Starts with C and has 5 letters; second letter is L",
+      "category": "technology",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Furniture you sit on",
+      "answer": "CHAIR",
+      "hint": "Starts with C and has 5 letters; second letter is H",
+      "category": "general",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Tall narrow building",
+      "answer": "TOWER",
+      "hint": "Starts with T and has 5 letters; second letter is O",
+      "category": "general",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Vehicle on rails",
+      "answer": "TRAIN",
+      "hint": "Starts with T and has 5 letters; second letter is R",
+      "category": "general",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Organised sound and rhythm",
+      "answer": "MUSIC",
+      "hint": "Starts with M and has 5 letters; second letter is U",
+      "category": "music",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Round prize worn on a ribbon",
+      "answer": "MEDAL",
+      "hint": "Starts with M and has 5 letters; third letter is D",
+      "category": "sports",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Board game of kings and pawns",
+      "answer": "CHESS",
+      "hint": "Starts with C and has 5 letters; third letter is E",
+      "category": "general",
+      "difficulty": "easy"
+    },
+    {
+      "clue": "Spotted big cat",
+      "answer": "LEOPARD",
+      "hint": "7 letters, starts with L and ends with D",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Largest living primate",
+      "answer": "GORILLA",
+      "hint": "7 letters, starts with G and ends with A",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Flightless bird of the Antarctic",
+      "answer": "PENGUIN",
+      "hint": "7 letters, starts with P and ends with N",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Intelligent sea mammal",
+      "answer": "DOLPHIN",
+      "hint": "7 letters, starts with D and ends with N",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Tallest land animal",
+      "answer": "GIRAFFE",
+      "hint": "7 letters, starts with G and ends with E",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Small furry pet rodent",
+      "answer": "HAMSTER",
+      "hint": "7 letters, starts with H and ends with R",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Eight-armed sea creature",
+      "answer": "OCTOPUS",
+      "hint": "7 letters, starts with O and ends with S",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Large horned bovine",
+      "answer": "BUFFALO",
+      "hint": "7 letters, starts with B and ends with O",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Largest flightless bird",
+      "answer": "OSTRICH",
+      "hint": "7 letters, starts with O and ends with H",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Slow shelled land reptile",
+      "answer": "TORTOISE",
+      "hint": "8 letters, starts with T and ends with E",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Bushy-tailed tree climber",
+      "answer": "SQUIRREL",
+      "hint": "8 letters, starts with S and ends with L",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Desert mammal that stands guard",
+      "answer": "MEERKAT",
+      "hint": "7 letters, starts with M and ends with T",
+      "category": "animals",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Green fruit used in guacamole",
+      "answer": "AVOCADO",
+      "hint": "7 letters, starts with A and ends with O",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Orange gourd of Halloween",
+      "answer": "PUMPKIN",
+      "hint": "7 letters, starts with P and ends with N; second letter is U",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Crunchy baked snack",
+      "answer": "BISCUIT",
+      "hint": "7 letters, starts with B and ends with T",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Flat cake fried in a pan",
+      "answer": "PANCAKE",
+      "hint": "7 letters, starts with P and ends with E",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Long strands of pasta",
+      "answer": "NOODLES",
+      "hint": "7 letters, starts with N and ends with S",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Warm porridge of oats",
+      "answer": "OATMEAL",
+      "hint": "7 letters, starts with O and ends with L",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Dark leafy green vegetable",
+      "answer": "SPINACH",
+      "hint": "7 letters, starts with S and ends with H",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Leafy salad base",
+      "answer": "LETTUCE",
+      "hint": "7 letters, starts with L and ends with E",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Dense leafy vegetable",
+      "answer": "CABBAGE",
+      "hint": "7 letters, starts with C and ends with E",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Cultured dairy snack",
+      "answer": "YOGURT",
+      "hint": "Starts with Y and has 6 letters",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Cup-shaped baked treat",
+      "answer": "MUFFIN",
+      "hint": "Starts with M and has 6 letters; second letter is U",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Grid-patterned breakfast cake",
+      "answer": "WAFFLE",
+      "hint": "Starts with W and has 6 letters",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Oval nut",
+      "answer": "ALMOND",
+      "hint": "Starts with A and has 6 letters",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Creamy curved nut",
+      "answer": "CASHEW",
+      "hint": "Starts with C and has 6 letters; third letter is S",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Breakfast grain eaten with milk",
+      "answer": "CEREAL",
+      "hint": "Starts with C and has 6 letters; second letter is E",
+      "category": "food",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Positive particle in an atom",
+      "answer": "PROTON",
+      "hint": "Starts with P and has 6 letters; second letter is R",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Neutral particle in a nucleus",
+      "answer": "NEUTRON",
+      "hint": "7 letters, starts with N and ends with N",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Negative particle orbiting a nucleus",
+      "answer": "ELECTRON",
+      "hint": "8 letters, starts with E and ends with N",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Group of bonded atoms",
+      "answer": "MOLECULE",
+      "hint": "8 letters, starts with M and ends with E",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Scientist who studies reactions",
+      "answer": "CHEMIST",
+      "hint": "7 letters, starts with C and ends with T",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Electrical push, measured in volts",
+      "answer": "VOLTAGE",
+      "hint": "7 letters, starts with V and ends with E",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Capacity to do work",
+      "answer": "ENERGY",
+      "hint": "Starts with E and has 6 letters",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Hot ionised state of matter",
+      "answer": "PLASMA",
+      "hint": "Starts with P and has 6 letters; third letter is A",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Study of matter and forces",
+      "answer": "PHYSICS",
+      "hint": "7 letters, starts with P and ends with S",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Study of heredity",
+      "answer": "GENETICS",
+      "hint": "8 letters, starts with G and ends with S; second letter is E",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Single-celled microbes",
+      "answer": "BACTERIA",
+      "hint": "8 letters, starts with B and ends with A; second letter is A",
+      "category": "science",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Cloud of gas and dust in space",
+      "answer": "NEBULA",
+      "hint": "Starts with N and has 6 letters",
+      "category": "space",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "When one body hides another",
+      "answer": "ECLIPSE",
+      "hint": "7 letters, starts with E and ends with E",
+      "category": "space",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Bowl-shaped dent on a moon",
+      "answer": "CRATER",
+      "hint": "Starts with C and has 6 letters; second letter is R",
+      "category": "space",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Path taken around a planet",
+      "answer": "ORBITAL",
+      "hint": "7 letters, starts with O and ends with L; second letter is R",
+      "category": "space",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Streak of light in the night sky",
+      "answer": "METEOR",
+      "hint": "Starts with M and has 6 letters; second letter is E",
+      "category": "space",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Huge system of stars",
+      "answer": "GALAXY",
+      "hint": "Starts with G and has 6 letters; second letter is A",
+      "category": "space",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Ringed planet",
+      "answer": "SATURN",
+      "hint": "Starts with S and has 6 letters; third letter is T",
+      "category": "space",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Ice giant planet",
+      "answer": "URANUS",
+      "hint": "Starts with U and has 6 letters",
+      "category": "space",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Southeast Asian country",
+      "answer": "VIETNAM",
+      "hint": "7 letters, starts with V and ends with M",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Middle Eastern country on the Med",
+      "answer": "LEBANON",
+      "hint": "7 letters, starts with L and ends with N",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Most populous African country",
+      "answer": "NIGERIA",
+      "hint": "7 letters, starts with N and ends with A",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "North African country, capital Rabat",
+      "answer": "MOROCCO",
+      "hint": "7 letters, starts with M and ends with O",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Nordic country, capital Helsinki",
+      "answer": "FINLAND",
+      "hint": "7 letters, starts with F and ends with D",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Eastern European country, capital Kyiv",
+      "answer": "UKRAINE",
+      "hint": "7 letters, starts with U and ends with E",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Nordic island of fire and ice",
+      "answer": "ICELAND",
+      "hint": "7 letters, starts with I and ends with D",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Emerald Isle",
+      "answer": "IRELAND",
+      "hint": "7 letters, starts with I and ends with D; second letter is R",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Nordic country, capital Copenhagen",
+      "answer": "DENMARK",
+      "hint": "7 letters, starts with D and ends with K",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Country famed for chocolate",
+      "answer": "BELGIUM",
+      "hint": "7 letters, starts with B and ends with M",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Alpine country, capital Vienna",
+      "answer": "AUSTRIA",
+      "hint": "7 letters, starts with A and ends with A",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Country of Transylvania",
+      "answer": "ROMANIA",
+      "hint": "7 letters, starts with R and ends with A",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "North African country, capital Tunis",
+      "answer": "TUNISIA",
+      "hint": "7 letters, starts with T and ends with A",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Southern African country, capital Windhoek",
+      "answer": "NAMIBIA",
+      "hint": "7 letters, starts with N and ends with A; second letter is A",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "South American country on the equator",
+      "answer": "ECUADOR",
+      "hint": "7 letters, starts with E and ends with R",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Small South American country",
+      "answer": "URUGUAY",
+      "hint": "7 letters, starts with U and ends with Y",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Landlocked South American country",
+      "answer": "BOLIVIA",
+      "hint": "7 letters, starts with B and ends with A",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Caribbean island nation",
+      "answer": "JAMAICA",
+      "hint": "7 letters, starts with J and ends with A",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Mediterranean island country",
+      "answer": "CYPRUS",
+      "hint": "Starts with C and has 6 letters; second letter is Y",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Small oil-rich Gulf state",
+      "answer": "KUWAIT",
+      "hint": "Starts with K and has 6 letters",
+      "category": "geography",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Network entry point",
+      "answer": "GATEWAY",
+      "hint": "7 letters, starts with G and ends with Y; second letter is A",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "App for surfing the web",
+      "answer": "BROWSER",
+      "hint": "7 letters, starts with B and ends with R",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Connected computers",
+      "answer": "NETWORK",
+      "hint": "7 letters, starts with N and ends with K",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Machine that outputs on paper",
+      "answer": "PRINTER",
+      "hint": "7 letters, starts with P and ends with R",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Device that plays sound",
+      "answer": "SPEAKER",
+      "hint": "7 letters, starts with S and ends with R",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Cable that refills a battery",
+      "answer": "CHARGER",
+      "hint": "7 letters, starts with C and ends with R",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Portable power cell",
+      "answer": "BATTERY",
+      "hint": "7 letters, starts with B and ends with Y; second letter is A",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Another word for a screen",
+      "answer": "DISPLAY",
+      "hint": "7 letters, starts with D and ends with Y",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Electronic rather than analogue",
+      "answer": "DIGITAL",
+      "hint": "7 letters, starts with D and ends with L",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Where data is kept",
+      "answer": "STORAGE",
+      "hint": "7 letters, starts with S and ends with E",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Working without cables",
+      "answer": "WIRELESS",
+      "hint": "8 letters, starts with W and ends with S",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Set of coded instructions",
+      "answer": "PROGRAM",
+      "hint": "7 letters, starts with P and ends with M",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Software baked into hardware",
+      "answer": "FIRMWARE",
+      "hint": "8 letters, starts with F and ends with E",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Devices that direct network traffic",
+      "answer": "ROUTERS",
+      "hint": "7 letters, starts with R and ends with S",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Devices that detect changes",
+      "answer": "SENSORS",
+      "hint": "7 letters, starts with S and ends with S",
+      "category": "technology",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Bat-and-ball game with wickets",
+      "answer": "CRICKET",
+      "hint": "7 letters, starts with C and ends with T; second letter is R",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Official who enforces the rules",
+      "answer": "REFEREE",
+      "hint": "7 letters, starts with R and ends with E",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Big arena for sport",
+      "answer": "STADIUM",
+      "hint": "7 letters, starts with S and ends with M",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Members of a team",
+      "answer": "PLAYERS",
+      "hint": "7 letters, starts with P and ends with S; second letter is L",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Practice sessions",
+      "answer": "TRAINING",
+      "hint": "8 letters, starts with T and ends with G",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Spear thrown for distance",
+      "answer": "JAVELIN",
+      "hint": "7 letters, starts with J and ends with N",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Sport with bow and arrow",
+      "answer": "ARCHERY",
+      "hint": "7 letters, starts with A and ends with Y",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Sport on two wheels",
+      "answer": "CYCLING",
+      "hint": "7 letters, starts with C and ends with G",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Sport on the water",
+      "answer": "SAILING",
+      "hint": "7 letters, starts with S and ends with G; second letter is A",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Riding ocean waves",
+      "answer": "SURFING",
+      "hint": "7 letters, starts with S and ends with G; second letter is U",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Team leader",
+      "answer": "CAPTAIN",
+      "hint": "7 letters, starts with C and ends with N",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Prize cup",
+      "answer": "TROPHY",
+      "hint": "Starts with T and has 6 letters; second letter is R",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "A win",
+      "answer": "VICTORY",
+      "hint": "7 letters, starts with V and ends with Y",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Athlete who performs on apparatus",
+      "answer": "GYMNAST",
+      "hint": "7 letters, starts with G and ends with T",
+      "category": "sports",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Caped Gotham hero",
+      "answer": "BATMAN",
+      "hint": "Starts with B and has 6 letters; third letter is T",
+      "category": "movies",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Film about a doomed ocean liner",
+      "answer": "TITANIC",
+      "hint": "7 letters, starts with T and ends with C",
+      "category": "movies",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Disney street rat with a lamp",
+      "answer": "ALADDIN",
+      "hint": "7 letters, starts with A and ends with N",
+      "category": "movies",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Green-tinted hacker film",
+      "answer": "MATRIX",
+      "hint": "Starts with M and has 6 letters; second letter is A",
+      "category": "movies",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Space horror sequel",
+      "answer": "ALIENS",
+      "hint": "Starts with A and has 6 letters; second letter is L",
+      "category": "movies",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Blue alien blockbuster",
+      "answer": "AVATAR",
+      "hint": "Starts with A and has 6 letters; second letter is V",
+      "category": "movies",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Live music event",
+      "answer": "CONCERT",
+      "hint": "7 letters, starts with C and ends with T; second letter is O",
+      "category": "music",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Brass instrument with valves",
+      "answer": "TRUMPET",
+      "hint": "7 letters, starts with T and ends with T",
+      "category": "music",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Woodwind with a single reed",
+      "answer": "CLARINET",
+      "hint": "8 letters, starts with C and ends with T",
+      "category": "music",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Small four-string instrument",
+      "answer": "UKULELE",
+      "hint": "7 letters, starts with U and ends with E; second letter is K",
+      "category": "music",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Pleasant blend of notes",
+      "answer": "HARMONY",
+      "hint": "7 letters, starts with H and ends with Y",
+      "category": "music",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "A tune",
+      "answer": "MELODY",
+      "hint": "Starts with M and has 6 letters; third letter is L",
+      "category": "music",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Person who performs vocals",
+      "answer": "SINGER",
+      "hint": "Starts with S and has 6 letters; second letter is I",
+      "category": "music",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Trip from here to there",
+      "answer": "JOURNEY",
+      "hint": "7 letters, starts with J and ends with Y",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Time off to travel",
+      "answer": "HOLIDAY",
+      "hint": "7 letters, starts with H and ends with Y; second letter is O",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Early part of the day",
+      "answer": "MORNING",
+      "hint": "7 letters, starts with M and ends with G",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Later part of the day",
+      "answer": "EVENING",
+      "hint": "7 letters, starts with E and ends with G",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Saturday and Sunday",
+      "answer": "WEEKEND",
+      "hint": "7 letters, starts with W and ends with D",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Hardest gemstone",
+      "answer": "DIAMOND",
+      "hint": "7 letters, starts with D and ends with D",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Clear glass-like mineral",
+      "answer": "CRYSTAL",
+      "hint": "7 letters, starts with C and ends with L",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Puzzle to solve",
+      "answer": "MYSTERY",
+      "hint": "7 letters, starts with M and ends with Y",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Very quiet speech",
+      "answer": "WHISPER",
+      "hint": "7 letters, starts with W and ends with R",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Air-filled party decoration",
+      "answer": "BALLOON",
+      "hint": "7 letters, starts with B and ends with N",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Portable light in a case",
+      "answer": "LANTERN",
+      "hint": "7 letters, starts with L and ends with N; second letter is A",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Rain shield",
+      "answer": "UMBRELLA",
+      "hint": "8 letters, starts with U and ends with A",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Bag worn on the shoulders",
+      "answer": "BACKPACK",
+      "hint": "8 letters, starts with B and ends with K",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Book of blank pages",
+      "answer": "NOTEBOOK",
+      "hint": "8 letters, starts with N and ends with K",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Filling between two slices of bread",
+      "answer": "SANDWICH",
+      "hint": "8 letters, starts with S and ends with H",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Something that is asked",
+      "answer": "QUESTION",
+      "hint": "8 letters, starts with Q and ends with N",
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "clue": "Traveller beyond the sky",
+      "answer": "ASTRONAUT",
+      "hint": "9 letters, starts with A and ends with T",
+      "category": "space",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Instrument for viewing distant objects",
+      "answer": "TELESCOPE",
+      "hint": "9 letters, starts with T and ends with E",
+      "category": "science",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Object orbiting a larger body",
+      "answer": "SATELLITE",
+      "hint": "9 letters, starts with S and ends with E",
+      "category": "space",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Step-by-step procedure",
+      "answer": "ALGORITHM",
+      "hint": "9 letters, starts with A and ends with M",
+      "category": "technology",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Scrambling data for privacy",
+      "answer": "ENCRYPTION",
+      "hint": "10 letters, starts with E and ends with N",
+      "category": "technology",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Chip that runs instructions",
+      "answer": "PROCESSOR",
+      "hint": "9 letters, starts with P and ends with R",
+      "category": "technology",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Reusable software structure",
+      "answer": "FRAMEWORK",
+      "hint": "9 letters, starts with F and ends with K",
+      "category": "technology",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Point where two systems meet",
+      "answer": "INTERFACE",
+      "hint": "9 letters, starts with I and ends with E",
+      "category": "technology",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Short-range wireless standard",
+      "answer": "BLUETOOTH",
+      "hint": "9 letters, starts with B and ends with H",
+      "category": "technology",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Device for voice calls",
+      "answer": "TELEPHONE",
+      "hint": "9 letters, starts with T and ends with E; second letter is E",
+      "category": "technology",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Frozen southern continent",
+      "answer": "ANTARCTICA",
+      "hint": "10 letters, starts with A and ends with A",
+      "category": "geography",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Continent and country down under",
+      "answer": "AUSTRALIA",
+      "hint": "9 letters, starts with A and ends with A",
+      "category": "geography",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "South American country, capital Buenos Aires",
+      "answer": "ARGENTINA",
+      "hint": "9 letters, starts with A and ends with A; second letter is R",
+      "category": "geography",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "South American country, capital Caracas",
+      "answer": "VENEZUELA",
+      "hint": "9 letters, starts with V and ends with A",
+      "category": "geography",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Southeast Asian island nation",
+      "answer": "INDONESIA",
+      "hint": "9 letters, starts with I and ends with A",
+      "category": "geography",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "City-state at the tip of the peninsula",
+      "answer": "SINGAPORE",
+      "hint": "9 letters, starts with S and ends with E; second letter is I",
+      "category": "geography",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Large island nation off Africa",
+      "answer": "MADAGASCAR",
+      "hint": "10 letters, starts with M and ends with R",
+      "category": "geography",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Sweet treat made from cocoa",
+      "answer": "CHOCOLATE",
+      "hint": "9 letters, starts with C and ends with E",
+      "category": "food",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Spiky tropical fruit",
+      "answer": "PINEAPPLE",
+      "hint": "9 letters, starts with P and ends with E",
+      "category": "food",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Small dark blue fruit",
+      "answer": "BLUEBERRY",
+      "hint": "9 letters, starts with B and ends with Y",
+      "category": "food",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Big green fruit, red inside",
+      "answer": "WATERMELON",
+      "hint": "10 letters, starts with W and ends with N",
+      "category": "food",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Green spears of spring",
+      "answer": "ASPARAGUS",
+      "hint": "9 letters, starts with A and ends with S",
+      "category": "food",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Sport played with hoops",
+      "answer": "BASKETBALL",
+      "hint": "10 letters, starts with B and ends with L",
+      "category": "sports",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Sport with a high net",
+      "answer": "VOLLEYBALL",
+      "hint": "10 letters, starts with V and ends with L",
+      "category": "sports",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Sport with flips and beams",
+      "answer": "GYMNASTICS",
+      "hint": "10 letters, starts with G and ends with S",
+      "category": "sports",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Series of matches",
+      "answer": "TOURNAMENT",
+      "hint": "10 letters, starts with T and ends with T",
+      "category": "sports",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Grappling combat sport",
+      "answer": "WRESTLING",
+      "hint": "9 letters, starts with W and ends with G",
+      "category": "sports",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Roman arena fighter",
+      "answer": "GLADIATOR",
+      "hint": "9 letters, starts with G and ends with R",
+      "category": "movies",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Home of American film",
+      "answer": "HOLLYWOOD",
+      "hint": "9 letters, starts with H and ends with D",
+      "category": "movies",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Web-slinging hero",
+      "answer": "SPIDERMAN",
+      "hint": "9 letters, starts with S and ends with N",
+      "category": "movies",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Shelley's stitched monster",
+      "answer": "FRANKENSTEIN",
+      "hint": "12 letters, starts with F and ends with N",
+      "category": "movies",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Exciting journey",
+      "answer": "ADVENTURE",
+      "hint": "9 letters, starts with A and ends with E",
+      "category": "general",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Place of higher learning",
+      "answer": "UNIVERSITY",
+      "hint": "10 letters, starts with U and ends with Y",
+      "category": "general",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Book of word meanings",
+      "answer": "DICTIONARY",
+      "hint": "10 letters, starts with D and ends with Y",
+      "category": "general",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Children's play area",
+      "answer": "PLAYGROUND",
+      "hint": "10 letters, starts with P and ends with D",
+      "category": "general",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Daily printed news",
+      "answer": "NEWSPAPER",
+      "hint": "9 letters, starts with N and ends with R",
+      "category": "general",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Advanced society",
+      "answer": "CIVILIZATION",
+      "hint": "12 letters, starts with C and ends with N",
+      "category": "history",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Freedom from rule by another",
+      "answer": "INDEPENDENCE",
+      "hint": "12 letters, starts with I and ends with E",
+      "category": "history",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Major upheaval or turn",
+      "answer": "REVOLUTION",
+      "hint": "10 letters, starts with R and ends with N",
+      "category": "history",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Huge river mammal",
+      "answer": "HIPPOPOTAMUS",
+      "hint": "12 letters, starts with H and ends with S",
+      "category": "animals",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Colourful winged insect",
+      "answer": "BUTTERFLY",
+      "hint": "9 letters, starts with B and ends with Y; second letter is U",
+      "category": "animals",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Toothy river reptile",
+      "answer": "CROCODILE",
+      "hint": "9 letters, starts with C and ends with E; second letter is R",
+      "category": "animals",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Ape that uses tools",
+      "answer": "CHIMPANZEE",
+      "hint": "10 letters, starts with C and ends with E",
+      "category": "animals",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Fast insect with four wings",
+      "answer": "DRAGONFLY",
+      "hint": "9 letters, starts with D and ends with Y",
+      "category": "animals",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Larva that becomes a winged insect",
+      "answer": "CATERPILLAR",
+      "hint": "11 letters, starts with C and ends with R",
+      "category": "animals",
+      "difficulty": "hard"
+    },
+    {
+      "clue": "Horned heavyweight",
+      "answer": "RHINOCEROS",
+      "hint": "10 letters, starts with R and ends with S",
+      "category": "animals",
+      "difficulty": "hard"
     }
   ]
 }

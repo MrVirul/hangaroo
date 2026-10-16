@@ -34,8 +34,13 @@ public static class WordPool
     /// Parses and validates a JSON word list. Skips invalid entries, normalizes
     /// accepted answers to upper-case, and records a descriptive reason for each
     /// rejection.
+    ///
+    /// When <paramref name="difficulty"/> is given, only entries that declare
+    /// that difficulty are considered; the rest are ignored silently (they are
+    /// not rejections - they simply belong to another band). The list is meant
+    /// to be filtered once per run, never per word.
     /// </summary>
-    public static ParseResult Parse(string json, int minLength, int maxLength)
+    public static ParseResult Parse(string json, int minLength, int maxLength, string difficulty = null)
     {
         var result = new ParseResult();
 
@@ -62,6 +67,7 @@ public static class WordPool
             return result;
         }
 
+        string filter = WordDifficulty.Normalize(difficulty);
         var seenAnswers = new HashSet<string>();
 
         foreach (WordEntry entry in payload.words)
@@ -72,8 +78,17 @@ public static class WordPool
                 continue;
             }
 
-            WordValidationResult check =
-                WordValidator.Validate(entry.clue, entry.answer, entry.hint, minLength, maxLength);
+            if (filter.Length > 0 && WordDifficulty.Normalize(entry.difficulty) != filter)
+                continue;
+
+            WordValidationResult check = WordValidator.Validate(
+                entry.clue,
+                entry.answer,
+                entry.hint,
+                entry.category,
+                entry.difficulty,
+                minLength,
+                maxLength);
 
             if (check.IsValid)
             {
@@ -88,7 +103,12 @@ public static class WordPool
                 continue;
             }
 
-            result.words.Add(new WordEntry(entry.clue, WordValidator.Normalize(entry.answer), entry.hint));
+            result.words.Add(new WordEntry(
+                entry.clue,
+                WordValidator.Normalize(entry.answer),
+                entry.hint,
+                WordCategory.Normalize(entry.category),
+                WordDifficulty.Normalize(entry.difficulty)));
         }
 
         return result;
@@ -96,15 +116,17 @@ public static class WordPool
 
     /// <summary>
     /// A tiny, always-valid pool used when the authored content is missing or
-    /// entirely rejected, so the game degrades to a playable state.
+    /// entirely rejected, so the game degrades to a playable state. Every entry
+    /// carries a category and difficulty so the fallback passes the same rules
+    /// as authored content.
     /// </summary>
     public static List<WordEntry> CreateFallback()
     {
         return new List<WordEntry>
         {
-            new WordEntry("Largest Planet", "JUPITER", "Starts with J and has 7 letters"),
-            new WordEntry("Natural Force", "GRAVITY", "Keeps your feet on the ground"),
-            new WordEntry("Life Science", "BIOLOGY", "The study of living things"),
+            new WordEntry("Largest Planet", "JUPITER", "Starts with J and has 7 letters", "space", "medium"),
+            new WordEntry("Natural Force", "GRAVITY", "Starts with G and has 7 letters", "science", "medium"),
+            new WordEntry("Life Science", "BIOLOGY", "Starts with B and has 7 letters", "science", "medium"),
         };
     }
 }

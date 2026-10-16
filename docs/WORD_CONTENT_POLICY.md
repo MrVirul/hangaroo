@@ -2,7 +2,7 @@
 
 This document is the decision record for how authored word content is shaped and
 validated (issue #18). It exists so the rule is a **decision, not an accident**,
-and so the future per-difficulty banks have a single contract to satisfy.
+and so the per-difficulty banks have a single contract to satisfy (Story 1.4).
 
 ## Decision
 
@@ -35,13 +35,72 @@ following hold. Checks run in this order, and the first failure is reported:
 | 7 | `hint` does not duplicate the `clue` (case-insensitive) | `hint duplicates the clue` |
 | 8 | `answer` is unique within the list (case-insensitive) | `duplicate answer '…'` |
 
+Story 1.4 adds the fields and hygiene rules below.
+
+| # | Rule | Failure reason |
+|---|------|----------------|
+| 9 | `category` is non-empty and one of the documented set | `category is empty` / `category '…' is not one of the documented categories` |
+| 10 | `difficulty` is non-empty and one of `easy`/`medium`/`hard` | `difficulty is empty` / `difficulty '…' is not easy/medium/hard` |
+| 11 | `answer` length is inside the band the entry **declares** | `answer '…' is outside the <difficulty> band (min-max)` |
+| 12 | `clue` does not contain the `answer` | `clue contains the answer (giveaway)` |
+| 13 | `hint` does not contain the `answer` | `hint contains the answer (giveaway)` |
+
 The length band `[4, 12]` is the **union** of the Easy (4–6), Medium (6–8) and
 Hard (8–12) difficulty bands: the shared list must be usable by at least one
-difficulty. When content is split per difficulty, each bank should be validated
-against its own band by passing that band to `WordValidator.Validate`.
+difficulty. `WordPool.Parse` still takes that union band for the whole file, but
+each entry is additionally checked against **its own declared band** (rule 11),
+so a word cannot be tagged `hard` while being seven letters.
 
 Answers are normalized to upper-case on load, so authors may write them in any
 case.
+
+## Categories and difficulty (Story 1.4)
+
+Every entry carries two extra required fields:
+
+```json
+{
+  "answer": "JUPITER",
+  "clue": "Largest Planet",
+  "hint": "Starts with J and has 7 letters",
+  "category": "space",
+  "difficulty": "medium"
+}
+```
+
+- **`difficulty`** is one of `easy`, `medium`, `hard`, and must match the answer's
+  length band. Bands overlap on purpose (6 and 8 letters are valid in two bands),
+  so the declared difficulty is authoritative — it is never inferred from length.
+- **`category`** is player-visible: the `ShowCategory` setting reveals it as an
+  extra nudge. It is a finite, documented set:
+
+  `animals`, `food`, `geography`, `history`, `movies`, `music`, `nature`,
+  `science`, `space`, `sports`, `technology`, `general`.
+
+  The set lives in `WordCategory.All`; adding a category means updating that,
+  this file, and `KNOWN_CATEGORIES` in `scripts/validate-content.py`.
+
+### Band population
+
+Each difficulty must offer **at least 60** validator-passing words
+(`WordListValidator.MinWordsPerBand`). Below that a run can end early or repeat
+words, so the count is asserted per band. Hard must additionally contain at least
+one word reaching the top of its band (12 letters), so the 8–12 promise is real
+and not silently degenerate.
+
+### Runtime selection
+
+The pool is resolved **once per run**: `GameManager.StartRun` filters the parsed
+file down to the active difficulty and shuffles that slice. Difficulty is never
+read again mid-run, so a mid-run change (or, once EPIC 2 lands, a fetch failure)
+cannot swap the words out from under the player.
+
+## Hint copy
+
+Because hints are gated by difficulty (Story 1.3), a hint is an **assist**, not a
+second clue: it should give structure (starting/ending letters, length, a
+contained letter) rather than restate the clue. Rules 7, 12 and 13 make the worst
+cases mechanical to catch; the rest is reviewed by hand.
 
 ## Enforcement
 
@@ -69,7 +128,13 @@ of truth:
 ```json
 {
   "words": [
-    { "clue": "Largest Planet", "answer": "JUPITER", "hint": "Starts with J and has 7 letters" }
+    {
+      "clue": "Largest Planet",
+      "answer": "JUPITER",
+      "hint": "Starts with J and has 7 letters",
+      "category": "space",
+      "difficulty": "medium"
+    }
   ]
 }
 ```

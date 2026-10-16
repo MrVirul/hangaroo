@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
 
     private List<WordEntry> words = new List<WordEntry>();
 
+    // Every parsed word, all bands. The per-run `words` list is a difficulty
+    // slice of this, resolved once in StartRun and never touched mid-run.
+    private readonly List<WordEntry> allWords = new List<WordEntry>();
+
 
     private WordEntry currentWord;
 
@@ -90,7 +94,6 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.Save();
 
         LoadWords();
-        BuildWordOrder();
     }
 
 
@@ -114,6 +117,11 @@ public class GameManager : MonoBehaviour
         score = 0;
         runEnded = false;
 
+        // Resolve the run's word list once, for the active difficulty. Nothing
+        // below this line re-reads difficulty, so a mid-run change can never
+        // swap the words out from under the player (Story 1.4).
+        ResolveWordPoolForRun();
+
         run = new RunLifecycle(
             new RunState
             {
@@ -125,6 +133,39 @@ public class GameManager : MonoBehaviour
             livesPerWord);
 
         RefreshDifficultyLabel();
+    }
+
+
+    /// <summary>
+    /// Builds the per-run <see cref="words"/> list from the parser's full pool,
+    /// keeping only the entries that declare the active difficulty. Falls back to
+    /// every parsed word (then the built-in pool) if a band is empty, so a thin
+    /// bank degrades to a playable board rather than a blank one.
+    /// </summary>
+    void ResolveWordPoolForRun()
+    {
+        words.Clear();
+
+        string difficulty = WordDifficulty.Normalize(DifficultyLibrary.Current.ToString());
+
+        foreach (WordEntry entry in allWords)
+        {
+            if (WordDifficulty.Normalize(entry.difficulty) == difficulty)
+                words.Add(entry);
+        }
+
+        if (words.Count == 0 && allWords.Count > 0)
+        {
+            Debug.LogWarning(
+                "GameManager: no words authored for difficulty '" + difficulty +
+                "'. Falling back to the full pool.");
+            words.AddRange(allWords);
+        }
+
+        if (words.Count == 0)
+            words.AddRange(WordPool.CreateFallback());
+
+        BuildWordOrder();
     }
 
 
@@ -140,7 +181,7 @@ public class GameManager : MonoBehaviour
 
     void LoadWords()
     {
-        words.Clear();
+        allWords.Clear();
 
         if (wordsFile == null)
         {
@@ -167,14 +208,14 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        words.AddRange(parsed.words);
+        allWords.AddRange(parsed.words);
     }
 
 
     void UseFallbackWords()
     {
-        words.Clear();
-        words.AddRange(WordPool.CreateFallback());
+        allWords.Clear();
+        allWords.AddRange(WordPool.CreateFallback());
     }
 
 
