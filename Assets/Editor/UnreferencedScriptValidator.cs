@@ -22,16 +22,12 @@ public static class UnreferencedScriptValidator
 
     /// <summary>
     /// MonoBehaviours that are allowed to be unreferenced for now, each with the
-    /// reason. Remove an entry the moment the script is attached.
+    /// reason. Remove an entry the moment the script is attached. It is empty on
+    /// purpose: <c>SettingsUIResponsiveAdapter</c> was the last entry and is now
+    /// attached to <c>Settings_Panel.prefab</c> (issue #21), so the guard runs
+    /// with no suppressions.
     /// </summary>
-    private static readonly Dictionary<string, string> Allowlist = new Dictionary<string, string>
-    {
-        {
-            "Assets/Scripts/SettingsUIResponsiveAdapter.cs",
-            "Attach to Settings_Panel.prefab once the panel gains the " +
-            "difficulty/hints controls it lays out (see #15, tracked by #21)."
-        },
-    };
+    private static readonly Dictionary<string, string> Allowlist = new Dictionary<string, string>();
 
     [MenuItem(MenuPath)]
     public static void ValidateFromMenu()
