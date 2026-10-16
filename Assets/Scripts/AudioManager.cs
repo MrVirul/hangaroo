@@ -96,6 +96,25 @@ public class AudioManager : MonoBehaviour
         ApplyMusicState();
     }
 
+    /// <summary>
+    /// Silences the looping background music without touching the player's
+    /// MusicEnabled preference, so an end-of-run panel is not competing with the
+    /// loop. <see cref="ResumeMusic"/> brings it back subject to that same
+    /// preference, so a run that ended can always be restarted with music
+    /// (issue #21).
+    /// </summary>
+    public void StopMusic()
+    {
+        if (musicSource != null)
+            musicSource.Stop();
+    }
+
+    /// <summary>Restarts the background music when the player has it enabled.</summary>
+    public void ResumeMusic()
+    {
+        ApplyMusicState();
+    }
+
     public void PlayClick()
     {
         if (!ClickEnabled)

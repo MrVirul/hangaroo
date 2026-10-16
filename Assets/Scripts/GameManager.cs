@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
 
     private WordEntry currentWord;
 
+    // The gameplay card's scaler. Its onLayoutChanged re-runs the one-off slot
+    // fit after a resize (issue #21).
+    private ResponsiveGameplayScaler gameplayScaler;
+
 
     [Header("UI")]
     public TMP_Text clueText;
@@ -86,6 +90,23 @@ public class GameManager : MonoBehaviour
         // (Story 1.2), forcing them on would defeat the setting itself.
 
         LoadWords();
+
+        SubscribeToLayoutChanges();
+    }
+
+
+    /// <summary>
+    /// Re-fits the letter slots whenever the gameplay card rescales (rotation,
+    /// safe-area change, window resize). The scaler is resolved by lookup rather
+    /// than an inspector reference so a scene cannot silently lose the wiring,
+    /// matching how ButtonClickSound finds its buttons (issue #21).
+    /// </summary>
+    void SubscribeToLayoutChanges()
+    {
+        gameplayScaler = Object.FindFirstObjectByType<ResponsiveGameplayScaler>();
+
+        if (gameplayScaler != null)
+            gameplayScaler.onLayoutChanged.AddListener(FitSlotsToWidth);
     }
 
 
@@ -108,6 +129,12 @@ public class GameManager : MonoBehaviour
 
         score = 0;
         runEnded = false;
+
+        // A run that ended leaves the music stopped for its summary panel; every
+        // new run starts with it playing again, subject to the player's setting
+        // (issue #21).
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.ResumeMusic();
 
         // Resolve the run's word list once, for the active difficulty. Nothing
         // below this line re-reads difficulty, so a mid-run change can never
