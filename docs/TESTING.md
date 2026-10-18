@@ -54,8 +54,8 @@ it can be a required check. The editor must be closed while it runs.
 
 | Platform | Tests | Warm runtime |
 |---|---|---|
-| EditMode | 58 | ~3 s |
-| PlayMode | 11 | ~2 s |
+| EditMode | 94 | ~3 s |
+| PlayMode | 24 | ~2 s |
 
 EditMode is well under the one-minute budget. PlayMode is deliberately small
 (issue #38: "fewest, only what broke") and loads the scene per test.
