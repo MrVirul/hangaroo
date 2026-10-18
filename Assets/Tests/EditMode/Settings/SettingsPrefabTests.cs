@@ -370,7 +370,6 @@ public class SettingsPrefabTests
 
     private static void AssertInsideBounds(Vector3[] outer, Vector3[] inner, string label)
     {
-
         float minX = Mathf.Min(outer[0].x, Mathf.Min(outer[1].x, Mathf.Min(outer[2].x, outer[3].x)));
         float maxX = Mathf.Max(outer[0].x, Mathf.Max(outer[1].x, Mathf.Max(outer[2].x, outer[3].x)));
         float minY = Mathf.Min(outer[0].y, Mathf.Min(outer[1].y, Mathf.Min(outer[2].y, outer[3].y)));
