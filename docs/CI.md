@@ -100,6 +100,9 @@ that another instance already holds. Override the editor path with
 | PlayMode tests | `scripts/run-tests.sh PlayMode` |
 | Word list validator (Editor) | `scripts/validate-words.sh` |
 | Script reference validator (Editor) | `-executeMethod UnreferencedScriptValidator.ValidateBatchmode` |
+| Firestore seed (dry-run, no credentials) | `python3 scripts/seed-firestore.py` |
+| Firestore seed unit tests (no network) | `python3 scripts/test-seed-firestore.py` |
+| Firestore security rules (emulator) | `scripts/test-firestore-rules.sh` |
 
 `check-warnings.sh` also takes `--log FILE` to re-check a previous run without
 starting Unity, which is what the failure message points at.
@@ -131,4 +134,10 @@ against a live licence** — there is no activation secret in the repository, so
 - **`Library/` timings.** The cache is keyed on `manifest.json`,
   `packages-lock.json` and the Unity version, but warm-run timing has not been
   recorded without a licensed run.
+- **The Firestore rules job.** `scripts/test-firestore-rules.sh` runs the
+  security-rules tests (`firebase/tests/rules.test.js`) under the emulator via
+  `firebase emulators:exec` — non-zero on failure, same contract as
+  `scripts/run-tests.sh`. It needs no Unity and no credentials, so it can join
+  `content-checks.yml` as a second job once `#31` lands; adding a workflow job
+  is file work that belongs with the rest of the #39 wiring.
 

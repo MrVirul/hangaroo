@@ -75,3 +75,17 @@ captures/
 # Xcode Project
 /[xX]code[pP]roject/
 
+# Firebase (issue #31)
+# Service-account credentials must NEVER enter the repository; the seeder
+# reads them from GOOGLE_APPLICATION_CREDENTIALS instead.
+*service-account*.json
+*ServiceAccount*.json
+google-services.json
+firebase/tests/node_modules/
+firebase-debug.log
+firestore-debug.log
+firebase.json.local
+
+# Python tooling cache (scripts/ imports validate-content.py)
+__pycache__/
+

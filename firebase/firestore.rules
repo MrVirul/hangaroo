@@ -1,0 +1,39 @@
+rules_version = '2';
+
+// HANGARoo Firestore security rules (issue #31, Story 2.2).
+// Schema of record: docs/FIRESTORE_SCHEMA.md
+//
+// The contract, in one paragraph: word content is public and READ-ONLY from
+// the client - a compromised or careless build must never be able to alter
+// what every player sees. Content edits go through the Firebase Console or
+// the CI-seeded admin script (scripts/seed-firestore.py) using a service
+// account, which bypasses these rules. User progress (EPIC #3) is
+// owner-only: you can read and write your own document and nothing else.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- Content: public read, NEVER client-writable ----
+    match /words/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /categories/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /difficulties/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /contentMeta/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ---- User progress (EPIC 3) ----
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+  }
+}
