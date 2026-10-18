@@ -198,8 +198,64 @@ public class GameplayFlowTests
     }
 
     // ---------------------------------------------------------------------
+    // #21 - ResponsiveGameplayScaler.onLayoutChanged must be wired to
+    //       GameManager.FitSlotsToWidth, so a resize refits the letter strip.
+    // ---------------------------------------------------------------------
+
+    [UnityTest]
+    public IEnumerator Layout_Change_Refits_The_Letter_Slots()
+    {
+        ResponsiveGameplayScaler scaler = Object.FindFirstObjectByType<ResponsiveGameplayScaler>();
+        Assert.IsNotNull(scaler, "GamePlay must carry the ResponsiveGameplayScaler (issue #21).");
+
+        RectTransform container = GameManager.Instance.letterSlotParent as RectTransform;
+        Assert.IsNotNull(container, "GameManager must point at the letter-slot container.");
+
+        LetterSlot[] slots = container.GetComponentsInChildren<LetterSlot>(true);
+        Assert.Greater(slots.Length, 0, "The first word should have created letter slots.");
+
+        float[] before = PreferredWidths(slots);
+
+        // Halve the strip. The fitted width is strictly monotonic in the
+        // available width, and a full-size slot (authored at 100) can never
+        // survive at half the container - so if FitSlotsToWidth runs, every
+        // slot must shrink. Without the onLayoutChanged subscription the
+        // widths stay exactly as LoadWord left them.
+        var parent = (RectTransform)container.parent;
+        float stretch = container.anchorMax.x - container.anchorMin.x;
+        float target = container.rect.width * 0.5f;
+        container.sizeDelta = new Vector2(
+            target - parent.rect.width * stretch, container.sizeDelta.y);
+
+        scaler.onLayoutChanged.Invoke();
+
+        float[] after = PreferredWidths(slots);
+        for (int i = 0; i < slots.Length; i++)
+        {
+            Assert.Less(after[i], before[i],
+                "Slot " + i + " was not refitted after a layout change - " +
+                "onLayoutChanged is not wired to FitSlotsToWidth (issue #21).");
+        }
+
+        yield return null;
+    }
+
+    // ---------------------------------------------------------------------
     // Helpers
     // ---------------------------------------------------------------------
+
+    private static float[] PreferredWidths(LetterSlot[] slots)
+    {
+        var result = new float[slots.Length];
+        for (int i = 0; i < slots.Length; i++)
+        {
+            LayoutElement layout = slots[i].GetComponent<LayoutElement>();
+            Assert.IsNotNull(layout, "Every letter slot must carry a LayoutElement.");
+            result[i] = layout.preferredWidth;
+        }
+
+        return result;
+    }
 
     /// <summary>
     /// Reads the answer from the letter slots rather than the private field, so

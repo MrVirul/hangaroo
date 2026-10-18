@@ -69,7 +69,7 @@ public class SettingsPanelTests
         foreach (Vector2 screen in Screens)
         {
             Rig rig = BuildRig(screen);
-            rig.adapter.ApplyLayout();
+            rig.adapter.ApplyLayout(rig.root.rect);
             yield return null;
 
             AssertInside(rig.root, rig.square, "square");
@@ -85,7 +85,7 @@ public class SettingsPanelTests
             // A second pass must be a no-op (the old code derived the button
             // widths from the rect it had already overwritten).
             Vector2[] before = Positions(rig.rows);
-            rig.adapter.ApplyLayout();
+            rig.adapter.ApplyLayout(rig.root.rect);
             Vector2[] after = Positions(rig.rows);
 
             for (int i = 0; i < before.Length; i++)

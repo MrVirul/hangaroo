@@ -142,10 +142,23 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
     }
 
     /// <summary>
-    /// Reapplies the layout based on the current screen and safe-area insets.
+    /// Reapplies the layout against the current screen and safe-area insets.
     /// Exposed publicly so other scripts (or UI events) can also trigger it.
     /// </summary>
     public void ApplyLayout()
+    {
+        ApplyLayout(ScreenSafeAreaInRootSpace());
+    }
+
+    /// <summary>
+    /// Reapplies the layout against an explicit safe-area rectangle expressed
+    /// in this panel's local space. Tests - and any host that does not cover
+    /// the whole screen - pass the rectangle they want laid out instead of
+    /// inheriting whatever the editor's global <see cref="Screen.safeArea"/>
+    /// happens to report, which is what made the aspect-ratio verification
+    /// flaky (issue #21).
+    /// </summary>
+    public void ApplyLayout(Rect localSafeArea)
     {
         if (root == null)
             root = transform as RectTransform;
@@ -153,20 +166,18 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
         CacheDesignSizes();
         lastScreenSize = new Vector2(Screen.width, Screen.height);
 
-        // 1. Convert the device safe area (notch / rounded corners) into the
-        //    root panel's local size, so content can be centred safely.
-        Vector2 safeMin = SafeAreaMin();
-        Vector2 safeMax = SafeAreaMax();
+        // 1. The caller's safe area (device notch / rounded corners, or the
+        //    full panel) is already in the root panel's local size, so content
+        //    can be centred safely.
 
-        // The safe-area ratio is relative to the screen, while the root rect is
-        // whatever the panel is stretched to. Clamp the safe rect to the root so
-        // the panel can never be pushed outside its own container even if the two
-        // disagree (tests, non-full-screen canvases, editor Game View).
+        // The safe area can disagree with the root rect (tests, non-full-screen
+        // canvases, editor Game View). Clamp it to the root so the panel can
+        // never be pushed outside its own container.
         Rect local = root.rect;
-        float minX = Mathf.Max(safeMin.x, local.xMin);
-        float minY = Mathf.Max(safeMin.y, local.yMin);
-        float maxX = Mathf.Min(safeMax.x, local.xMax);
-        float maxY = Mathf.Min(safeMax.y, local.yMax);
+        float minX = Mathf.Max(localSafeArea.xMin, local.xMin);
+        float minY = Mathf.Max(localSafeArea.yMin, local.yMin);
+        float maxX = Mathf.Min(localSafeArea.xMax, local.xMax);
+        float maxY = Mathf.Min(localSafeArea.yMax, local.yMax);
 
         if (maxX < minX)
         {
@@ -178,8 +189,8 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
             maxY = minY = local.center.y;
         }
 
-        safeMin = new Vector2(minX, minY);
-        safeMax = new Vector2(maxX, maxY);
+        Vector2 safeMin = new Vector2(minX, minY);
+        Vector2 safeMax = new Vector2(maxX, maxY);
 
         // 2. Available (safe) rectangular area of the root rect.
         float availableW = (safeMax.x - safeMin.x) - panelPadding * 2f;
@@ -357,25 +368,34 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
     }
 
     /// <summary>
-    /// Bottom-left corner of the safe area in the root panel's local space
-    /// (root is assumed to be stretched across the full canvas).
+    /// Maps the device safe area (notch / rounded corners) into the root panel's
+    /// local space. A real safe area is always a sub-rectangle of the screen, so
+    /// the normalized ratios are clamped defensively: an editor reporting an
+    /// impossible safe area (bigger than the screen, as the Game View sometimes
+    /// does after a device profile change) must not push the panel off-centre,
+    /// and a headless run with no screen at all falls back to the full panel.
     /// </summary>
-    private Vector2 SafeAreaMin()
+    private Rect ScreenSafeAreaInRootSpace()
     {
-        Rect safe = Screen.safeArea;
-        return new Vector2(
-            (safe.xMin / Screen.width - 0.5f) * root.rect.width,
-            (safe.yMin / Screen.height - 0.5f) * root.rect.height);
-    }
+        if (root == null)
+            root = transform as RectTransform;
 
-    /// <summary>
-    /// Top-right corner of the safe area in the root panel's local space.
-    /// </summary>
-    private Vector2 SafeAreaMax()
-    {
+        int screenWidth = Screen.width;
+        int screenHeight = Screen.height;
+
+        if (screenWidth <= 0 || screenHeight <= 0)
+            return root.rect;
+
         Rect safe = Screen.safeArea;
-        return new Vector2(
-            (safe.xMax / Screen.width - 0.5f) * root.rect.width,
-            (safe.yMax / Screen.height - 0.5f) * root.rect.height);
+        float xMin = Mathf.Clamp(safe.xMin, 0f, screenWidth) / screenWidth;
+        float yMin = Mathf.Clamp(safe.yMin, 0f, screenHeight) / screenHeight;
+        float xMax = Mathf.Clamp(safe.xMax, 0f, screenWidth) / screenWidth;
+        float yMax = Mathf.Clamp(safe.yMax, 0f, screenHeight) / screenHeight;
+
+        return new Rect(
+            (xMin - 0.5f) * root.rect.width,
+            (yMin - 0.5f) * root.rect.height,
+            (xMax - xMin) * root.rect.width,
+            (yMax - yMin) * root.rect.height);
     }
 }

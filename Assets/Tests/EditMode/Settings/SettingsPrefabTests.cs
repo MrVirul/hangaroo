@@ -239,41 +239,103 @@ public class SettingsPrefabTests
 
                 var adapter = panel.GetComponent<SettingsUIResponsiveAdapter>();
                 Assert.IsNotNull(adapter, "The prefab must carry the responsive adapter");
-                adapter.ApplyLayout();
+
+                // The safe area is passed explicitly: reading the editor's
+                // global Screen.safeArea here made this verification depend on
+                // whatever the Game View last reported (issue #21).
+                adapter.ApplyLayout(root.rect);
 
                 var square = (RectTransform)panel.transform.Find("Sqaure");
                 Assert.IsNotNull(square, "Sqaure must exist");
                 AssertInside(root, square, "square at " + screen);
 
-                foreach (string child in new[]
-                         {
-                             "Settings_Icon", "Difficulty Row", "Hints Row", "Show Category Row",
-                             "Game Sounds Row", "Sounds ", "Reset_To_Default", "Save"
-                         })
-                {
-                    var rect = (RectTransform)square.Find(child);
-                    Assert.IsNotNull(rect, child + " must exist in the prefab");
-                    AssertInside(square, rect, child + " at " + screen);
-                }
-
-                // The Sounds block's own children (volume slider, Tap Sound,
-                // Bg Music) are the deepest content in the panel; make sure the
-                // whole block still clears the pinned button row.
-                var soundsSection = (RectTransform)square.Find("Sounds ");
-                foreach (RectTransform descendant in soundsSection.GetComponentsInChildren<RectTransform>(true))
-                {
-                    if (descendant == soundsSection)
-                    {
-                        continue;
-                    }
-
-                    AssertInside(square, descendant, descendant.name + " (Sounds) at " + screen);
-                }
+                AssertContentInsideSquare(square, screen.ToString());
             }
             finally
             {
                 Object.DestroyImmediate(host);
             }
+        }
+    }
+
+    /// <summary>
+    /// Issue #21 also asks for verification "including a notched safe area":
+    /// the panel must keep every child inside the square even when the device
+    /// cuts a notch out of the top and a home indicator out of the bottom.
+    /// </summary>
+    [Test]
+    public void ResponsiveAdapter_KeepsEveryChildInsideTheSquare_InANotchedSafeArea()
+    {
+        GameObject prefab = LoadPrefab();
+
+        var host = new GameObject("SettingsHost", typeof(RectTransform));
+        try
+        {
+            // A 20:9 phone: notch across the top, home indicator at the bottom.
+            ((RectTransform)host.transform).sizeDelta = new Vector2(1080f, 2400f);
+
+            GameObject panel = Object.Instantiate(prefab, host.transform);
+            var root = (RectTransform)panel.transform;
+            root.anchorMin = Vector2.zero;
+            root.anchorMax = Vector2.one;
+            root.offsetMin = Vector2.zero;
+            root.offsetMax = Vector2.zero;
+
+            Rect full = root.rect;
+            Rect notched = Rect.MinMaxRect(
+                full.xMin + 24f,       // rounded corner
+                full.yMin + 40f,       // home indicator
+                full.xMax - 24f,       // rounded corner
+                full.yMax - 120f);     // notch
+
+            var adapter = panel.GetComponent<SettingsUIResponsiveAdapter>();
+            Assert.IsNotNull(adapter, "The prefab must carry the responsive adapter");
+            adapter.ApplyLayout(notched);
+
+            var square = (RectTransform)panel.transform.Find("Sqaure");
+            Assert.IsNotNull(square, "Sqaure must exist");
+
+            // The panel itself must sit inside the notched safe area, and the
+            // safe area only - not the raw screen.
+            AssertInside(root, notched, square, "square inside the notched safe area");
+
+            AssertContentInsideSquare(square, "notched safe area");
+        }
+        finally
+        {
+            Object.DestroyImmediate(host);
+        }
+    }
+
+    /// <summary>
+    /// Every piece of settings content - header, rows, sounds block, buttons and
+    /// the sounds block's own descendants - must stay inside the square.
+    /// </summary>
+    private static void AssertContentInsideSquare(RectTransform square, string label)
+    {
+        foreach (string child in new[]
+                 {
+                     "Settings_Icon", "Difficulty Row", "Hints Row", "Show Category Row",
+                     "Game Sounds Row", "Sounds ", "Reset_To_Default", "Save"
+                 })
+        {
+            var rect = (RectTransform)square.Find(child);
+            Assert.IsNotNull(rect, child + " must exist in the prefab");
+            AssertInside(square, rect, child + " at " + label);
+        }
+
+        // The Sounds block's own children (volume slider, Tap Sound,
+        // Bg Music) are the deepest content in the panel; make sure the
+        // whole block still clears the pinned button row.
+        var soundsSection = (RectTransform)square.Find("Sounds ");
+        foreach (RectTransform descendant in soundsSection.GetComponentsInChildren<RectTransform>(true))
+        {
+            if (descendant == soundsSection)
+            {
+                continue;
+            }
+
+            AssertInside(square, descendant, descendant.name + " (Sounds) at " + label);
         }
     }
 
@@ -283,6 +345,31 @@ public class SettingsPrefabTests
         var inner = new Vector3[4];
         container.GetWorldCorners(outer);
         child.GetWorldCorners(inner);
+
+        AssertInsideBounds(outer, inner, label);
+    }
+
+    /// <summary>
+    /// Same containment check, but the container's bounds are an arbitrary
+    /// rectangle in the container's local space (the safe area) rather than the
+    /// container's own rect.
+    /// </summary>
+    private static void AssertInside(RectTransform container, Rect containerLocalRect, RectTransform child, string label)
+    {
+        var outer = new Vector3[4];
+        outer[0] = container.TransformPoint(new Vector3(containerLocalRect.xMin, containerLocalRect.yMin));
+        outer[1] = container.TransformPoint(new Vector3(containerLocalRect.xMin, containerLocalRect.yMax));
+        outer[2] = container.TransformPoint(new Vector3(containerLocalRect.xMax, containerLocalRect.yMax));
+        outer[3] = container.TransformPoint(new Vector3(containerLocalRect.xMax, containerLocalRect.yMin));
+
+        var inner = new Vector3[4];
+        child.GetWorldCorners(inner);
+
+        AssertInsideBounds(outer, inner, label);
+    }
+
+    private static void AssertInsideBounds(Vector3[] outer, Vector3[] inner, string label)
+    {
 
         float minX = Mathf.Min(outer[0].x, Mathf.Min(outer[1].x, Mathf.Min(outer[2].x, outer[3].x)));
         float maxX = Mathf.Max(outer[0].x, Mathf.Max(outer[1].x, Mathf.Max(outer[2].x, outer[3].x)));
