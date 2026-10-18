@@ -1,0 +1,13 @@
+{
+  "name": "hangaroo-firestore-rules-tests",
+  "private": true,
+  "description": "Security-rules tests for the HANGARoo Firestore schema (issue #31). Runs against the emulator only.",
+  "scripts": {
+    "test": "mocha rules.test.js --timeout 15000 --exit"
+  },
+  "dependencies": {
+    "@firebase/rules-unit-testing": "^3.0.4",
+    "firebase": "^10.14.1",
+    "mocha": "^11.1.0"
+  }
+}
