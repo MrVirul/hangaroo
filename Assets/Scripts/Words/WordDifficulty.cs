@@ -61,4 +61,23 @@ public static class WordDifficulty
             && length >= MinLength(difficulty)
             && length <= MaxLength(difficulty);
     }
+
+    /// <summary>
+    /// Infers a band from an answer length alone, for entries that predate
+    /// Story 1.4 and declare no <c>difficulty</c> (issue #33, backwards
+    /// compatibility). The first band that fits wins, easiest first: up to 6
+    /// letters → easy, 7-8 → medium, 9+ → hard. Lengths outside the 4-12 union
+    /// still resolve to a band here; the validator's band check rejects them
+    /// afterwards rather than burdening inference with failure cases.
+    /// </summary>
+    public static string InferFromLength(int answerLength)
+    {
+        if (answerLength <= MaxLength(Easy))
+            return Easy;
+
+        if (answerLength <= MaxLength(Medium))
+            return Medium;
+
+        return Hard;
+    }
 }

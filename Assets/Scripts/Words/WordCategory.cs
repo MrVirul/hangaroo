@@ -9,6 +9,12 @@
 /// </summary>
 public static class WordCategory
 {
+    /// <summary>
+    /// Fallback category for content that predates Story 1.4 and declares none
+    /// (issue #33): a word with no authored category is a general-knowledge word.
+    /// </summary>
+    public const string General = "general";
+
     /// <summary>Every known category key, lower-case.</summary>
     public static readonly string[] All =
     {
@@ -23,7 +29,7 @@ public static class WordCategory
         "space",
         "sports",
         "technology",
-        "general",
+        General,
     };
 
     /// <summary>Trimmed, lower-cased category key; never null.</summary>

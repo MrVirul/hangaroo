@@ -46,11 +46,14 @@ public static class WordListValidator
 
         // Parse covers the per-entry rules: non-empty fields, A-Z answers, the
         // union length band, a known category, a known difficulty, the band the
-        // entry declares, and the two copy-hygiene rules.
+        // entry declares, and the two copy-hygiene rules. The asset path is passed
+        // through so any legacy-shape warning names this file.
         WordPool.ParseResult parsed = WordPool.Parse(
             asset.text,
             WordValidator.MinAnswerLength,
-            WordValidator.MaxAnswerLength);
+            WordValidator.MaxAnswerLength,
+            null,
+            assetPath);
 
         foreach (string rejection in parsed.rejected)
             problems.Add(rejection);
@@ -71,15 +74,15 @@ public static class WordListValidator
     /// Asserts every difficulty has enough words, and that Hard actually reaches
     /// the top of its band so the 8-12 promise is real rather than nominal.
     /// </summary>
-    private static List<string> CheckBandPopulation(List<WordEntry> words)
+    private static List<string> CheckBandPopulation(List<WordData> words)
     {
         var problems = new List<string>();
         var counts = new Dictionary<string, int>();
         var longest = new Dictionary<string, int>();
 
-        foreach (WordEntry entry in words)
+        foreach (WordData entry in words)
         {
-            string band = WordDifficulty.Normalize(entry.difficulty);
+            string band = WordDifficulty.Normalize(entry.DifficultyId);
 
             int count;
             counts.TryGetValue(band, out count);
@@ -87,8 +90,8 @@ public static class WordListValidator
 
             int current;
             longest.TryGetValue(band, out current);
-            if (entry.answer.Length > current)
-                longest[band] = entry.answer.Length;
+            if (entry.Answer.Length > current)
+                longest[band] = entry.Answer.Length;
         }
 
         foreach (string band in WordDifficulty.All)

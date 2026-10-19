@@ -88,6 +88,29 @@ public class WordValidatorTests
         CollectionAssert.AreEqual(new[] { "GRAVITY", "JUPITER" }, duplicates);
     }
 
+    // --- Model-level entry points (Story 2.4, issue #33) -------------------
+
+    /// <summary>
+    /// The <see cref="WordData"/> overloads must be thin delegations to the string
+    /// rules above: one implementation, reachable from the bundled loader, the
+    /// editor tool and the Firestore mapper alike.
+    /// </summary>
+    [Test]
+    public void ValidateModel_DelegatesToTheStringRules()
+    {
+        var valid = new WordData("Largest Planet", "JUPITER", "Starts with J", "space", "medium");
+        WordValidationResult ok = WordValidator.Validate(valid, Min, Max);
+        Assert.IsTrue(ok.IsValid, ok.Reason);
+
+        string reason;
+        var invalid = new WordData("City", "NEW YORK", "Big Apple", "geography", "hard");
+        Assert.IsFalse(WordValidator.IsValid(invalid, out reason));
+        StringAssert.Contains("outside A-Z", reason);
+
+        Assert.IsFalse(WordValidator.IsValid(null, out reason));
+        StringAssert.Contains("null", reason);
+    }
+
     // --- Story 1.4: category, difficulty and copy hygiene ------------------
 
     [Test]
