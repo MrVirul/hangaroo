@@ -240,6 +240,12 @@ public class SettingsManager : MonoBehaviour
 
         if (graphic != null)
             graphic.color = enabled ? enabledColor : disabledColor;
+
+        // The wide Game Sounds pill carries its own label and spells the state
+        // out; the two small square toggles have no label and stay colour-coded.
+        TMP_Text label = button.GetComponentInChildren<TMP_Text>(true);
+        if (label != null)
+            label.text = enabled ? "ON" : "OFF";
     }
 
 

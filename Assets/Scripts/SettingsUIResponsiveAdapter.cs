@@ -21,7 +21,7 @@ using UnityEngine;
 public class SettingsUIResponsiveAdapter : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField, Tooltip("The Sqaure container RectTransform (the colored panel).")]
+    [SerializeField, Tooltip("The Square container RectTransform (the colored panel).")]
     private RectTransform square;
     [SerializeField, Tooltip("The Settings_Icon header RectTransform.")]
     private RectTransform header;
@@ -34,7 +34,7 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
     [SerializeField, Tooltip("The Save button RectTransform.")]
     private RectTransform saveButton;
 
-    [Header("Panel (Sqaure)")]
+    [Header("Panel (Square)")]
     [SerializeField, Tooltip("Aspect ratio (width / height) the square is anchored to.")]
     private float panelAspect = 2.0f;
     [SerializeField, Tooltip("Padding (in canvas units) around the panel for small/4:3 screens.")]
@@ -43,9 +43,9 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
     private float minPanelHeight = 420f;
 
     [Header("Header (Settings_Icon)")]
-    [SerializeField, Tooltip("Distance of the header from the top edge of Sqaure.")]
+    [SerializeField, Tooltip("Distance of the header from the top edge of Square.")]
     private float headerTopOffset = 24f;
-    [SerializeField, Tooltip("Header width as a fraction of Sqaure width.")]
+    [SerializeField, Tooltip("Header width as a fraction of Square width.")]
     [Range(0.1f, 1f)] private float headerWidthFraction = 0.4f;
     [SerializeField, Tooltip("Aspect ratio (width / height) the header keeps. Used only when the header has no AspectRatioFitter.")]
     private float headerAspect = 2f;
@@ -61,7 +61,7 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
     private float soundsHeight = 180f;
 
     [Header("Buttons")]
-    [SerializeField, Tooltip("Distance of the buttons row from the bottom of Sqaure.")]
+    [SerializeField, Tooltip("Distance of the buttons row from the bottom of Square.")]
     private float buttonBottomOffset = 24f;
     [SerializeField, Tooltip("Height of the Reset/Save buttons.")]
     private float buttonHeight = 56f;
@@ -196,7 +196,7 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
         float availableW = (safeMax.x - safeMin.x) - panelPadding * 2f;
         float availableH = (safeMax.y - safeMin.y) - panelPadding * 2f;
 
-        // 3. Size the Sqaure, preserving its aspect ratio, inside the safe area
+        // 3. Size the Square, preserving its aspect ratio, inside the safe area
         //    with padding, and never exceeding it.
         Vector2 panelSize = ComputePanelSize(availableW, availableH, panelAspect, minPanelHeight);
         panelSize = new Vector2(Mathf.Max(1f, panelSize.x), Mathf.Max(1f, panelSize.y));
@@ -213,7 +213,7 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
             square.sizeDelta = panelSize;
         }
 
-        // 4. Flow the content top-to-bottom inside Sqaure. The header, the
+        // 4. Flow the content top-to-bottom inside Square. The header, the
         //    setting rows and the Sounds section are scaled together with
         //    localScale so their text and controls shrink with them; resizing
         //    the rects alone would leave the labels at full size and make them
@@ -280,7 +280,7 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
         {
             // The Sounds block is left-aligned with the setting rows: its
             // children are anchored to its top-left corner, so anchor it to
-            // Sqaure's top-left and offset it by the panel padding.
+            // Square's top-left and offset it by the panel padding.
             soundsSection.anchorMin = new Vector2(0f, 1f);
             soundsSection.anchorMax = new Vector2(0f, 1f);
             soundsSection.pivot = new Vector2(0f, 1f);
@@ -345,7 +345,7 @@ public class SettingsUIResponsiveAdapter : MonoBehaviour
         float scale = Mathf.Min(1f, maxW / Mathf.Max(totalW, 1f));
         float finalW = totalW * scale;
 
-        // The buttons are anchored to Sqaure's bottom-left corner, so x is a
+        // The buttons are anchored to Square's bottom-left corner, so x is a
         // distance from the left edge; centre the row with equal margins.
         float left = (panelWidth - finalW) * 0.5f;
         float bottomY = buttonBottomOffset + buttonHeight * 0.5f;

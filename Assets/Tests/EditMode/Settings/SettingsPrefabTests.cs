@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using NUnit.Framework;
 using TMPro;
 using UnityEditor;
@@ -210,6 +211,63 @@ public class SettingsPrefabTests
         }
     }
 
+    /// <summary>
+    /// The Game Sounds pill spells its state out, so the shared visual refresh
+    /// must write ON/OFF when a label is present and leave the label-less
+    /// square audio toggles alone.
+    /// </summary>
+    [Test]
+    public void UpdateButtonVisual_WritesTheOnOffStateOntoLabelledButtons()
+    {
+        var host = new GameObject("settings-behaviour", typeof(RectTransform));
+        try
+        {
+            SettingsManager manager = host.AddComponent<SettingsManager>();
+            MethodInfo update = typeof(SettingsManager).GetMethod(
+                "UpdateButtonVisual", BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(update, "UpdateButtonVisual must exist");
+
+            Button pill = NewButton(host.transform, "Game Sounds Button", true);
+            TMP_Text pillLabel = pill.GetComponentInChildren<TMP_Text>(true);
+
+            update.Invoke(manager, new object[] { pill, true });
+            Assert.AreEqual("ON", pillLabel.text, "An enabled labelled button must read ON");
+
+            update.Invoke(manager, new object[] { pill, false });
+            Assert.AreEqual("OFF", pillLabel.text, "A disabled labelled button must read OFF");
+
+            Button bare = NewButton(host.transform, "Tap Sound Button", false);
+            Assert.DoesNotThrow(
+                () => update.Invoke(manager, new object[] { bare, true }),
+                "A button without a label must still be colour-coded without throwing");
+
+            Assert.DoesNotThrow(
+                () => update.Invoke(manager, new object[] { null, true }),
+                "A missing button reference must be ignored");
+        }
+        finally
+        {
+            Object.DestroyImmediate(host);
+        }
+    }
+
+    private static Button NewButton(Transform parent, string name, bool withLabel)
+    {
+        var go = new GameObject(name, typeof(RectTransform));
+        go.transform.SetParent(parent, false);
+        go.AddComponent<Image>();
+        Button button = go.AddComponent<Button>();
+
+        if (withLabel)
+        {
+            var label = new GameObject("Label", typeof(RectTransform));
+            label.transform.SetParent(go.transform, false);
+            label.AddComponent<TextMeshProUGUI>();
+        }
+
+        return button;
+    }
+
     [Test]
     public void ResponsiveAdapter_KeepsEveryChildInsideTheSquare_AtEveryAspectRatio()
     {
@@ -245,8 +303,8 @@ public class SettingsPrefabTests
                 // whatever the Game View last reported (issue #21).
                 adapter.ApplyLayout(root.rect);
 
-                var square = (RectTransform)panel.transform.Find("Sqaure");
-                Assert.IsNotNull(square, "Sqaure must exist");
+                var square = (RectTransform)panel.transform.Find("Square");
+                Assert.IsNotNull(square, "Square must exist");
                 AssertInside(root, square, "square at " + screen);
 
                 AssertContentInsideSquare(square, screen.ToString());
@@ -292,8 +350,8 @@ public class SettingsPrefabTests
             Assert.IsNotNull(adapter, "The prefab must carry the responsive adapter");
             adapter.ApplyLayout(notched);
 
-            var square = (RectTransform)panel.transform.Find("Sqaure");
-            Assert.IsNotNull(square, "Sqaure must exist");
+            var square = (RectTransform)panel.transform.Find("Square");
+            Assert.IsNotNull(square, "Square must exist");
 
             // The panel itself must sit inside the notched safe area, and the
             // safe area only - not the raw screen.
@@ -316,7 +374,7 @@ public class SettingsPrefabTests
         foreach (string child in new[]
                  {
                      "Settings_Icon", "Difficulty Row", "Hints Row", "Show Category Row",
-                     "Game Sounds Row", "Sounds ", "Reset_To_Default", "Save"
+                     "Game Sounds Row", "Sounds", "Reset_To_Default", "Save"
                  })
         {
             var rect = (RectTransform)square.Find(child);
@@ -327,7 +385,7 @@ public class SettingsPrefabTests
         // The Sounds block's own children (volume slider, Tap Sound,
         // Bg Music) are the deepest content in the panel; make sure the
         // whole block still clears the pinned button row.
-        var soundsSection = (RectTransform)square.Find("Sounds ");
+        var soundsSection = (RectTransform)square.Find("Sounds");
         foreach (RectTransform descendant in soundsSection.GetComponentsInChildren<RectTransform>(true))
         {
             if (descendant == soundsSection)

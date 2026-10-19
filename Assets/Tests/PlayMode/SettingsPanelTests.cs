@@ -268,9 +268,9 @@ public class SettingsPanelTests
         root.pivot = new Vector2(0.5f, 0.5f);
         root.sizeDelta = screen;
 
-        rig.square = NewRect(root, "Sqaure");
+        rig.square = NewRect(root, "Square");
         RectTransform header = NewRect(rig.square, "Settings_Icon");
-        RectTransform sounds = NewRect(rig.square, "Sounds ");
+        RectTransform sounds = NewRect(rig.square, "Sounds");
 
         rig.reset = NewRect(rig.square, "Reset_To_Default");
         rig.reset.sizeDelta = new Vector2(160f, 50f);

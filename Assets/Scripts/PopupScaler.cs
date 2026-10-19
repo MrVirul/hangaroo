@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 /// <summary>
 /// Fits a UI popup card uniformly inside the screen safe area, preserving the
-/// card's aspect ratio. Attach to the card (e.g. "Sqaure" inside
+/// card's aspect ratio. Attach to the card (e.g. "Square" inside
 /// Settings_Panel). The card's parent must stretch over the whole canvas.
 ///
 /// The card's authored size (read in Awake from the RectTransform) is the
