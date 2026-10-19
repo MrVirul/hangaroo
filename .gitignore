@@ -89,3 +89,4 @@ firebase.json.local
 # Python tooling cache (scripts/ imports validate-content.py)
 __pycache__/
 
+service-account.json
