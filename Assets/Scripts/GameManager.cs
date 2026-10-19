@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,11 +18,13 @@ public class GameManager : MonoBehaviour
     [Min(1)] public int minAnswerLength = WordValidator.MinAnswerLength;
     [Min(1)] public int maxAnswerLength = WordValidator.MaxAnswerLength;
 
+    // The per-run word list, resolved once from the repository at run start
+    // (issue #32) and never touched mid-run.
     private List<WordData> words = new List<WordData>();
 
-    // Every parsed word, all bands. The per-run `words` list is a difficulty
-    // slice of this, resolved once in StartRun and never touched mid-run.
-    private readonly List<WordData> allWords = new List<WordData>();
+    // Three-tier read path: remote source (once the SDK lands), local cache,
+    // bundled words.json (issue #32).
+    private IWordRepository wordRepository;
 
 
     private WordData currentWord;
@@ -89,9 +92,32 @@ public class GameManager : MonoBehaviour
         // the setting could never be turned off. Now that the toggles are bound
         // (Story 1.2), forcing them on would defeat the setting itself.
 
-        LoadWords();
+        wordRepository = BuildWordRepository();
 
         SubscribeToLayoutChanges();
+    }
+
+
+    /// <summary>
+    /// Wires the three-tier word repository (issue #32). The remote source is
+    /// still null until the Firebase SDK lands (issue #30), so today the game
+    /// reads the versioned cache and falls back to the bundled words.json -
+    /// the same content as before, now behind the interface the Firestore
+    /// tier will plug into. A missing wordsFile is reported by the repository
+    /// as a single error when it falls back to the built-in pool.
+    /// </summary>
+    IWordRepository BuildWordRepository()
+    {
+        BundledWordSource bundled = wordsFile != null
+            ? new BundledWordSource(wordsFile.text, wordsFile.name)
+            : null;
+
+        return new WordRepository(
+            source: null,
+            cache: new WordCache(Application.persistentDataPath),
+            bundled: bundled,
+            minLength: minAnswerLength,
+            maxLength: maxAnswerLength);
     }
 
 
@@ -110,9 +136,9 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void Start()
+    async void Start()
     {
-        StartRun();
+        await StartRunAsync();
         LoadWord();
     }
 
@@ -121,7 +147,7 @@ public class GameManager : MonoBehaviour
     /// Begins a fresh run for the active difficulty. Lives come from the
     /// difficulty config (per word), so they are not derived from the scene.
     /// </summary>
-    void StartRun()
+    async Task StartRunAsync()
     {
         config = DifficultyLibrary.CurrentConfig;
         int livesPerWord = config != null ? config.livesPerWord : 4;
@@ -136,10 +162,18 @@ public class GameManager : MonoBehaviour
         if (AudioManager.Instance != null)
             AudioManager.Instance.ResumeMusic();
 
-        // Resolve the run's word list once, for the active difficulty. Nothing
-        // below this line re-reads difficulty, so a mid-run change can never
-        // swap the words out from under the player (Story 1.4).
-        ResolveWordPoolForRun();
+        // Resolve the run's word list once, for the active difficulty (issue
+        // #32). Nothing below this line re-reads the list, so a mid-run change
+        // can never swap the words out from under the player (Story 1.4). Every
+        // tier available before the Firebase SDK lands resolves inside this
+        // await synchronously; when the Firestore tier lands, the first word
+        // simply waits for the fetch.
+        string difficulty = WordDifficulty.Normalize(DifficultyLibrary.Current.ToString());
+        WordListResult resolved = await wordRepository.GetWordsAsync(difficulty);
+
+        words.Clear();
+        words.AddRange(resolved.words);
+        BuildWordOrder();
 
         run = new RunLifecycle(
             new RunState
@@ -155,39 +189,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Builds the per-run <see cref="words"/> list from the parser's full pool,
-    /// keeping only the entries that declare the active difficulty. Falls back to
-    /// every parsed word (then the built-in pool) if a band is empty, so a thin
-    /// bank degrades to a playable board rather than a blank one.
-    /// </summary>
-    void ResolveWordPoolForRun()
-    {
-        words.Clear();
-
-        string difficulty = WordDifficulty.Normalize(DifficultyLibrary.Current.ToString());
-
-        foreach (WordData entry in allWords)
-        {
-            if (WordDifficulty.Normalize(entry.DifficultyId) == difficulty)
-                words.Add(entry);
-        }
-
-        if (words.Count == 0 && allWords.Count > 0)
-        {
-            Debug.LogWarning(
-                "GameManager: no words authored for difficulty '" + difficulty +
-                "'. Falling back to the full pool.");
-            words.AddRange(allWords);
-        }
-
-        if (words.Count == 0)
-            words.AddRange(WordPool.CreateFallback());
-
-        BuildWordOrder();
-    }
-
-
     void RefreshDifficultyLabel()
     {
         if (difficultyText == null)
@@ -195,50 +196,6 @@ public class GameManager : MonoBehaviour
 
         string label = config != null ? config.displayName : DifficultyLibrary.Current.ToString();
         difficultyText.text = "Difficulty: " + label.ToUpperInvariant();
-    }
-
-
-    void LoadWords()
-    {
-        allWords.Clear();
-
-        if (wordsFile == null)
-        {
-            Debug.LogError("GameManager: wordsFile is not assigned. Using the built-in fallback word pool.");
-            UseFallbackWords();
-            return;
-        }
-
-        // GameManager never parses or validates content itself: it receives the
-        // validated list from WordPool and only reports what was rejected
-        // (issue #33). The source name lets the loader's one-off legacy warning
-        // name the file it is talking about.
-        WordPool.ParseResult parsed =
-            WordPool.Parse(wordsFile.text, minAnswerLength, maxAnswerLength, null, wordsFile.name);
-
-        if (parsed.rejected.Count > 0)
-        {
-            string noun = parsed.rejected.Count == 1 ? "entry" : "entries";
-            Debug.LogError(
-                "GameManager: rejected " + parsed.rejected.Count + " malformed word " + noun +
-                " from " + wordsFile.name + ":\n - " + string.Join("\n - ", parsed.rejected));
-        }
-
-        if (!parsed.HasWords)
-        {
-            Debug.LogError("GameManager: no valid words remained in " + wordsFile.name + ". Using the built-in fallback word pool.");
-            UseFallbackWords();
-            return;
-        }
-
-        allWords.AddRange(parsed.words);
-    }
-
-
-    void UseFallbackWords()
-    {
-        allWords.Clear();
-        allWords.AddRange(WordPool.CreateFallback());
     }
 
 
@@ -633,7 +590,7 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// Ends the current run, folds it into the local personal best, and shows the
-    /// matching panel. Restarting later builds a fresh run in <see cref="StartRun"/>.
+    /// matching panel. Restarting later builds a fresh run in <see cref="StartRunAsync"/>.
     /// </summary>
     void EndRun(bool completedAllWords)
     {
