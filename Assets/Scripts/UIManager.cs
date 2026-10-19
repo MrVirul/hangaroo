@@ -102,7 +102,7 @@ public class UIManager : MonoBehaviour
             AudioManager.Instance.PlayDefeat();
 
             // The run is over, so the music loop stops for the panel. Every new
-            // run resumes it via GameManager.StartRun (issue #21).
+            // run resumes it via GameManager.StartRunAsync (issue #21).
             AudioManager.Instance.StopMusic();
         }
     }
