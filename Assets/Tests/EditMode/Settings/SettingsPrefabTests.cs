@@ -58,6 +58,64 @@ public class SettingsPrefabTests
     }
 
     [Test]
+    public void DifficultyDropdown_TextsUseWhiteOnTheDarkThemedBackgrounds()
+    {
+        TMP_Dropdown dropdown = LoadPrefab().GetComponentInChildren<TMP_Dropdown>(true);
+        Assert.IsNotNull(dropdown, "The panel must carry the difficulty dropdown");
+
+        Color expected = Color.white;
+
+        Assert.That(dropdown.captionText.color.r, Is.EqualTo(expected.r).Within(0.001f), "caption red");
+        Assert.That(dropdown.captionText.color.g, Is.EqualTo(expected.g).Within(0.001f), "caption green");
+        Assert.That(dropdown.captionText.color.b, Is.EqualTo(expected.b).Within(0.001f), "caption blue");
+        Assert.That(dropdown.itemText.color.r, Is.EqualTo(expected.r).Within(0.001f), "option label red");
+        Assert.That(dropdown.itemText.color.g, Is.EqualTo(expected.g).Within(0.001f), "option label green");
+        Assert.That(dropdown.itemText.color.b, Is.EqualTo(expected.b).Within(0.001f), "option label blue");
+
+        Assert.Less(RelativeLuminance(dropdown.image.color), 0.25f,
+            "The closed pill must stay dark or the white caption disappears into it");
+        Assert.Less(RelativeLuminance(dropdown.colors.normalColor), 0.25f,
+            "The ColorTint transition overwrites the pill Image colour at runtime, " +
+            "so the normal tint has to carry the dark colour as well");
+        Assert.Less(RelativeLuminance(dropdown.template
+                .Find("Viewport/Content/Item/Item Background").GetComponent<Image>().color), 0.25f,
+            "The option rows must stay dark behind the white option labels");
+    }
+
+    /// <summary>WCAG relative luminance; alpha is ignored.</summary>
+    private static float RelativeLuminance(Color color)
+    {
+        return 0.2126f * Mathf.Pow(color.r, 2.2f)
+             + 0.7152f * Mathf.Pow(color.g, 2.2f)
+             + 0.0722f * Mathf.Pow(color.b, 2.2f);
+    }
+
+    /// <summary>
+    /// TMP_Dropdown sizes the open popup as itemHeight * (count - 1) +
+    /// contentHeight, so a Content shorter than one Item clips the first and
+    /// last option rows against the popup's masked Viewport.
+    /// </summary>
+    [Test]
+    public void DifficultyDropdown_PopupIsTallEnoughToFitEveryOption()
+    {
+        TMP_Dropdown dropdown = LoadPrefab().GetComponentInChildren<TMP_Dropdown>(true);
+        Assert.IsNotNull(dropdown, "The panel must carry the difficulty dropdown");
+
+        var content = (RectTransform)dropdown.template.Find("Viewport/Content");
+        var item = (RectTransform)dropdown.template.Find("Viewport/Content/Item");
+        Assert.IsNotNull(content, "The popup template needs a Content");
+        Assert.IsNotNull(item, "The popup template needs an Item");
+
+        float itemHeight = item.rect.height;
+        Assert.Greater(itemHeight, 0f, "The option template must not be collapsed");
+
+        float popupHeight = itemHeight * (dropdown.options.Count - 1) + content.rect.height;
+        Assert.GreaterOrEqual(popupHeight + 0.01f, itemHeight * dropdown.options.Count,
+            "TMP sizes the popup as itemHeight * (count - 1) + contentHeight, so a Content " +
+            "shorter than one Item clips the first and last option rows");
+    }
+
+    [Test]
     public void EveryPersistentCall_TargetsTheInPrefabSettingsManager()
     {
         GameObject prefab = LoadPrefab();

@@ -3393,7 +3393,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 30
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -7507,11 +7507,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 586426105}
-  - {fileID: 2132057172}
   - {fileID: 968713874}
   - {fileID: 393989223}
   - {fileID: 1700641706}
   - {fileID: 972931622}
+  - {fileID: 2132057172}
   - {fileID: 424454008}
   - {fileID: 1539020126}
   m_Father: {fileID: 410000002}
@@ -8358,7 +8358,7 @@ MonoBehaviour:
   m_fontSizeMin: 22
   m_fontSizeMax: 36
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

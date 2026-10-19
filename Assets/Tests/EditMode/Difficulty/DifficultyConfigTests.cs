@@ -46,6 +46,24 @@ public class DifficultyConfigTests
     }
 
     [Test]
+    public void ShouldShowHint_IsReachableBeforeTheWordFails()
+    {
+        // Hard's shape: two lives and a two-miss threshold. The second miss
+        // fails the word and the gameplay loop stops evaluating the hint then,
+        // so the hint must arrive on the first miss instead of never.
+        DifficultyConfig config = ScriptableObject.CreateInstance<DifficultyConfig>();
+        config.livesPerWord = 2;
+        config.hintPolicy = HintPolicy.Penalised;
+        config.hintThresholdWrongGuesses = 2;
+
+        Assert.IsFalse(config.ShouldShowHint(0));
+        Assert.IsTrue(config.ShouldShowHint(1),
+            "The hint must be reachable while a life is still left.");
+
+        UnityEngine.Object.DestroyImmediate(config);
+    }
+
+    [Test]
     public void AuthoredAssets_MatchTheirDifficultyId()
     {
         DifficultyLibrary library = Resources.Load<DifficultyLibrary>("Difficulty/DifficultyLibrary");

@@ -263,10 +263,10 @@ public class GameManager : MonoBehaviour
         // ShowCategory reveals the word's category as an extra nudge (Story 1.4).
         // The clue itself is always shown.
         bool showCategory = PlayerPrefs.GetInt("ShowCategory", 1) == 1;
-        string text = "CLUE: " + currentWord.Clue.ToUpper();
+        string text = currentWord.Clue.ToUpper();
 
-        if (showCategory && !string.IsNullOrEmpty(currentWord.CategoryId))
-            text += "\n<size=70%>CATEGORY: " + currentWord.CategoryId.ToUpper() + "</size>";
+        // if (showCategory && !string.IsNullOrEmpty(currentWord.CategoryId))
+        //     text += "\n<size=70%>CATEGORY: " + currentWord.CategoryId.ToUpper() + "</size>";
 
         clueText.gameObject.SetActive(true);
         clueText.text = text;
