@@ -47,6 +47,13 @@ public class DifficultyConfig : ScriptableObject
     /// <summary>
     /// Whether the hint should be visible given the current number of wrong guesses.
     /// A penalised hint is still shown - its cost is applied by the scoring path.
+    ///
+    /// A wrong guess that uses the last life fails the word, and the gameplay
+    /// loop stops evaluating the hint at that point. A threshold at or above
+    /// <see cref="livesPerWord"/> would therefore never be observable (Hard has
+    /// two lives and a two-miss threshold, so it could never reveal its hint).
+    /// The threshold is capped one miss below the life count so the hint always
+    /// arrives while a life is still left.
     /// </summary>
     public bool ShouldShowHint(int wrongGuesses)
     {
@@ -56,7 +63,10 @@ public class DifficultyConfig : ScriptableObject
                 return true;
             case HintPolicy.FreeAfterWrongGuesses:
             case HintPolicy.Penalised:
-                return wrongGuesses >= hintThresholdWrongGuesses;
+                int threshold = Mathf.Min(
+                    hintThresholdWrongGuesses,
+                    Mathf.Max(0, livesPerWord - 1));
+                return wrongGuesses >= threshold;
             case HintPolicy.Disabled:
             default:
                 return false;
