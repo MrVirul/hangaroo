@@ -8,8 +8,11 @@ using UnityEngine.TestTools;
 /// <summary>
 /// PlayMode coverage for Story 1.2 / issue #15: the responsive adapter keeps the
 /// panel and its rows inside the safe area at 16:9, 4:3 and 20:9, the settings
-/// handlers persist what the player picks, and the Hints / Show Category toggles
-/// actually change what the running game shows.
+/// handlers persist what the player picks, and the Hints toggle changes what the
+/// running game shows.
+///
+/// The Show Category preference still persists, but the clue line no longer
+/// carries a category decoration - it shows the word's clue alone.
 /// </summary>
 public class SettingsPanelTests
 {
@@ -179,20 +182,33 @@ public class SettingsPanelTests
         yield return null;
     }
 
+    /// <summary>
+    /// The clue line shows the word's bare clue, upper-cased. The Show Category
+    /// preference no longer decorates it with a CATEGORY: line (or a CLUE:
+    /// prefix); it still persists, which
+    /// <see cref="PrefabEvents_DriveTheSettingsManager"/> covers.
+    /// </summary>
     [UnityTest]
-    public IEnumerator ShowCategoryToggle_AddsAndRemovesTheCategoryLine()
+    public IEnumerator ClueText_ShowsTheBareClue_AndIgnoresTheShowCategoryPreference()
     {
         GameManager game = GameManager.Instance;
 
+        var word = (WordData)GetField(game, "currentWord");
+        Assert.IsNotNull(word, "A word must be loaded before the clue can be checked");
+
+        string expected = word.Clue.ToUpper();
+        Assert.IsNotEmpty(expected, "The loaded word must carry a clue");
+
         PlayerPrefs.SetInt("ShowCategory", 1);
         game.RefreshClue();
-        StringAssert.Contains("CLUE", game.clueText.text);
-        StringAssert.Contains("CATEGORY", game.clueText.text, "Show Category on must reveal the category");
+        Assert.IsTrue(game.clueText.gameObject.activeSelf, "The clue line must be visible");
+        Assert.AreEqual(expected, game.clueText.text,
+            "The clue line shows the clue alone - no CLUE: / CATEGORY: decoration");
 
         PlayerPrefs.SetInt("ShowCategory", 0);
         game.RefreshClue();
-        StringAssert.Contains("CLUE", game.clueText.text, "The clue itself must still show");
-        StringAssert.DoesNotContain("CATEGORY", game.clueText.text, "Show Category off must hide the category");
+        Assert.AreEqual(expected, game.clueText.text,
+            "Show Category no longer changes the clue line");
 
         yield return null;
     }
@@ -307,6 +323,13 @@ public class SettingsPanelTests
         FieldInfo info = target.GetType().GetField(field, BindingFlags.NonPublic | BindingFlags.Instance);
         Assert.IsNotNull(info, "Missing field " + field);
         info.SetValue(target, value);
+    }
+
+    private static object GetField(object target, string field)
+    {
+        FieldInfo info = target.GetType().GetField(field, BindingFlags.NonPublic | BindingFlags.Instance);
+        Assert.IsNotNull(info, "Missing field " + field);
+        return info.GetValue(target);
     }
 
     private static void AssertInside(RectTransform container, RectTransform child, string label)
