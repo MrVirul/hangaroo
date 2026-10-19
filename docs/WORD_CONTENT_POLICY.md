@@ -123,10 +123,11 @@ of truth:
 
 ## Content location and schema
 
-`Assets/Data/words.json`:
+`Assets/Data/words.json` (the bundled, offline word list):
 
 ```json
 {
+  "schemaVersion": 1,
   "words": [
     {
       "clue": "Largest Planet",
@@ -138,6 +139,18 @@ of truth:
   ]
 }
 ```
+
+- `schemaVersion` is the file-format version read by
+  `WordPool.BundledWordList`; a version newer than the build understands fails
+  the parse loudly instead of being silently mis-parsed.
+- `weight` (default 1, 0 = never select) and `isActive` (default true) are
+  optional and mirror the Firestore schema, so soft-disabling a word behaves
+  the same on the bundled and Firestore read paths (issue #33).
+- Entries predating Story 1.4 (no `category`/`difficulty`) still load: the
+  difficulty is inferred from the answer length and the category defaults to
+  `general`, reported as one aggregated warning naming the file. Both paths
+  share `WordData.Normalize` + `WordValidator`, so identical content produces
+  identical `WordData`.
 
 ## Related
 

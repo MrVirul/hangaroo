@@ -28,9 +28,9 @@ public class WordPoolTests
 
         Assert.AreEqual(0, result.rejected.Count);
         Assert.AreEqual(1, result.words.Count);
-        Assert.AreEqual("JUPITER", result.words[0].answer);
-        Assert.AreEqual("space", result.words[0].category);
-        Assert.AreEqual("medium", result.words[0].difficulty);
+        Assert.AreEqual("JUPITER", result.words[0].Answer);
+        Assert.AreEqual("space", result.words[0].CategoryId);
+        Assert.AreEqual("medium", result.words[0].DifficultyId);
     }
 
     [Test]
@@ -44,7 +44,7 @@ public class WordPoolTests
             Min, Max);
 
         Assert.AreEqual(1, result.words.Count);
-        Assert.AreEqual("JUPITER", result.words[0].answer);
+        Assert.AreEqual("JUPITER", result.words[0].Answer);
         Assert.AreEqual(2, result.rejected.Count);
         Assert.IsTrue(result.rejected[0].Contains("NEW YORK"));
         Assert.IsTrue(result.rejected[1].Contains("DON'T"));
@@ -74,7 +74,7 @@ public class WordPoolTests
     }
 
     [Test]
-    public void Parse_RejectsEntriesMissingCategoryOrDifficulty()
+    public void Parse_InfersDifficultyAndDefaultsCategoryForUnmigratedEntries()
     {
         WordPool.ParseResult result = WordPool.Parse(
             Json(
@@ -82,9 +82,11 @@ public class WordPoolTests
                 Entry("Red fruit", "APPLE", "Starts with A", "food", "easy")),
             Min, Max);
 
-        Assert.AreEqual(1, result.words.Count);
-        Assert.AreEqual("APPLE", result.words[0].answer);
-        Assert.AreEqual(1, result.rejected.Count);
+        Assert.AreEqual(2, result.words.Count, string.Join("\n", result.rejected));
+        Assert.AreEqual("JUPITER", result.words[0].Answer);
+        Assert.AreEqual(WordDifficulty.Medium, result.words[0].DifficultyId);
+        Assert.AreEqual(WordCategory.General, result.words[0].CategoryId);
+        Assert.AreEqual("APPLE", result.words[1].Answer);
     }
 
     [Test]
@@ -98,7 +100,7 @@ public class WordPoolTests
         WordPool.ParseResult medium = WordPool.Parse(json, Min, Max, "medium");
 
         Assert.AreEqual(1, medium.words.Count);
-        Assert.AreEqual("JUPITER", medium.words[0].answer);
+        Assert.AreEqual("JUPITER", medium.words[0].Answer);
 
         // Entries from other bands are ignored, not reported as rejections.
         CollectionAssert.IsEmpty(medium.rejected);
@@ -133,17 +135,89 @@ public class WordPoolTests
     }
 
     [Test]
+    public void Parse_SkipsSoftDeletedAndZeroWeightEntriesSilently()
+    {
+        WordPool.ParseResult result = WordPool.Parse(
+            Json(
+                Entry("Largest Planet", "JUPITER", "Starts with J", "space", "medium"),
+                "{ \"clue\": \"Red fruit\", \"answer\": \"APPLE\", \"hint\": \"Starts with A\", \"category\": \"food\", \"difficulty\": \"easy\", \"isActive\": false }",
+                "{ \"clue\": \"Striped cat\", \"answer\": \"TIGER\", \"hint\": \"Starts with T\", \"category\": \"animals\", \"difficulty\": \"easy\", \"weight\": 0 }"),
+            Min, Max);
+
+        Assert.AreEqual(1, result.words.Count);
+        Assert.AreEqual("JUPITER", result.words[0].Answer);
+        CollectionAssert.IsEmpty(result.rejected, "disabled entries are skipped, not rejected");
+    }
+
+    [Test]
+    public void Parse_RejectsAnUnsupportedSchemaVersionInsteadOfMisParsingIt()
+    {
+        WordPool.ParseResult result = WordPool.Parse(
+            "{ \"schemaVersion\": 99, \"words\": [ " +
+            Entry("Largest Planet", "JUPITER", "Starts with J", "space", "medium") + " ] }",
+            Min, Max);
+
+        Assert.IsFalse(result.HasWords);
+        Assert.AreEqual(1, result.rejected.Count);
+        StringAssert.Contains("schemaVersion", result.rejected[0]);
+    }
+
+    /// <summary>
+    /// Regression protection for the offline path (issue #33): the pre-Story-1.4
+    /// 65-entry words.json, declaring only clue/answer/hint, must still load
+    /// without any change to the file itself - difficulty inferred from answer
+    /// length, category defaulted, and exactly one aggregated warning naming the
+    /// file for the whole parse.
+    /// </summary>
+    [Test]
+    public void LegacySixtyFiveEntryFile_StillLoadsWithOneAggregatedWarning()
+    {
+        var wordPoolWarnings = new List<string>();
+        Application.LogCallback onLog = (condition, stackTrace, type) =>
+        {
+            if (type == LogType.Warning && condition.Contains("WordPool:"))
+                wordPoolWarnings.Add(condition);
+        };
+
+        WordPool.ParseResult result;
+        Application.logMessageReceived += onLog;
+        try
+        {
+            result = WordPool.Parse(LegacyJson(), Min, Max, null, "legacy-words-65.json");
+        }
+        finally
+        {
+            Application.logMessageReceived -= onLog;
+        }
+
+        // 64 load; the single rejection is Story 1.4's giveaway rule (the clue
+        // contains the answer), which this file predates.
+        Assert.AreEqual(64, result.words.Count, string.Join("\n", result.rejected));
+        Assert.AreEqual(1, result.rejected.Count);
+        StringAssert.Contains("giveaway", result.rejected[0]);
+
+        // Every entry is seven letters, so all infer the medium band.
+        foreach (WordData word in result.words)
+            Assert.AreEqual(WordDifficulty.Medium, word.DifficultyId);
+
+        Assert.AreEqual(1, wordPoolWarnings.Count,
+            "exactly one aggregated warning expected, got: " + string.Join(" | ", wordPoolWarnings));
+        StringAssert.Contains("legacy-words-65.json", wordPoolWarnings[0]);
+        StringAssert.Contains("65/65 entries have no difficulty", wordPoolWarnings[0]);
+        StringAssert.Contains("medium=65", wordPoolWarnings[0]);
+    }
+
+    [Test]
     public void FallbackPool_IsNonEmptyAndFullyValid()
     {
         var fallback = WordPool.CreateFallback();
 
         Assert.Greater(fallback.Count, 0);
 
-        foreach (WordEntry entry in fallback)
+        foreach (WordData entry in fallback)
         {
-            WordValidationResult result = WordValidator.Validate(
-                entry.clue, entry.answer, entry.hint, entry.category, entry.difficulty, Min, Max);
-            Assert.IsTrue(result.IsValid, entry.answer + ": " + result.Reason);
+            WordValidationResult result = WordValidator.Validate(entry, Min, Max);
+            Assert.IsTrue(result.IsValid, entry.Answer + ": " + result.Reason);
         }
     }
 
@@ -177,15 +251,15 @@ public class WordPoolTests
         };
 
         int hardLongest = 0;
-        foreach (WordEntry entry in result.words)
+        foreach (WordData entry in result.words)
         {
-            if (!counts.ContainsKey(entry.difficulty))
-                Assert.Fail("Unexpected difficulty '" + entry.difficulty + "' for " + entry.answer);
+            if (!counts.ContainsKey(entry.DifficultyId))
+                Assert.Fail("Unexpected difficulty '" + entry.DifficultyId + "' for " + entry.Answer);
 
-            counts[entry.difficulty]++;
+            counts[entry.DifficultyId]++;
 
-            if (entry.difficulty == WordDifficulty.Hard && entry.answer.Length > hardLongest)
-                hardLongest = entry.answer.Length;
+            if (entry.DifficultyId == WordDifficulty.Hard && entry.Answer.Length > hardLongest)
+                hardLongest = entry.Answer.Length;
         }
 
         foreach (KeyValuePair<string, int> pair in counts)
@@ -194,10 +268,30 @@ public class WordPoolTests
         Assert.AreEqual(12, hardLongest, "Hard must reach 12 letters");
     }
 
+    /// <summary>
+    /// The shipped file must declare the version this build reads, so bumping
+    /// <see cref="WordPool.BundledWordList.CurrentSchemaVersion"/> without
+    /// re-authoring the file (or vice versa) fails here rather than at runtime.
+    /// </summary>
+    [Test]
+    public void ShippedWordsJson_DeclaresTheSchemaVersionThisBuildReads()
+    {
+        var payload = JsonUtility.FromJson<WordPool.BundledWordList>(ShippedJson());
+
+        Assert.AreEqual(WordPool.BundledWordList.CurrentSchemaVersion, payload.schemaVersion);
+    }
+
     static string ShippedJson()
     {
         string path = Path.Combine(Application.dataPath, "Data", "words.json");
         Assert.IsTrue(File.Exists(path), "Missing shipped word list at " + path);
+        return File.ReadAllText(path);
+    }
+
+    static string LegacyJson()
+    {
+        string path = Path.Combine(Application.dataPath, "Tests", "EditMode", "Words", "legacy-words-65.json");
+        Assert.IsTrue(File.Exists(path), "Missing legacy fixture at " + path);
         return File.ReadAllText(path);
     }
 }

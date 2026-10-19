@@ -44,6 +44,24 @@ public class WordMetadataTests
         Assert.IsTrue(WordDifficulty.IsKnown("HARD"));
     }
 
+    // --- Legacy inference (Story 2.4, issue #33) --------------------------
+
+    [Test]
+    public void Difficulty_InferFromLengthPicksTheFirstBandThatFits()
+    {
+        Assert.AreEqual(WordDifficulty.Easy, WordDifficulty.InferFromLength(4));
+        Assert.AreEqual(WordDifficulty.Easy, WordDifficulty.InferFromLength(6));
+        Assert.AreEqual(WordDifficulty.Medium, WordDifficulty.InferFromLength(7));
+        Assert.AreEqual(WordDifficulty.Medium, WordDifficulty.InferFromLength(8));
+        Assert.AreEqual(WordDifficulty.Hard, WordDifficulty.InferFromLength(9));
+        Assert.AreEqual(WordDifficulty.Hard, WordDifficulty.InferFromLength(12));
+
+        // Out-of-union lengths still resolve to a band; the validator's band
+        // check rejects them afterwards rather than failing inference here.
+        Assert.AreEqual(WordDifficulty.Easy, WordDifficulty.InferFromLength(3));
+        Assert.AreEqual(WordDifficulty.Hard, WordDifficulty.InferFromLength(13));
+    }
+
     [Test]
     public void Category_KnowsTheDocumentedSetAndRejectsOthers()
     {

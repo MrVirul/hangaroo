@@ -17,14 +17,14 @@ public class GameManager : MonoBehaviour
     [Min(1)] public int minAnswerLength = WordValidator.MinAnswerLength;
     [Min(1)] public int maxAnswerLength = WordValidator.MaxAnswerLength;
 
-    private List<WordEntry> words = new List<WordEntry>();
+    private List<WordData> words = new List<WordData>();
 
     // Every parsed word, all bands. The per-run `words` list is a difficulty
     // slice of this, resolved once in StartRun and never touched mid-run.
-    private readonly List<WordEntry> allWords = new List<WordEntry>();
+    private readonly List<WordData> allWords = new List<WordData>();
 
 
-    private WordEntry currentWord;
+    private WordData currentWord;
 
     // The gameplay card's scaler. Its onLayoutChanged re-runs the one-off slot
     // fit after a resize (issue #21).
@@ -167,9 +167,9 @@ public class GameManager : MonoBehaviour
 
         string difficulty = WordDifficulty.Normalize(DifficultyLibrary.Current.ToString());
 
-        foreach (WordEntry entry in allWords)
+        foreach (WordData entry in allWords)
         {
-            if (WordDifficulty.Normalize(entry.difficulty) == difficulty)
+            if (WordDifficulty.Normalize(entry.DifficultyId) == difficulty)
                 words.Add(entry);
         }
 
@@ -209,8 +209,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        // GameManager never parses or validates content itself: it receives the
+        // validated list from WordPool and only reports what was rejected
+        // (issue #33). The source name lets the loader's one-off legacy warning
+        // name the file it is talking about.
         WordPool.ParseResult parsed =
-            WordPool.Parse(wordsFile.text, minAnswerLength, maxAnswerLength);
+            WordPool.Parse(wordsFile.text, minAnswerLength, maxAnswerLength, null, wordsFile.name);
 
         if (parsed.rejected.Count > 0)
         {
@@ -302,10 +306,10 @@ public class GameManager : MonoBehaviour
         // ShowCategory reveals the word's category as an extra nudge (Story 1.4).
         // The clue itself is always shown.
         bool showCategory = PlayerPrefs.GetInt("ShowCategory", 1) == 1;
-        string text = "CLUE: " + currentWord.clue.ToUpper();
+        string text = "CLUE: " + currentWord.Clue.ToUpper();
 
-        if (showCategory && !string.IsNullOrEmpty(currentWord.category))
-            text += "\n<size=70%>CATEGORY: " + currentWord.category.ToUpper() + "</size>";
+        if (showCategory && !string.IsNullOrEmpty(currentWord.CategoryId))
+            text += "\n<size=70%>CATEGORY: " + currentWord.CategoryId.ToUpper() + "</size>";
 
         clueText.gameObject.SetActive(true);
         clueText.text = text;
@@ -336,9 +340,9 @@ public class GameManager : MonoBehaviour
         if (!showHint || currentWord == null)
             return false;
 
-        string hint = string.IsNullOrEmpty(currentWord.hint)
-            ? currentWord.clue
-            : currentWord.hint;
+        string hint = string.IsNullOrEmpty(currentWord.Hint)
+            ? currentWord.Clue
+            : currentWord.Hint;
 
         hintText.text = "HINT: " + hint.ToUpper();
         hintText.ForceMeshUpdate();
@@ -410,7 +414,7 @@ public class GameManager : MonoBehaviour
     void CreateLetterSlots()
     {
 
-        foreach (char letter in currentWord.answer)
+        foreach (char letter in currentWord.Answer)
         {
 
             GameObject obj =
@@ -432,7 +436,7 @@ public class GameManager : MonoBehaviour
         }
 
 
-        if (currentWord.answer.Length > 0)
+        if (currentWord.Answer.Length > 0)
             FitSlotsToWidth();
 
     }
@@ -622,7 +626,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        UIManager.Instance.ShowVictory(currentWord.answer, score.ToString());
+        UIManager.Instance.ShowVictory(currentWord.Answer, score.ToString());
 
     }
 

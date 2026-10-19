@@ -13,6 +13,10 @@ using System.Collections.Generic;
 /// Content policy (option (a) in issue #18): answers are single words of
 /// <c>A</c>-<c>Z</c> only. Spaces, apostrophes and accented characters are
 /// rejected by design. See <c>docs/WORD_CONTENT_POLICY.md</c>.
+///
+/// This type is also the shared boundary for the Firestore read path (Story 2.4,
+/// issue #33): <see cref="FirestoreWordMapper"/> validates through
+/// <see cref="Validate(WordData, int, int)"/> exactly as the bundled loader does.
 /// </summary>
 public static class WordValidator
 {
@@ -156,5 +160,33 @@ public static class WordValidator
         }
 
         return duplicates;
+    }
+
+    // --- Model-level entry points (Story 2.4, issue #33) -------------------
+
+    /// <summary>
+    /// Validates a <see cref="WordData"/> by delegating to the string rules
+    /// above. The bundled loader (<see cref="WordPool"/>), the editor tool and
+    /// <see cref="FirestoreWordMapper"/> all arrive here, so the rules live in
+    /// exactly one implementation that cannot drift between paths.
+    /// </summary>
+    public static WordValidationResult Validate(WordData word, int minLength, int maxLength)
+    {
+        if (word == null)
+            return WordValidationResult.Invalid("word is null");
+
+        return Validate(word.Clue, word.Answer, word.Hint, word.CategoryId, word.DifficultyId, minLength, maxLength);
+    }
+
+    /// <summary>
+    /// True when <paramref name="word"/> passes the full rules against the shared
+    /// union band (<see cref="MinAnswerLength"/>-<see cref="MaxAnswerLength"/>);
+    /// otherwise false with <paramref name="reason"/> set to the first problem.
+    /// </summary>
+    public static bool IsValid(WordData word, out string reason)
+    {
+        WordValidationResult result = Validate(word, MinAnswerLength, MaxAnswerLength);
+        reason = result.IsValid ? string.Empty : result.Reason;
+        return result.IsValid;
     }
 }

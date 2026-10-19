@@ -98,6 +98,13 @@ automatically by Firestore; the composite one is not — **the first developer t
 run the query without it hits a hard runtime failure**, so it deploys with the
 rules, not later.
 
+The client converts each returned document to the game's content model with
+`FirestoreWordMapper` (issue #33): the mapper takes `DocumentSnapshot.Data` as a
+plain dictionary, runs the same `WordData.Normalize` + `WordValidator` steps as
+the bundled `words.json` loader, and returns a validated `WordData` — so the
+Firebase SDK stays at the repository call site and identical content behaves
+identically on both read paths.
+
 ## Security rules
 
 Word content is **public and read-only from the client**. No client may ever
