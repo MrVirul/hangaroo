@@ -1,0 +1,16 @@
+{
+    "name": "Hangaroo.Firebase",
+    "rootNamespace": "",
+    "references": [
+        "Hangaroo.Telemetry"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

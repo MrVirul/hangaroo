@@ -78,6 +78,10 @@ public sealed class WordRepository : IWordRepository
         bool fetchAttempted = false;
         string fetchFailure = "no reason recorded";
 
+        // Why the remote tier did not serve (issue #40's content_fallback);
+        // stays None when the remote tier serves, or is never consulted.
+        WordFallbackReason fallbackReason = WordFallbackReason.None;
+
         // Tier 1: the remote source. A thrown exception, a failed result, an
         // empty result and an all-invalid result all fall through - none of
         // them may overwrite good cached content - and each records why, so
@@ -96,15 +100,18 @@ public sealed class WordRepository : IWordRepository
             {
                 transportFailed = true;
                 fetchFailure = e.Message;
+                fallbackReason = WordFallbackReason.Network;
             }
 
             if (!transportFailed && fetched == null)
             {
                 fetchFailure = "the source returned no result";
+                fallbackReason = WordFallbackReason.Network;
             }
             else if (!transportFailed && !fetched.succeeded)
             {
                 fetchFailure = "the source reported a failure";
+                fallbackReason = WordFallbackReason.Network;
             }
             else if (!transportFailed)
             {
@@ -127,6 +134,9 @@ public sealed class WordRepository : IWordRepository
                 fetchFailure = fetched.documents.Count == 0
                     ? "the query returned no documents"
                     : "none of the " + fetched.documents.Count + " documents passed validation";
+                fallbackReason = fetched.documents.Count == 0
+                    ? WordFallbackReason.Empty
+                    : WordFallbackReason.Invalid;
             }
         }
 
@@ -141,7 +151,8 @@ public sealed class WordRepository : IWordRepository
                     "the remote fetch yielded nothing usable (" + fetchFailure + ").");
             }
 
-            return new WordListResult(cached.words, WordContentSource.Cache, cached.contentVersion);
+            return new WordListResult(cached.words, WordContentSource.Cache, cached.contentVersion,
+                fallbackReason);
         }
 
         // Tier 3: the bundled words.json - ships in the build, always present,
@@ -182,7 +193,7 @@ public sealed class WordRepository : IWordRepository
                 "and there is no fresh cache.");
         }
 
-        return new WordListResult(words, WordContentSource.Bundled, 0);
+        return new WordListResult(words, WordContentSource.Bundled, 0, fallbackReason);
     }
 
     /// <summary>
