@@ -1,0 +1,27 @@
+{
+    "name": "Hangaroo.Firebase.Tests",
+    "rootNamespace": "",
+    "references": [
+        "Hangaroo.Firebase",
+        "Hangaroo.Words",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "Firebase.Firestore.dll",
+        "Firebase.App.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

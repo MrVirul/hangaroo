@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
             : null;
 
         return new WordRepository(
-            source: null,
+            source: new FirestoreWordSource(),
             cache: new WordCache(Application.persistentDataPath),
             bundled: bundled,
             minLength: minAnswerLength,
