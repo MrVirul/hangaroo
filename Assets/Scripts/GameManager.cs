@@ -79,6 +79,10 @@ public class GameManager : MonoBehaviour
     private List<int> wordOrder = new List<int>();
     private int wordPosition;
 
+    // Unix-ms stamp of the current word's dealing, for the timeOnWord metric
+    // (issue #40). Reset in LoadWord; read on solve and on fail.
+    private long wordLoadedAtUnixMs;
+
     private readonly System.Random rng = new System.Random();
 
 
@@ -113,7 +117,7 @@ public class GameManager : MonoBehaviour
             : null;
 
         return new WordRepository(
-            source: null,
+            source: new FirestoreWordSource(),
             cache: new WordCache(Application.persistentDataPath),
             bundled: bundled,
             minLength: minAnswerLength,
@@ -171,6 +175,18 @@ public class GameManager : MonoBehaviour
         string difficulty = WordDifficulty.Normalize(DifficultyLibrary.Current.ToString());
         WordListResult resolved = await wordRepository.GetWordsAsync(difficulty);
 
+        // Telemetry (issue #40): content health first - which tier served the
+        // words, and why anything degraded - then the funnel's start. Counts
+        // and identifiers only; never word content.
+        GameAnalytics.LogContentSource(
+            ContentSourceName(resolved.source), resolved.contentVersion);
+
+        if (resolved.fallbackReason != WordFallbackReason.None)
+        {
+            GameAnalytics.LogContentFallback(
+                FallbackReasonName(resolved.fallbackReason), ContentSourceName(resolved.source));
+        }
+
         words.Clear();
         words.AddRange(resolved.words);
         BuildWordOrder();
@@ -184,6 +200,10 @@ public class GameManager : MonoBehaviour
                 startedAtUnixMs = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             },
             livesPerWord);
+
+        // The run exists: open its funnel entry (issue #40). isSignedIn stays
+        // false until EPIC 3 adds auth.
+        GameAnalytics.LogRunStart(difficulty, resolved.contentVersion, isSignedIn: false);
 
         RefreshDifficultyLabel();
     }
@@ -229,6 +249,11 @@ public class GameManager : MonoBehaviour
         // Lives are per word: every word starts with a full set (issue #19).
         if (run != null)
             run.BeginWord();
+
+        // Telemetry (issue #40): the word is dealt; stamp the clock so solve
+        // and fail can report timeOnWord.
+        wordLoadedAtUnixMs = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        GameAnalytics.LogWordLoaded(CurrentDifficultyKey(), currentWord.Answer.Length);
 
         if (HeartManager.Instance != null && run != null)
             HeartManager.Instance.ResetLives(run.MaxLivesPerWord);
@@ -541,6 +566,11 @@ public class GameManager : MonoBehaviour
             if (wordFailed)
             {
                 run.FailWord();
+
+                // Telemetry (issue #40): the word-to-fail transition.
+                GameAnalytics.LogWordFailed(
+                    CurrentDifficultyKey(), usedLetters.Count, ElapsedOnWordMs());
+
                 EndRun(false);
                 return;
             }
@@ -576,6 +606,14 @@ public class GameManager : MonoBehaviour
 
         run.CompleteWord();
 
+        // Telemetry (issue #40): livesLeft on solve is the key balance signal.
+        GameAnalytics.LogWordSolved(
+            CurrentDifficultyKey(),
+            usedLetters.Count,
+            HintUsedThisWord(),
+            ElapsedOnWordMs(),
+            run.LivesRemaining);
+
         // Every word solved: show the run-complete summary instead of looping.
         if (run.IsRunComplete)
         {
@@ -602,6 +640,13 @@ public class GameManager : MonoBehaviour
         PersonalBest best = bestScoreStore.Load();
         summary.isNewBestScore = best.Record(summary);
         bestScoreStore.Save(best);
+
+        // Telemetry (issue #40): the funnel's exit, on both outcomes.
+        GameAnalytics.LogRunEnd(
+            CurrentDifficultyKey(),
+            summary.score,
+            summary.wordsSolved,
+            completedAllWords ? AnalyticsEvent.OutcomeCompleted : AnalyticsEvent.OutcomeGameOver);
 
         if (UIManager.Instance == null)
             return;
@@ -634,6 +679,59 @@ public class GameManager : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+
+    // --- telemetry helpers (issue #40) --------------------------------------
+
+    /// <summary>
+    /// The difficulty key for events: the active run's band (never changes
+    /// mid-run), else the current menu selection before a run exists.
+    /// </summary>
+    string CurrentDifficultyKey()
+    {
+        DifficultyId active = run != null ? run.State.difficulty : DifficultyLibrary.Current;
+        return WordDifficulty.Normalize(active.ToString());
+    }
+
+
+    /// <summary>Milliseconds since the current word was dealt, floored at zero.</summary>
+    long ElapsedOnWordMs()
+    {
+        long elapsed = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - wordLoadedAtUnixMs;
+        return elapsed >= 0 ? elapsed : 0;
+    }
+
+
+    /// <summary>
+    /// 1 when this word consumed an earned/paid hint; Easy's FreeImmediate
+    /// hint is part of the board, not a "use" - same rule as the scoring path.
+    /// </summary>
+    int HintUsedThisWord()
+    {
+        return hintCounted && config != null && config.hintPolicy != HintPolicy.FreeImmediate ? 1 : 0;
+    }
+
+
+    static string ContentSourceName(WordContentSource source)
+    {
+        switch (source)
+        {
+            case WordContentSource.Firestore: return AnalyticsEvent.SourceFirestore;
+            case WordContentSource.Cache: return AnalyticsEvent.SourceCache;
+            default: return AnalyticsEvent.SourceBundled;
+        }
+    }
+
+
+    static string FallbackReasonName(WordFallbackReason reason)
+    {
+        switch (reason)
+        {
+            case WordFallbackReason.Network: return AnalyticsEvent.ReasonNetwork;
+            case WordFallbackReason.Empty: return AnalyticsEvent.ReasonEmpty;
+            default: return AnalyticsEvent.ReasonInvalid;
+        }
     }
 
 }
