@@ -6,9 +6,11 @@
         "Unity.TextMeshPro",
         "UnityEngine.UI",
         "Hangaroo.Difficulty",
+        "Hangaroo.Firebase",
         "Hangaroo.Layout",
         "Hangaroo.Run",
         "Hangaroo.Scoring",
+        "Hangaroo.Telemetry",
         "Hangaroo.Words"
     ],
     "includePlatforms": [],

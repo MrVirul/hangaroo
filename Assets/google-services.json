@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "743739189224",
+    "project_id": "hangaroo-1bd72",
+    "storage_bucket": "hangaroo-1bd72.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743739189224:android:4c40b8293c57a85d2ba65d",
+        "android_client_info": {
+          "package_name": "com.ristudios.hangaroo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE3Z5IxaeIj0dz2vvhRHxC-x--l4TWnEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
