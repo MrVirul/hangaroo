@@ -89,14 +89,7 @@ public sealed class FirestoreWordSource : IWordSource
 
             int contentVersion = await FetchContentVersionAsync(firestore);
 
-            Query query = firestore
-                .Collection(CollectionWords)
-                .WhereEqualTo("difficultyId", difficultyId)
-                .WhereEqualTo("isActive", true)
-                .OrderByDescending("weight")
-                .Limit(QueryLimit);
-
-            QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
+            QuerySnapshot querySnapshot = await FetchWordsSnapshotAsync(firestore, difficultyId);
             if (querySnapshot == null)
             {
                 return WordSourceResult.Failed();
@@ -117,6 +110,8 @@ public sealed class FirestoreWordSource : IWordSource
                 }
             }
 
+            documents.Sort((a, b) => ReadWeight(b).CompareTo(ReadWeight(a)));
+
             return WordSourceResult.From(contentVersion, documents);
         }
         catch (Exception e)
@@ -124,6 +119,48 @@ public sealed class FirestoreWordSource : IWordSource
             Debug.LogWarning(LogPrefix + " fetch failed (" + e.Message + "); falling back.");
             return WordSourceResult.Failed();
         }
+    }
+
+    private static async Task<QuerySnapshot> FetchWordsSnapshotAsync(
+        FirebaseFirestore firestore,
+        string difficultyId)
+    {
+        Query baseQuery = firestore
+            .Collection(CollectionWords)
+            .WhereEqualTo("difficultyId", difficultyId)
+            .WhereEqualTo("isActive", true);
+
+        try
+        {
+            return await baseQuery
+                .OrderByDescending("weight")
+                .Limit(QueryLimit)
+                .GetSnapshotAsync();
+        }
+        catch (Exception)
+        {
+            // Fallback when the composite index (difficultyId, isActive, weight) is not yet built.
+            return await baseQuery
+                .Limit(QueryLimit)
+                .GetSnapshotAsync();
+        }
+    }
+
+    private static int ReadWeight(IReadOnlyDictionary<string, object> fields)
+    {
+        if (fields != null && fields.TryGetValue("weight", out object val) && val != null)
+        {
+            try
+            {
+                return Convert.ToInt32(val);
+            }
+            catch (Exception)
+            {
+                return 1;
+            }
+        }
+
+        return 1;
     }
 
     private static async Task<int> FetchContentVersionAsync(FirebaseFirestore firestore)

@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Word Data")]
-    public TextAsset wordsFile;
-
     [Tooltip("Inclusive answer-length band applied to the authored word list. Defaults to the union of the difficulty bands.")]
     [Min(1)] public int minAnswerLength = WordValidator.MinAnswerLength;
     [Min(1)] public int maxAnswerLength = WordValidator.MaxAnswerLength;
@@ -22,8 +20,7 @@ public class GameManager : MonoBehaviour
     // (issue #32) and never touched mid-run.
     private List<WordData> words = new List<WordData>();
 
-    // Three-tier read path: remote source (once the SDK lands), local cache,
-    // bundled words.json (issue #32).
+    // Firestore word read path with local cache fallback (issue #32).
     private IWordRepository wordRepository;
 
 
@@ -103,23 +100,14 @@ public class GameManager : MonoBehaviour
 
 
     /// <summary>
-    /// Wires the three-tier word repository (issue #32). The remote source is
-    /// still null until the Firebase SDK lands (issue #30), so today the game
-    /// reads the versioned cache and falls back to the bundled words.json -
-    /// the same content as before, now behind the interface the Firestore
-    /// tier will plug into. A missing wordsFile is reported by the repository
-    /// as a single error when it falls back to the built-in pool.
+    /// Wires the word repository to fetch directly from Cloud Firestore with
+    /// the versioned local cache as offline fallback (issue #32).
     /// </summary>
     IWordRepository BuildWordRepository()
     {
-        BundledWordSource bundled = wordsFile != null
-            ? new BundledWordSource(wordsFile.text, wordsFile.name)
-            : null;
-
         return new WordRepository(
             source: new FirestoreWordSource(),
             cache: new WordCache(Application.persistentDataPath),
-            bundled: bundled,
             minLength: minAnswerLength,
             maxLength: maxAnswerLength);
     }

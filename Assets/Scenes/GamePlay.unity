@@ -5201,7 +5201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5fe9b0eeabb146bc9cdd9b17185115c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  wordsFile: {fileID: 4900000, guid: 18d8822287d2640e4988928871c1486c, type: 3}
   minAnswerLength: 4
   maxAnswerLength: 12
   clueText: {fileID: 1359425569}
