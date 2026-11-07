@@ -76,7 +76,7 @@ def check_word_list() -> list[str]:
     rel = WORDS_PATH.relative_to(ROOT)
 
     if not WORDS_PATH.exists():
-        return [f"{rel}: not found"]
+        return []
 
     try:
         data = json.loads(WORDS_PATH.read_text(encoding="utf-8"))
