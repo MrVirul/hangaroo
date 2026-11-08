@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 
 /// <summary>
 /// PlayMode coverage for Story 1.2 / issue #15: the responsive adapter keeps the
@@ -244,6 +245,35 @@ public class SettingsPanelTests
             "Toggling Show Category must persist immediately");
 
         yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator PauseMenu_SettingsButton_OpensTheSettingsPanel()
+    {
+        SettingsManager manager = FindPanelManager();
+        Assert.IsNotNull(manager, "GamePlay must instance the shared Settings_Panel prefab");
+        Assert.IsFalse(manager.gameObject.activeSelf, "Settings_Panel must start hidden");
+
+        UIManager.Instance.Pause();
+        Assert.IsTrue(UIManager.Instance.pausePanel.activeSelf, "Pause Menu Panel must be shown");
+
+        Button settingsButton = null;
+        foreach (Button button in UIManager.Instance.pausePanel.GetComponentsInChildren<Button>(true))
+        {
+            if (button.name == "Settings")
+            {
+                settingsButton = button;
+                break;
+            }
+        }
+
+        Assert.IsNotNull(settingsButton, "Pause Menu Panel must contain a Settings button");
+
+        settingsButton.onClick.Invoke();
+        yield return null;
+
+        Assert.IsTrue(manager.gameObject.activeSelf,
+            "Clicking Settings in the Pause Menu Panel must display the scene's Settings_Panel");
     }
 
     // ---------------------------------------------------------------------

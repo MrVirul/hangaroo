@@ -6219,6 +6219,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2709368062052376532, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
   m_PrefabInstance: {fileID: 966576259}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &966576261 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3609684165396705247, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+  m_PrefabInstance: {fileID: 966576259}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &966576262 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -4216260151771862093, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
+  m_PrefabInstance: {fileID: 966576259}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966576261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67941528be364cb0acf41347aa3de34f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Hangaroo.Game::SettingsManager
 --- !u!1 &968713873
 GameObject:
   m_ObjectHideFlags: 0
@@ -7190,8 +7206,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -4216260151771862093, guid: 7b058b72e93004b20844e1f9d396f69f, type: 3}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 966576262}
+        m_TargetAssemblyTypeName: SettingsManager, Hangaroo.Game
         m_MethodName: OpenSettings
         m_Mode: 1
         m_Arguments:
@@ -10567,6 +10583,7 @@ MonoBehaviour:
   runCompletePanel: {fileID: 149709775}
   pausePanel: {fileID: 1478384702}
   howToPlayPanel: {fileID: 1213791685}
+  settingsPanel: {fileID: 966576261}
   hud: {fileID: 1196307474}
   victoryAnswerText: {fileID: 0}
   victoryScoreText: {fileID: 143529045}

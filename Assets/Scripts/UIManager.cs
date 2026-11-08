@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject runCompletePanel;
     public GameObject pausePanel;
     public GameObject howToPlayPanel;
+    public GameObject settingsPanel;
     public GameObject hud;
 
     public TMP_Text victoryAnswerText;
@@ -39,8 +40,13 @@ public class UIManager : MonoBehaviour
         if (pausePanel != null)      pausePanel.SetActive(false);
         if (hud != null)             hud.SetActive(true);
 
-        Transform settings = transform.Find("Settings_Panel");
-        if (settings != null) settings.gameObject.SetActive(false);
+        if (settingsPanel == null)
+        {
+            Transform settings = transform.Find("Settings_Panel");
+            if (settings != null) settingsPanel = settings.gameObject;
+        }
+
+        if (settingsPanel != null) settingsPanel.SetActive(false);
 
         if (howToPlayPanel == null)
         {
@@ -49,6 +55,24 @@ public class UIManager : MonoBehaviour
         }
 
         if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
+    }
+
+
+    /// <summary>
+    /// Shows the settings panel from the pause menu.
+    /// </summary>
+    public void OpenSettings()
+    {
+        if (settingsPanel != null)
+            settingsPanel.SetActive(true);
+    }
+
+
+    /// <summary>Hides the settings panel.</summary>
+    public void CloseSettings()
+    {
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false);
     }
 
 
