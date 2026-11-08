@@ -80,13 +80,12 @@ captures/
 # reads them from GOOGLE_APPLICATION_CREDENTIALS instead.
 *service-account*.json
 *ServiceAccount*.json
-google-services.json
 firebase/tests/node_modules/
 firebase-debug.log
 firestore-debug.log
 firebase.json.local
 
-# Python tooling cache (scripts/ imports validate-content.py)
+# Python tooling cache and virtual environments
 __pycache__/
-
-service-account.json
+venv/
+.venv/

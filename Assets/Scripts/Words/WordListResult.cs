@@ -16,6 +16,28 @@ public enum WordContentSource
 }
 
 /// <summary>
+/// Why the remote tier did not serve a run's words (issue #40's
+/// <c>content_fallback</c> reasons: a Firestore outage, an empty collection
+/// and a bad deploy must be distinguishable). <see cref="None"/> covers both
+/// cases where nothing degraded: the remote tier served the list, or it was
+/// never consulted (no source configured).
+/// </summary>
+public enum WordFallbackReason
+{
+    /// <summary>The remote tier served the list, or was never consulted.</summary>
+    None,
+
+    /// <summary>Transport failure: network, permission or timeout.</summary>
+    Network,
+
+    /// <summary>The query succeeded but returned no documents.</summary>
+    Empty,
+
+    /// <summary>Documents existed but none passed validation - a bad deploy.</summary>
+    Invalid,
+}
+
+/// <summary>
 /// A resolved word list plus where it came from (issue #32's load-path
 /// annotations: <c>isStale</c> / <c>isOffline</c>). <see cref="words"/> is
 /// never empty - <see cref="WordRepository"/> degrades through the tiers to
@@ -35,11 +57,19 @@ public sealed class WordListResult
     /// </summary>
     public readonly int contentVersion;
 
-    public WordListResult(IReadOnlyList<WordData> words, WordContentSource source, int contentVersion)
+    /// <summary>
+    /// Why the remote tier did not serve this list (issue #40).
+    /// <see cref="WordFallbackReason.None"/> when nothing degraded.
+    /// </summary>
+    public readonly WordFallbackReason fallbackReason;
+
+    public WordListResult(IReadOnlyList<WordData> words, WordContentSource source, int contentVersion,
+        WordFallbackReason fallbackReason = WordFallbackReason.None)
     {
         this.words = words;
         this.source = source;
         this.contentVersion = contentVersion;
+        this.fallbackReason = fallbackReason;
     }
 
     /// <summary>

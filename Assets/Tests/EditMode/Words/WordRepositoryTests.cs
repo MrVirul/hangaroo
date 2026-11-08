@@ -272,6 +272,78 @@ public class WordRepositoryTests
         StringAssert.Contains("local cache", log.warnings[1]);
     }
 
+    // --- the fallback reasons (issue #40's content_fallback) ----------------
+
+    [Test]
+    public async Task GetWords_WhenTheFetchThrows_ReportsTheNetworkFallbackReason()
+    {
+        WordRepository repo = Build(new FakeWordSource { throws = true }, MediumBundled());
+
+        WordListResult result = await repo.GetWordsAsync("medium");
+
+        Assert.AreEqual(WordFallbackReason.Network, result.fallbackReason,
+            "a thrown transport error is the Firestore-outage reason");
+    }
+
+    [Test]
+    public async Task GetWords_WhenTheSourceReportsFailure_ReportsTheNetworkFallbackReason()
+    {
+        WordRepository repo = Build(new FakeWordSource { result = WordSourceResult.Failed() },
+            MediumBundled());
+
+        WordListResult result = await repo.GetWordsAsync("medium");
+
+        Assert.AreEqual(WordFallbackReason.Network, result.fallbackReason);
+    }
+
+    [Test]
+    public async Task GetWords_WhenTheQueryReturnsNoDocuments_ReportsTheEmptyFallbackReason()
+    {
+        WordRepository repo = Build(new FakeWordSource { result = Success(15) }, MediumBundled());
+
+        WordListResult result = await repo.GetWordsAsync("medium");
+
+        Assert.AreEqual(WordFallbackReason.Empty, result.fallbackReason,
+            "an empty collection is distinct from an outage and from a bad deploy");
+    }
+
+    [Test]
+    public async Task GetWords_WhenNoDocumentSurvivesValidation_ReportsTheInvalidFallbackReason()
+    {
+        WordRepository repo = Build(
+            new FakeWordSource { result = Success(15, Doc("bad answer!"), Doc("12345")) },
+            MediumBundled());
+
+        WordListResult result = await repo.GetWordsAsync("medium");
+
+        Assert.AreEqual(WordFallbackReason.Invalid, result.fallbackReason,
+            "documents that all fail validation point at a bad deploy");
+    }
+
+    [Test]
+    public async Task GetWords_WithNoRemoteSource_ReportsNoFallback()
+    {
+        WordRepository repo = Build(null, MediumBundled());
+
+        WordListResult result = await repo.GetWordsAsync("medium");
+
+        Assert.AreEqual(WordFallbackReason.None, result.fallbackReason,
+            "with no source configured nothing degraded - the tiers are the normal path");
+        Assert.AreEqual(0, log.warnings.Count, "and nothing is warned:\n" + string.Join("\n", log.warnings));
+    }
+
+    [Test]
+    public async Task GetWords_WhenTheFetchSucceeds_ReportsNoFallback()
+    {
+        WordRepository repo = Build(new FakeWordSource { result = Success(15, Doc("jupiter")) },
+            MediumBundled());
+
+        WordListResult result = await repo.GetWordsAsync("medium");
+
+        Assert.AreEqual(WordFallbackReason.None, result.fallbackReason,
+            "the remote tier served - no fallback happened");
+    }
+
     [Test]
     public async Task GetWords_ANewContentVersion_ReplacesTheCacheWholesale()
     {
