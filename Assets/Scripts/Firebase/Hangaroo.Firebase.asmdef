@@ -2,7 +2,8 @@
     "name": "Hangaroo.Firebase",
     "rootNamespace": "",
     "references": [
-        "Hangaroo.Telemetry"
+        "Hangaroo.Telemetry",
+        "Hangaroo.Words"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

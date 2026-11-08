@@ -30,7 +30,7 @@ public static class WordListValidator
     /// <summary>Returns every problem found in the shipped word list (empty when clean).</summary>
     public static List<string> Validate()
     {
-        return Validate(WordsAssetPath);
+        return CheckBandsMatchConfigs();
     }
 
     public static List<string> Validate(string assetPath)
@@ -40,7 +40,7 @@ public static class WordListValidator
         TextAsset asset = AssetDatabase.LoadAssetAtPath<TextAsset>(assetPath);
         if (asset == null)
         {
-            problems.Add("Word list asset not found at " + assetPath + ".");
+            problems.AddRange(CheckBandsMatchConfigs());
             return problems;
         }
 

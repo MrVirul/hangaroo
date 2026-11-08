@@ -39,9 +39,20 @@ public sealed class WordRepository : IWordRepository
 
     public event Action OnContentChanged;
 
+    /// <param name="source">The remote tier (Cloud Firestore).</param>
+    /// <param name="cache">The local cache tier; may be null to disable caching (tests).</param>
+    /// <param name="minLength">Inclusive answer-length band (validator bounds).</param>
+    /// <param name="maxLength">Inclusive answer-length band (validator bounds).</param>
+    /// <param name="maxAge">Staleness window for cached content; defaults to <see cref="WordCache.DefaultMaxAge"/>.</param>
+    public WordRepository(IWordSource source, WordCache cache,
+        int minLength, int maxLength, TimeSpan? maxAge = null)
+        : this(source, cache, null, minLength, maxLength, maxAge)
+    {
+    }
+
     /// <param name="source">The remote tier; null until issue #30 wires the Firestore source in.</param>
     /// <param name="cache">The local cache tier; may be null to disable caching (tests).</param>
-    /// <param name="bundled">The bundled tier; may be null when no <c>wordsFile</c> is assigned.</param>
+    /// <param name="bundled">Optional legacy bundled tier for unit tests; null in production now that content lives in Firestore.</param>
     /// <param name="minLength">Inclusive answer-length band (validator bounds for both bundled and remote words).</param>
     /// <param name="maxLength">Inclusive answer-length band (validator bounds for both bundled and remote words).</param>
     /// <param name="maxAge">Staleness window for cached content; defaults to <see cref="WordCache.DefaultMaxAge"/>.</param>
@@ -155,17 +166,11 @@ public sealed class WordRepository : IWordRepository
                 fallbackReason);
         }
 
-        // Tier 3: the bundled words.json - ships in the build, always present,
-        // validator-passing. Last resort before the built-in pool.
+        // Tier 3: optional bundled source (tests) or built-in emergency fallback pool.
         List<WordData> words = null;
         bool reportedFailure = false;
 
-        if (bundled == null)
-        {
-            Debug.LogError(LogPrefix + " no bundled word list configured. Using the built-in fallback word pool.");
-            reportedFailure = true;
-        }
-        else
+        if (bundled != null)
         {
             words = bundled.Load(difficultyId, minLength, maxLength);
             if (words.Count == 0)
@@ -178,14 +183,13 @@ public sealed class WordRepository : IWordRepository
             }
         }
 
-        bool servedBundled = words != null;
         if (words == null)
             words = WordPool.CreateFallback();
 
         // One aggregated warning for the whole degradation, never one per word.
         // (When the bundled file itself was unusable the error above already
         // carries the report, so no second message is logged.)
-        if (fetchAttempted && servedBundled && !reportedFailure)
+        if (fetchAttempted && !reportedFailure)
         {
             Debug.LogWarning(
                 LogPrefix + " serving " + words.Count + " words from the bundled list: " +
